@@ -333,8 +333,9 @@ a {
 
 .host-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(150px, 1fr));
-  gap: 28px 24px;
+  grid-template-columns: repeat(4, minmax(160px, 1fr));
+  gap: 34px 30px;
+  align-items: start;
 }
 
 .host-card {
