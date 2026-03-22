@@ -20,7 +20,9 @@ html, body {
   background: var(--bg);
   color: var(--text);
   font-family: "Noto Serif TC", serif;
-  min-height: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 img {
@@ -69,6 +71,7 @@ a {
 
 .page {
   width: 100%;
+  flex: 1;
 }
 
 .home-page {
@@ -320,15 +323,21 @@ a {
 }
 
 .host-group {
-  margin-bottom: 72px;
+  margin-bottom: 100px;
+  padding: 50px 0;
+  position: relative;
+
+  /* 微紅光背景（比困獸狂犬弱） */
+  background: radial-gradient(circle at center, rgba(120,0,0,0.08), transparent 70%);
 }
 
 .host-group-title {
-  margin: 0 0 22px;
-  font-family: "Cinzel", serif;
-  font-size: 2.3rem;
-  color: var(--gold);
-  text-align: left;
+  font-size: 34px;
+  letter-spacing: 8px;
+  text-align: center;
+  margin-bottom: 50px;
+  color: #d4af37;
+  position: relative;
 }
 
 .host-grid {
@@ -346,11 +355,155 @@ a {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
-  filter: grayscale(100%);
   border: 2px solid var(--gold-soft);
   background: #d6d6d6;
+
+  filter: grayscale(100%);
+  transition: all 0.4s ease;
 }
 
+.host-card:hover img {
+  filter: grayscale(0%);
+  transform: scale(1.03);
+}
+
+/* ===== 困獸狂犬（瘋狂升級版） ===== */
+.special-group {
+  margin-bottom: 120px;
+  padding: 60px 0 50px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.03), transparent 55%),
+    radial-gradient(circle at top, rgba(120, 0, 0, 0.12), transparent 45%);
+}
+
+/* 整區暗紅霧氣 */
+.special-group::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(140, 0, 0, 0.08), transparent 65%);
+  pointer-events: none;
+}
+
+/* 標題（更像主視覺） */
+.special-group .host-group-title {
+  font-size: 48px;
+  letter-spacing: 12px;
+  text-align: center;
+  margin-bottom: 60px;
+  color: #d4af37;
+  position: relative;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 8px rgba(212, 175, 55, 0.15),
+    0 0 24px rgba(120, 0, 0, 0.2);
+}
+
+/* 上下裝飾線 */
+.special-group .host-group-title::before,
+.special-group .host-group-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #d4af37, transparent);
+}
+
+.special-group .host-group-title::before {
+  top: -18px;
+}
+
+.special-group .host-group-title::after {
+  bottom: -18px;
+}
+
+/* 哥哥弟弟一排置中 */
+.special-grid {
+  display: flex;
+  justify-content: center;
+  gap: 90px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+/* 主角卡片 */
+.special-card {
+  width: 380px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.45s ease, box-shadow 0.45s ease, filter 0.45s ease;
+  filter: brightness(0.96);
+}
+
+/* 卡片外圍壓迫紅暈 */
+.special-card::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(circle, rgba(150, 0, 0, 0.18), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 卡片圖片 */
+.special-card img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border: 2px solid #d4af37;
+  box-shadow:
+    0 0 0 rgba(0,0,0,0),
+    0 0 30px rgba(0, 0, 0, 0.45);
+  transition: transform 0.45s ease, filter 0.45s ease, box-shadow 0.45s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* 滑過時：更像野獸撲出來 */
+.special-card:hover {
+  transform: translateY(-8px) scale(1.045);
+  box-shadow: 0 0 35px rgba(120, 0, 0, 0.28);
+  filter: brightness(1.04);
+}
+
+.special-card:hover::before {
+  opacity: 1;
+}
+
+.special-card:hover img {
+  transform: scale(1.08);
+  filter: brightness(1.18) contrast(1.05) saturate(1.08);
+  box-shadow:
+    0 0 18px rgba(212, 175, 55, 0.2),
+    0 0 40px rgba(120, 0, 0, 0.28);
+}
+
+/* 哥哥弟弟名字更有氣場 */
+.special-card h3 {
+  font-size: 32px;
+  letter-spacing: 2px;
+  margin-top: 18px;
+  margin-bottom: 12px;
+  color: #f0dca8;
+  text-shadow: 0 0 12px rgba(120, 0, 0, 0.2);
+}
+
+/* 語錄更像低語 */
+.special-card p {
+  max-width: 90%;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.9;
+  color: #d8c7a2;
+  text-align: center;
+}
 .host-card h3 {
   margin: 12px 0 6px;
   font-size: 1.1rem;
@@ -389,72 +542,364 @@ a {
   line-height: 1.85;
 }
 
+/* ===== Footer 黑化升級版 ===== */
 .site-footer {
   margin-top: 40px;
-  background: var(--footer);
-  padding: 12px 18px;
+  position: relative;
+  overflow: hidden;
+
+  background:
+    linear-gradient(to right, rgba(40,40,40,0.95), rgba(58,58,58,0.95), rgba(40,40,40,0.95));
+  border-top: 1px solid rgba(212, 175, 55, 0.12);
+
+  padding: 14px 18px;
   display: flex;
   justify-content: center;
-  gap: 48px;
+  gap: 52px;
   flex-wrap: wrap;
+
   font-family: "Cinzel", serif;
-  font-size: 0.95rem;
-  color: #d7c7aa;
+  font-size: 0.98rem;
+  color: #d8c7aa;
+  letter-spacing: 1px;
+
+  box-shadow:
+    0 -8px 30px rgba(0, 0, 0, 0.35),
+    0 0 24px rgba(120, 0, 0, 0.08) inset;
+}
+
+/* 暗紅流光 */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(120, 0, 0, 0.10) 25%,
+      rgba(212, 175, 55, 0.06) 50%,
+      rgba(120, 0, 0, 0.10) 75%,
+      transparent 100%
+    );
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* 細線 */
+.site-footer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, 70%);
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(212,175,55,0.35), transparent);
+  pointer-events: none;
 }
 
 .site-footer a {
-  opacity: 0.95;
+  position: relative;
+  z-index: 1;
+  opacity: 0.92;
+  color: #d8c7aa;
+  transition: color 0.28s ease, text-shadow 0.28s ease, transform 0.28s ease, opacity 0.28s ease;
 }
 
 .site-footer a:hover {
   opacity: 1;
-}
-
-@media (max-width: 1100px) {
-  .host-grid {
-    grid-template-columns: repeat(4, minmax(150px, 1fr));
-  }
-}
-
-@media (max-width: 860px) {
-  .rates-row,
-  .service-row {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
-  .rates-label,
-  .service-name {
-    text-align: left;
-  }
-
-  .host-grid {
-    grid-template-columns: repeat(2, minmax(150px, 1fr));
-  }
-
-  .location-frame {
-    padding: 16px 20px;
-  }
+  color: #f0ddb2;
+  transform: translateY(-1px);
+  text-shadow:
+    0 0 8px rgba(212, 175, 55, 0.20),
+    0 0 16px rgba(120, 0, 0, 0.18);
 }
 
 @media (max-width: 540px) {
-  .main-nav {
-    gap: 18px;
-  }
-
-  .host-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .rates-head,
-  .rates-item {
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    font-size: 0.95rem;
-  }
-
   .site-footer {
-    gap: 20px;
-    font-size: 0.85rem;
+    gap: 22px;
+    font-size: 0.86rem;
+    padding: 12px 14px;
+  }
+}
+
+/* ===== 冥界首頁（更瘋、更邪） ===== */
+.mingjie-home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px 90px;
+}
+
+/* 第一屏 */
+.rift-hero {
+  position: relative;
+  text-align: center;
+  padding: 90px 20px 70px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at center, rgba(120, 0, 0, 0.16), transparent 38%),
+    radial-gradient(circle at top, rgba(255,255,255,0.03), transparent 45%);
+}
+
+.rift-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle, rgba(150, 0, 0, 0.15), transparent 55%);
+  pointer-events: none;
+}
+
+.rift-overline {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 18px;
+  color: #b88b42;
+  font-family: "Cinzel", serif;
+  letter-spacing: 6px;
+  font-size: 0.95rem;
+}
+
+.rift-title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: "Cinzel", serif;
+  font-size: clamp(4rem, 10vw, 7.5rem);
+  line-height: 0.95;
+  color: #d4af37;
+  letter-spacing: 10px;
+  text-shadow:
+    0 0 12px rgba(212, 175, 55, 0.15),
+    0 0 30px rgba(120, 0, 0, 0.28);
+}
+
+.rift-hook {
+  position: relative;
+  z-index: 1;
+  margin: 30px auto 0;
+  max-width: 760px;
+  color: #f0e1c4;
+  font-size: 1.2rem;
+  line-height: 2;
+  letter-spacing: 1px;
+}
+
+.rift-subhook {
+  position: relative;
+  z-index: 1;
+  margin: 26px 0 0;
+  font-size: 1.05rem;
+  color: #c79a52;
+  letter-spacing: 3px;
+}
+
+/* 地點 */
+.rift-location {
+  display: flex;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+
+/* 內文 */
+.rift-intro {
+  max-width: 900px;
+  margin: 70px auto 0;
+  text-align: center;
+  line-height: 2.15;
+  color: #e6d7bd;
+  font-size: 1.03rem;
+}
+
+.rift-intro p {
+  margin: 0 0 24px;
+}
+
+.rift-quote {
+  margin-top: 40px;
+  font-size: 1.08rem;
+  color: #d7b37a;
+  letter-spacing: 1px;
+}
+
+/* 收尾 */
+.rift-sign {
+  margin-top: 48px;
+  text-align: center;
+  color: #b88745;
+  font-family: "Cinzel", serif;
+  letter-spacing: 3px;
+  line-height: 2;
+  font-size: 1rem;
+}
+
+/* ===== 地址橫幅（EROS風但更暗黑） ===== */
+.banner-location {
+  margin-top: 40px;
+  height: 180px;
+
+  /* 🔥 這裡放你的圖片 */
+  background: 
+    linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9)),
+    url("images/banner.png") center/cover no-repeat;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 中間文字 */
+.location-overlay {
+  text-align: center;
+  color: #d4af37;
+}
+
+/* 主標 */
+.location-overlay h2 {
+  margin: 0;
+  font-size: 26px;
+  letter-spacing: 4px;
+}
+
+/* 地址 */
+.location-overlay p {
+  margin-top: 10px;
+  font-size: 16px;
+  letter-spacing: 2px;
+  color: #e6d7bd;
+}
+
+/* ===== 排班表（活的系統版） ===== */
+.schedule-section {
+  margin-top: 90px;
+  text-align: center;
+  padding: 20px 0 10px;
+  position: relative;
+}
+
+/* 標題 */
+.schedule-title {
+  font-size: 34px;
+  letter-spacing: 8px;
+  color: #d4af37;
+  margin-bottom: 42px;
+  position: relative;
+  text-align: center;
+  text-shadow:
+    0 0 8px rgba(212, 175, 55, 0.12),
+    0 0 20px rgba(120, 0, 0, 0.12);
+}
+
+/* 裝飾線 */
+.schedule-title::before,
+.schedule-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #d4af37, transparent);
+}
+
+.schedule-title::before {
+  top: -12px;
+}
+
+.schedule-title::after {
+  bottom: -12px;
+}
+
+/* 表格外框 */
+.schedule-table {
+  max-width: 760px;
+  margin: 0 auto;
+  background: radial-gradient(circle at center, rgba(120,0,0,0.06), transparent 75%);
+  border-top: 1px solid rgba(212,175,55,0.18);
+  border-bottom: 1px solid rgba(212,175,55,0.18);
+  padding: 8px 0;
+}
+
+/* 表頭 / 每列 */
+.schedule-head,
+.schedule-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  padding: 14px 10px;
+  border-bottom: 1px solid rgba(212,175,55,0.22);
+}
+
+/* 表頭 */
+.schedule-head {
+  font-family: "Cinzel", serif;
+  color: #f3e6c8;
+  letter-spacing: 1px;
+  font-size: 0.98rem;
+}
+
+/* 內容列 */
+.schedule-item {
+  color: #d8c7a2;
+  transition: all 0.3s ease;
+  font-size: 0.98rem;
+}
+
+/* 每列滑過 */
+.schedule-item:hover {
+  background: rgba(120,0,0,0.15);
+}
+
+/* 今天高亮 */
+.schedule-item.today {
+  background: rgba(120,0,0,0.22);
+  box-shadow: inset 0 0 12px rgba(120,0,0,0.22);
+}
+
+/* 最後一列不要太重 */
+.schedule-table .schedule-item:last-child {
+  border-bottom: none;
+}
+
+/* 狀態通用 */
+.schedule-item span:last-child {
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* 等待帶走 */
+.status-wait {
+  color: #e6c27a;
+  text-shadow: 0 0 8px rgba(230,194,122,0.12);
+}
+
+/* 預定使用 */
+.status-busy {
+  color: #c75b5b;
+  text-shadow: 0 0 8px rgba(199,91,91,0.12);
+}
+
+/* 請假 */
+.status-off {
+  color: #777;
+}
+
+/* 手機版 */
+@media (max-width: 700px) {
+  .schedule-title {
+    font-size: 28px;
+    letter-spacing: 4px;
+  }
+
+  .schedule-head,
+  .schedule-item {
+    grid-template-columns: 1fr 1fr 1fr;
+    font-size: 0.88rem;
+    padding: 12px 8px;
+  }
+
+  .schedule-table {
+    max-width: 100%;
   }
 }
