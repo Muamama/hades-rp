@@ -9,6 +9,81 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
+  <style>
+    .gil-price {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .gil-icon {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.45));
+      animation: gilFloat 2.2s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    .gil-icon.large {
+      width: 20px;
+      height: 20px;
+    }
+
+    .leaderboard-stat strong.gil-price {
+      justify-content: center;
+    }
+
+    .leaderboard-item .gil-price {
+      justify-content: flex-start;
+    }
+
+    .leaderboard-item.is-updated .gil-price {
+      animation: gilPulse 0.8s ease;
+    }
+
+    .leaderboard-item.is-updated .gil-icon {
+      animation:
+        gilFloat 2.2s ease-in-out infinite,
+        gilFlash 0.8s ease;
+    }
+
+    @keyframes gilFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-2px);
+      }
+    }
+
+    @keyframes gilFlash {
+      0% {
+        filter: drop-shadow(0 0 0 rgba(212, 175, 55, 0));
+      }
+      50% {
+        filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.9));
+      }
+      100% {
+        filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.45));
+      }
+    }
+
+    @keyframes gilPulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.03);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="top-line"></div>
@@ -38,7 +113,7 @@
         </div>
         <div class="leaderboard-stat">
           <span class="leaderboard-stat-label">累積打賞總額</span>
-          <strong id="totalAmount">0 GIL</strong>
+          <strong id="totalAmount">0</strong>
         </div>
       </div>
 
@@ -72,7 +147,32 @@
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function renderLeaderboard() {
+    function gilHTML(amount, large = false) {
+      return `
+        <span class="gil-price">
+          ${Number(amount || 0).toLocaleString()}
+          <img src="images/Gil_Icon.png" class="gil-icon ${large ? "large" : ""}" alt="GIL">
+        </span>
+      `;
+    }
+
+    function markUpdatedRows() {
+      const rows = document.querySelectorAll(".leaderboard-item");
+      rows.forEach((row) => {
+        row.classList.add("is-updated");
+        setTimeout(() => {
+          row.classList.remove("is-updated");
+        }, 850);
+      });
+
+      const totalAmountEl = document.getElementById("totalAmount");
+      totalAmountEl.classList.add("is-updated");
+      setTimeout(() => {
+        totalAmountEl.classList.remove("is-updated");
+      }, 850);
+    }
+
+    async function renderLeaderboard(animate = false) {
       const body = document.getElementById("leaderboardBody");
       const empty = document.getElementById("leaderboardEmpty");
       const totalAmountEl = document.getElementById("totalAmount");
@@ -103,7 +203,7 @@
         0
       );
 
-      totalAmountEl.textContent = `${totalAmount.toLocaleString()} GIL`;
+      totalAmountEl.innerHTML = gilHTML(totalAmount, true);
       hostCountEl.textContent = activeRows.length.toLocaleString();
 
       if (activeRows.length === 0) {
@@ -120,10 +220,14 @@
           <span>#${index + 1}</span>
           <span>${row.host_name}</span>
           <span>${(row.tip_count || 0).toLocaleString()}</span>
-          <span>${(row.total_amount || 0).toLocaleString()} GIL</span>
+          <span>${gilHTML(row.total_amount)}</span>
         `;
         body.appendChild(div);
       });
+
+      if (animate) {
+        markUpdatedRows();
+      }
     }
 
     await renderLeaderboard();
@@ -138,11 +242,10 @@
           table: "host_leaderboard"
         },
         async () => {
-          await renderLeaderboard();
+          await renderLeaderboard(true);
         }
       )
       .subscribe();
   </script>
-  
 </body>
 </html>
