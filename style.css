@@ -791,7 +791,7 @@ a {
   color: #e6d7bd;
 }
 
-/* ===== 排班表（活的系統版） ===== */
+/* ===== 排班表（點名字顯示圖片版） ===== */
 .schedule-section {
   margin-top: 90px;
   text-align: center;
@@ -799,7 +799,6 @@ a {
   position: relative;
 }
 
-/* 標題 */
 .schedule-title {
   font-size: 34px;
   letter-spacing: 8px;
@@ -812,7 +811,6 @@ a {
     0 0 20px rgba(120, 0, 0, 0.12);
 }
 
-/* 裝飾線 */
 .schedule-title::before,
 .schedule-title::after {
   content: "";
@@ -832,27 +830,33 @@ a {
   bottom: -12px;
 }
 
-/* 表格外框 */
-.schedule-table {
-  max-width: 760px;
+.schedule-wrap {
+  max-width: 1180px;
   margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.25fr 0.9fr;
+  gap: 32px;
+  align-items: start;
+  padding: 0 20px;
+}
+
+/* 左邊表格 */
+.schedule-table {
   background: radial-gradient(circle at center, rgba(120,0,0,0.06), transparent 75%);
   border-top: 1px solid rgba(212,175,55,0.18);
   border-bottom: 1px solid rgba(212,175,55,0.18);
   padding: 8px 0;
 }
 
-/* 表頭 / 每列 */
 .schedule-head,
 .schedule-item {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1.2fr 1fr 1fr;
   align-items: center;
-  padding: 14px 10px;
+  padding: 14px 16px;
   border-bottom: 1px solid rgba(212,175,55,0.22);
 }
 
-/* 表頭 */
 .schedule-head {
   font-family: "Cinzel", serif;
   color: #f3e6c8;
@@ -860,53 +864,128 @@ a {
   font-size: 0.98rem;
 }
 
-/* 內容列 */
 .schedule-item {
   color: #d8c7a2;
-  transition: all 0.3s ease;
+  transition: all 0.28s ease;
   font-size: 0.98rem;
+  cursor: pointer;
+  background: transparent;
 }
 
-/* 每列滑過 */
+/* 不要再整列 hover 變選取色，只做淡淡浮動 */
 .schedule-item:hover {
-  background: rgba(120,0,0,0.15);
+  background: rgba(255,255,255,0.02);
 }
 
-/* 今天高亮 */
-.schedule-item.today {
-  background: rgba(120,0,0,0.22);
-  box-shadow: inset 0 0 12px rgba(120,0,0,0.22);
-}
-
-/* 最後一列不要太重 */
-.schedule-table .schedule-item:last-child {
+.schedule-item:last-child {
   border-bottom: none;
 }
 
-/* 狀態通用 */
+/* 點到的那列才變色 */
+.schedule-item.active {
+  background:
+    linear-gradient(to right, rgba(120,0,0,0.28), rgba(212,175,55,0.08));
+  box-shadow:
+    inset 0 0 0 1px rgba(212,175,55,0.18),
+    inset 0 0 18px rgba(120,0,0,0.24);
+}
+
+/* 名字可點感更強 */
+.schedule-name {
+  color: #f1dfb3;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+}
+
+.schedule-item:hover .schedule-name {
+  color: #ffd978;
+  text-shadow: 0 0 8px rgba(212,175,55,0.22);
+}
+
+.schedule-item.active .schedule-name {
+  color: #ffd978;
+  text-shadow:
+    0 0 8px rgba(212,175,55,0.28),
+    0 0 20px rgba(120,0,0,0.18);
+}
+
 .schedule-item span:last-child {
   font-weight: 600;
   letter-spacing: 1px;
 }
 
-/* 等待帶走 */
 .status-wait {
   color: #e6c27a;
   text-shadow: 0 0 8px rgba(230,194,122,0.12);
 }
 
-/* 預定使用 */
 .status-busy {
   color: #c75b5b;
   text-shadow: 0 0 8px rgba(199,91,91,0.12);
 }
 
-/* 請假 */
 .status-off {
   color: #777;
 }
 
+/* 右邊圖片預覽 */
+.schedule-preview {
+  position: sticky;
+  top: 120px;
+}
+
+.schedule-preview-inner {
+  border: 1px solid rgba(212,175,55,0.2);
+  background:
+    linear-gradient(180deg, rgba(32,18,18,0.96), rgba(14,10,10,0.96));
+  padding: 18px;
+  box-shadow:
+    0 0 30px rgba(0,0,0,0.28),
+    inset 0 0 18px rgba(120,0,0,0.1);
+}
+
+.schedule-preview img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  display: block;
+  border: 1px solid rgba(212,175,55,0.22);
+  margin-bottom: 16px;
+  filter: grayscale(100%);
+  transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+}
+
+.schedule-preview.show img {
+  filter: grayscale(0%);
+  transform: scale(1.01);
+}
+
+.schedule-preview h3 {
+  font-size: 1.3rem;
+  color: #f3e6c8;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.schedule-preview p {
+  color: #bfae88;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin: 0;
+}
+
 /* 手機版 */
+@media (max-width: 900px) {
+  .schedule-wrap {
+    grid-template-columns: 1fr;
+  }
+
+  .schedule-preview {
+    position: static;
+  }
+}
+
 @media (max-width: 700px) {
   .schedule-title {
     font-size: 28px;
@@ -915,13 +994,13 @@ a {
 
   .schedule-head,
   .schedule-item {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1.1fr 1fr 0.9fr;
     font-size: 0.88rem;
     padding: 12px 8px;
   }
 
-  .schedule-table {
-    max-width: 100%;
+  .schedule-name {
+    font-size: 0.92rem;
   }
 }
 
