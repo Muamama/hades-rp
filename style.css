@@ -1681,6 +1681,10 @@ body.popup-open {
   gap: 16px;
 }
 
+.admin-full {
+  grid-column: 1 / -1;
+}
+
 .admin-label {
   display: flex;
   flex-direction: column;
@@ -1701,6 +1705,11 @@ body.popup-open {
 .admin-input:focus {
   border-color: rgba(212,175,55,0.5);
   box-shadow: 0 0 0 1px rgba(212,175,55,0.18);
+}
+
+.admin-input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .admin-actions {
