@@ -72,7 +72,7 @@
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function loadLeaderboard() {
+    async function renderLeaderboard() {
       const body = document.getElementById("leaderboardBody");
       const empty = document.getElementById("leaderboardEmpty");
       const totalAmountEl = document.getElementById("totalAmount");
@@ -126,7 +126,22 @@
       });
     }
 
-    loadLeaderboard();
+    await renderLeaderboard();
+
+    supabase
+      .channel("leaderboard-realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "host_leaderboard"
+        },
+        async () => {
+          await renderLeaderboard();
+        }
+      )
+      .subscribe();
   </script>
 </body>
 </html>
