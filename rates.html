@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
   <link rel="stylesheet" href="style.css" />
 </head>
 
@@ -21,6 +20,7 @@
       <a class="active" href="rates.html">指名費用</a>
       <a href="timelist.html">時間表</a>
       <a href="services.html">服務內容</a>
+      <a href="leaderboard.html">排行榜</a>
       <a href="host.html">店員</a>
       <a href="rules.html">規則條例</a>
     </nav>
@@ -28,15 +28,12 @@
 
   <main class="page inner-page rates-page">
 
-    <!-- 標題 -->
     <section class="page-title-block">
       <h1 class="page-title">店員指名</h1>
     </section>
 
-    <!-- 價格 -->
     <section class="rates-section">
 
-      <!-- 普通 -->
       <div class="rates-row">
         <div class="rates-label">
           <h2>普通指名</h2>
@@ -53,7 +50,6 @@
         </div>
       </div>
 
-      <!-- 包廂 -->
       <div class="rates-row">
         <div class="rates-label">
           <h2>包廂指名</h2>
@@ -70,36 +66,38 @@
         </div>
       </div>
 
-      <!-- 🔥 打賞區 -->
       <div class="rates-row">
         <div class="rates-label">
           <h2>冥界供奉</h2>
         </div>
 
-        <div class="rates-table">
+        <div class="rates-table reward-table">
           <div class="rates-head">
             <span>階級</span>
             <span>金額</span>
           </div>
 
-          <div class="rates-item">
+          <button class="rates-item reward-btn" data-tier="餘燼供奉" data-amount="10000">
             <span>餘燼供奉</span>
             <span>10,000 GIL</span>
-          </div>
+          </button>
 
-          <div class="rates-item">
+          <button class="rates-item reward-btn" data-tier="狂火獻祭" data-amount="30000">
             <span>狂火獻祭</span>
             <span>30,000 GIL</span>
-          </div>
+          </button>
 
-          <div class="rates-item">
+          <button class="rates-item reward-btn" data-tier="深淵降臨" data-amount="50000">
             <span>深淵降臨</span>
             <span>50,000 GIL</span>
-          </div>
-
+          </button>
         </div>
       </div>
 
+    </section>
+
+    <section class="reward-note-section">
+      <p class="reward-note" id="rewardMessage">點擊供奉階級，即可為冥界累積祭火。</p>
     </section>
 
   </main>
@@ -110,5 +108,58 @@
     <a href="#">DISCORD</a>
   </footer>
 
+  <script>
+    const rewardButtons = document.querySelectorAll(".reward-btn");
+    const rewardMessage = document.getElementById("rewardMessage");
+    const STORAGE_KEY = "meikai_leaderboard";
+
+    function loadBoard() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        return {
+          totalAmount: 0,
+          totalCount: 0,
+          tiers: {
+            "餘燼供奉": { amount: 10000, count: 0, total: 0 },
+            "狂火獻祭": { amount: 30000, count: 0, total: 0 },
+            "深淵降臨": { amount: 50000, count: 0, total: 0 }
+          }
+        };
+      }
+      return JSON.parse(raw);
+    }
+
+    function saveBoard(board) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(board));
+    }
+
+    rewardButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const tier = btn.dataset.tier;
+        const amount = Number(btn.dataset.amount);
+
+        const board = loadBoard();
+
+        if (!board.tiers[tier]) {
+          board.tiers[tier] = { amount, count: 0, total: 0 };
+        }
+
+        board.tiers[tier].count += 1;
+        board.tiers[tier].total += amount;
+        board.totalAmount += amount;
+        board.totalCount += 1;
+
+        saveBoard(board);
+
+        rewardMessage.textContent = `你已獻上「${tier}」 ${amount.toLocaleString()} GIL。冥界累積祭火：${board.totalAmount.toLocaleString()} GIL`;
+        rewardMessage.classList.add("show");
+
+        btn.classList.add("reward-flash");
+        setTimeout(() => {
+          btn.classList.remove("reward-flash");
+        }, 450);
+      });
+    });
+  </script>
 </body>
 </html>
