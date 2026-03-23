@@ -77,17 +77,35 @@
             <span>金額</span>
           </div>
 
-          <button class="rates-item reward-btn" data-tier="餘燼供奉" data-amount="10000">
+          <button
+            class="rates-item reward-btn"
+            data-tier="餘燼供奉"
+            data-amount="10000"
+            data-desc="微弱卻溫熱的火，像在黑夜裡遞上一點尚未熄滅的餘燼。適合輕聲表達偏愛與注視。"
+            type="button"
+          >
             <span>餘燼供奉</span>
             <span>10,000 GIL</span>
           </button>
 
-          <button class="rates-item reward-btn" data-tier="狂火獻祭" data-amount="30000">
+          <button
+            class="rates-item reward-btn"
+            data-tier="狂火獻祭"
+            data-amount="30000"
+            data-desc="火勢蔓延，慾望不再遮掩。這不是路過的投餵，而是明目張膽地將視線與情緒推向對方。"
+            type="button"
+          >
             <span>狂火獻祭</span>
             <span>30,000 GIL</span>
           </button>
 
-          <button class="rates-item reward-btn" data-tier="深淵降臨" data-amount="50000">
+          <button
+            class="rates-item reward-btn"
+            data-tier="深淵降臨"
+            data-amount="50000"
+            data-desc="最沉重也最失控的一次墜落。不是單純的欣賞，而是讓整場夜晚都記住你的存在。"
+            type="button"
+          >
             <span>深淵降臨</span>
             <span>50,000 GIL</span>
           </button>
@@ -97,10 +115,22 @@
     </section>
 
     <section class="reward-note-section">
-      <p class="reward-note" id="rewardMessage">點擊供奉階級，即可為冥界累積祭火。</p>
+      <p class="reward-note" id="rewardMessage">點擊供奉階級，可查看對應的供奉介紹。</p>
     </section>
 
   </main>
+
+  <div class="host-popup-overlay" id="rewardPopupOverlay">
+    <div class="host-popup-card reward-popup-card">
+      <button class="host-popup-close" id="rewardPopupClose" type="button">✕</button>
+
+      <div class="host-popup-info reward-popup-info">
+        <h3 id="rewardPopupName">冥界供奉</h3>
+        <p id="rewardPopupAmount"></p>
+        <p id="rewardPopupText"></p>
+      </div>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <a href="index.html">冥界</a>
@@ -111,54 +141,57 @@
   <script>
     const rewardButtons = document.querySelectorAll(".reward-btn");
     const rewardMessage = document.getElementById("rewardMessage");
-    const STORAGE_KEY = "meikai_leaderboard";
+    const rewardPopupOverlay = document.getElementById("rewardPopupOverlay");
+    const rewardPopupClose = document.getElementById("rewardPopupClose");
+    const rewardPopupName = document.getElementById("rewardPopupName");
+    const rewardPopupAmount = document.getElementById("rewardPopupAmount");
+    const rewardPopupText = document.getElementById("rewardPopupText");
 
-    function loadBoard() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        return {
-          totalAmount: 0,
-          totalCount: 0,
-          tiers: {
-            "餘燼供奉": { amount: 10000, count: 0, total: 0 },
-            "狂火獻祭": { amount: 30000, count: 0, total: 0 },
-            "深淵降臨": { amount: 50000, count: 0, total: 0 }
-          }
-        };
-      }
-      return JSON.parse(raw);
+    function openRewardPopup(tier, amount, desc, btn) {
+      rewardPopupName.textContent = tier;
+      rewardPopupAmount.textContent = `${Number(amount).toLocaleString()} GIL`;
+      rewardPopupText.textContent = desc;
+
+      rewardPopupOverlay.classList.add("show");
+      document.body.classList.add("popup-open");
+
+      rewardMessage.textContent = `你查看了「${tier}」的供奉介紹。`;
+      rewardMessage.classList.add("show");
+
+      btn.classList.add("reward-flash");
+      setTimeout(() => {
+        btn.classList.remove("reward-flash");
+      }, 450);
     }
 
-    function saveBoard(board) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(board));
+    function closeRewardPopup() {
+      rewardPopupOverlay.classList.remove("show");
+      document.body.classList.remove("popup-open");
     }
 
     rewardButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
-        const tier = btn.dataset.tier;
-        const amount = Number(btn.dataset.amount);
-
-        const board = loadBoard();
-
-        if (!board.tiers[tier]) {
-          board.tiers[tier] = { amount, count: 0, total: 0 };
-        }
-
-        board.tiers[tier].count += 1;
-        board.tiers[tier].total += amount;
-        board.totalAmount += amount;
-        board.totalCount += 1;
-
-        saveBoard(board);
-
-        rewardMessage.textContent = `你已獻上「${tier}」 ${amount.toLocaleString()} GIL。冥界累積祭火：${board.totalAmount.toLocaleString()} GIL`;
-        rewardMessage.classList.add("show");
-
-        btn.classList.add("reward-flash");
-        setTimeout(() => {
-          btn.classList.remove("reward-flash");
-        }, 450);
+        openRewardPopup(
+          btn.dataset.tier,
+          btn.dataset.amount,
+          btn.dataset.desc,
+          btn
+        );
       });
+    });
+
+    rewardPopupClose.addEventListener("click", closeRewardPopup);
+
+    rewardPopupOverlay.addEventListener("click", (e) => {
+      if (e.target === rewardPopupOverlay) {
+        closeRewardPopup();
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closeRewardPopup();
+      }
     });
   </script>
 </body>
