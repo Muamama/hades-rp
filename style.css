@@ -791,7 +791,7 @@ a {
   color: #e6d7bd;
 }
 
-/* ===== 排班表（點名字顯示圖片版） ===== */
+/* ===== 排班表（點名字彈出POP圖片版） ===== */
 .schedule-section {
   margin-top: 90px;
   text-align: center;
@@ -830,24 +830,17 @@ a {
   bottom: -12px;
 }
 
-.schedule-wrap {
-  max-width: 1180px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.25fr 0.9fr;
-  gap: 32px;
-  align-items: start;
-  padding: 0 20px;
-}
-
-/* 左邊表格 */
+/* 表格本體 */
 .schedule-table {
+  max-width: 980px;
+  margin: 0 auto;
   background: radial-gradient(circle at center, rgba(120,0,0,0.06), transparent 75%);
   border-top: 1px solid rgba(212,175,55,0.18);
   border-bottom: 1px solid rgba(212,175,55,0.18);
   padding: 8px 0;
 }
 
+/* 表頭與每列 */
 .schedule-head,
 .schedule-item {
   display: grid;
@@ -858,7 +851,7 @@ a {
 }
 
 .schedule-head {
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   color: #f3e6c8;
   letter-spacing: 1px;
   font-size: 0.98rem;
@@ -872,7 +865,6 @@ a {
   background: transparent;
 }
 
-/* 不要再整列 hover 變選取色，只做淡淡浮動 */
 .schedule-item:hover {
   background: rgba(255,255,255,0.02);
 }
@@ -890,7 +882,7 @@ a {
     inset 0 0 18px rgba(120,0,0,0.24);
 }
 
-/* 名字可點感更強 */
+/* 名字 */
 .schedule-name {
   color: #f1dfb3;
   font-weight: 600;
@@ -915,6 +907,7 @@ a {
   letter-spacing: 1px;
 }
 
+/* 狀態 */
 .status-wait {
   color: #e6c27a;
   text-shadow: 0 0 8px rgba(230,194,122,0.12);
@@ -929,63 +922,116 @@ a {
   color: #777;
 }
 
-/* 右邊圖片預覽 */
-.schedule-preview {
-  position: sticky;
-  top: 120px;
+/* ===== 彈窗開啟時背景禁止滾動 ===== */
+body.popup-open {
+  overflow: hidden;
 }
 
-.schedule-preview-inner {
-  border: 1px solid rgba(212,175,55,0.2);
+/* ===== POP 彈窗遮罩 ===== */
+.host-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+  z-index: 9999;
+}
+
+.host-popup-overlay.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* ===== 中間POP卡片 ===== */
+.host-popup-card {
+  position: relative;
+  width: min(92vw, 560px);
   background:
-    linear-gradient(180deg, rgba(32,18,18,0.96), rgba(14,10,10,0.96));
-  padding: 18px;
+    linear-gradient(180deg, rgba(25,14,14,0.98), rgba(10,8,8,0.98));
+  border: 1px solid rgba(212,175,55,0.26);
   box-shadow:
-    0 0 30px rgba(0,0,0,0.28),
-    inset 0 0 18px rgba(120,0,0,0.1);
+    0 0 30px rgba(0,0,0,0.45),
+    0 0 60px rgba(120,0,0,0.22),
+    inset 0 0 18px rgba(212,175,55,0.06);
+  transform: translateY(24px) scale(0.96);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  overflow: hidden;
 }
 
-.schedule-preview img {
+.host-popup-overlay.show .host-popup-card {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* 關閉按鈕 */
+.host-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: rgba(0,0,0,0.4);
+  color: #f3e6c8;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 2;
+  transition: all 0.25s ease;
+}
+
+.host-popup-close:hover {
+  background: rgba(120,0,0,0.55);
+  color: #ffd978;
+}
+
+/* 圖片區 */
+.host-popup-image-wrap {
+  width: 100%;
+  background: #111;
+}
+
+.host-popup-image-wrap img {
+  display: block;
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
-  display: block;
-  border: 1px solid rgba(212,175,55,0.22);
-  margin-bottom: 16px;
-  filter: grayscale(100%);
-  transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
-}
-
-.schedule-preview.show img {
   filter: grayscale(0%);
-  transform: scale(1.01);
 }
 
-.schedule-preview h3 {
-  font-size: 1.3rem;
+/* 文字區 */
+.host-popup-info {
+  padding: 18px 20px 22px;
+  text-align: center;
+}
+
+.host-popup-info h3 {
+  margin: 0 0 8px;
+  font-size: 1.4rem;
   color: #f3e6c8;
-  margin-bottom: 10px;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  text-shadow:
+    0 0 10px rgba(212,175,55,0.16),
+    0 0 18px rgba(120,0,0,0.14);
 }
 
-.schedule-preview p {
-  color: #bfae88;
-  font-size: 0.95rem;
-  line-height: 1.8;
+.host-popup-info p {
   margin: 0;
+  color: #c7b493;
+  font-size: 0.96rem;
+  line-height: 1.8;
 }
 
-/* 手機版 */
-@media (max-width: 900px) {
-  .schedule-wrap {
-    grid-template-columns: 1fr;
-  }
-
-  .schedule-preview {
-    position: static;
-  }
-}
-
+/* ===== 手機版 ===== */
 @media (max-width: 700px) {
   .schedule-title {
     font-size: 28px;
@@ -1001,6 +1047,23 @@ a {
 
   .schedule-name {
     font-size: 0.92rem;
+  }
+
+  .host-popup-overlay {
+    padding: 18px;
+  }
+
+  .host-popup-card {
+    width: 100%;
+  }
+
+  .host-popup-info h3 {
+    font-size: 1.15rem;
+    letter-spacing: 2px;
+  }
+
+  .host-popup-info p {
+    font-size: 0.9rem;
   }
 }
 
