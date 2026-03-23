@@ -1996,21 +1996,25 @@ body.popup-open {
   }
 }
 
-/* ===== Rates 左側標題改成和困獸狂犬同風格 ===== */
-.rates-row {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: 34px;
-  align-items: start;
-  margin-bottom: 72px;
+/* 上下金線 */
+.rates-section-title::before,
+.rates-section-title::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #d4a646, transparent);
+  box-shadow: 0 0 8px rgba(212,166,70,0.4);
 }
 
-.rates-label {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 120px;
-  text-align: center;
+.rates-section-title::before {
+  top: 0;
+}
+
+.rates-section-title::after {
+  bottom: 0;
 }
 
 .rates-label h2 {
@@ -2052,6 +2056,23 @@ body.popup-open {
 /* 讓右側表格和這種大標題更平衡 */
 .rates-table {
   padding-top: 10px;
+}
+
+/* ===== 區段標題（取代左側 label） ===== */
+.rates-section-title {
+  position: relative;
+  text-align: center;
+  margin: 70px 0 30px;
+  padding: 16px 0;
+
+  font-size: clamp(2.2rem, 3vw, 3rem);
+  letter-spacing: 6px;
+  color: #d4a646;
+
+  text-shadow:
+    0 0 8px rgba(212,166,70,0.25),
+    0 0 24px rgba(212,166,70,0.3),
+    0 0 40px rgba(120,0,0,0.25);
 }
 
 /* 手機版 */
