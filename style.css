@@ -1895,3 +1895,11 @@ body.popup-open {
 .hidden-admin {
   display: none !important;
 }
+
+.gil-icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: -3px;
+  margin-left: 4px;
+  opacity: 0.95;
+}
