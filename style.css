@@ -2336,3 +2336,9 @@ body {
     font-size: 0.9rem;
   }
 }
+
+.popup-card {
+  position: relative;
+  z-index: 10000;
+  margin-bottom: calc(var(--footer-h) + 20px);
+}
