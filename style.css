@@ -1896,10 +1896,18 @@ body.popup-open {
   display: none !important;
 }
 
+.gil-price {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  white-space: nowrap;
+}
+
 .gil-icon {
   width: 18px;
   height: 18px;
-  vertical-align: -3px;
-  margin-left: 4px;
-  opacity: 0.95;
+  object-fit: contain;
+  flex-shrink: 0;
+  vertical-align: middle;
 }
