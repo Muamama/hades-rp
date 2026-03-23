@@ -903,3 +903,251 @@ a {
     max-width: 100%;
   }
 }
+
+/* ===== 手機 / 平板修正 ===== */
+@media (max-width: 900px) {
+  .main-nav {
+    gap: 18px;
+    padding: 0 10px;
+  }
+
+  .main-nav a {
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+  }
+
+  .page-title {
+    font-size: clamp(2.4rem, 10vw, 4rem);
+    line-height: 1.05;
+  }
+
+  .rates-row,
+  .service-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .rates-label,
+  .service-name {
+    text-align: center;
+    padding-top: 0;
+  }
+
+  .rates-table,
+  .service-list,
+  .rules-list-wrap,
+  .intro-block,
+  .rift-intro,
+  .schedule-table {
+    max-width: 100%;
+  }
+
+  .host-grid {
+    grid-template-columns: repeat(2, minmax(130px, 1fr));
+    gap: 24px 18px;
+  }
+
+  .special-grid {
+    gap: 32px;
+  }
+
+  .special-card {
+    width: min(100%, 320px);
+  }
+
+  .banner-location {
+    height: 130px;
+    padding: 0 12px;
+  }
+
+  .location-overlay h2 {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+  }
+
+  .location-overlay p {
+    font-size: 0.92rem;
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+
+  .rift-hero {
+    padding: 60px 16px 50px;
+  }
+
+  .rift-title {
+    font-size: clamp(3rem, 14vw, 5rem);
+    letter-spacing: 4px;
+  }
+
+  .rift-hook {
+    font-size: 1rem;
+    line-height: 1.8;
+    padding: 0 8px;
+  }
+
+  .rift-subhook {
+    font-size: 0.95rem;
+    letter-spacing: 1.5px;
+  }
+
+  .rift-location-box {
+    padding: 16px 18px;
+    font-size: 1rem;
+  }
+
+  .schedule-head,
+  .schedule-item {
+    grid-template-columns: 1fr 1fr 1fr;
+    font-size: 0.88rem;
+    gap: 8px;
+    padding: 12px 8px;
+  }
+
+  .site-footer {
+    gap: 18px;
+    font-size: 0.82rem;
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  html, body {
+    overflow-x: hidden;
+  }
+
+  .site-header {
+    padding: 14px 10px 6px;
+  }
+
+  .main-nav {
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .main-nav a {
+    font-size: 0.76rem;
+    letter-spacing: 0;
+  }
+
+  .home-page,
+  .inner-page,
+  .mingjie-home {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .page-title-block {
+    margin: 8px 0 28px;
+  }
+
+  .page-title {
+    font-size: clamp(2rem, 12vw, 3.2rem);
+    letter-spacing: 1px;
+  }
+
+  .hero-image-wrap,
+  .hero-image {
+    min-height: 180px;
+  }
+
+  .brand-mark {
+    font-size: clamp(2rem, 14vw, 3.5rem);
+  }
+
+  .brand-submark {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+  }
+
+  .location-frame {
+    padding: 14px 14px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .intro-block,
+  .rift-intro {
+    margin-top: 40px;
+    font-size: 0.95rem;
+    line-height: 1.9;
+  }
+
+  .host-group-title,
+  .schedule-title {
+    font-size: 1.7rem;
+    letter-spacing: 3px;
+  }
+
+  .special-group .host-group-title {
+    font-size: 2rem;
+    letter-spacing: 4px;
+  }
+
+  .host-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .host-card,
+  .special-card {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .host-card h3 {
+    font-size: 1rem;
+  }
+
+  .host-card p,
+  .special-card p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .rates-head,
+  .rates-item,
+  .schedule-head,
+  .schedule-item {
+    font-size: 0.8rem;
+  }
+
+  .rates-head span:last-child,
+  .rates-item span:last-child {
+    text-align: right;
+  }
+
+  .service-name h2 {
+    font-size: 1.5rem;
+  }
+
+  .service-desc p {
+    font-size: 0.94rem;
+    line-height: 1.8;
+  }
+
+  .rules-list {
+    padding-left: 18px;
+    font-size: 0.94rem;
+    line-height: 1.8;
+  }
+
+  .rules-closing {
+    font-size: 1rem;
+  }
+
+  .site-footer {
+    gap: 14px;
+    font-size: 0.76rem;
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .host-card img,
+  .special-card img {
+    filter: none !important;
+    transform: none !important;
+  }
+}
