@@ -1891,3 +1891,7 @@ body.popup-open {
     grid-template-columns: 1fr;
   }
 }
+
+.hidden-admin {
+  display: none !important;
+}
