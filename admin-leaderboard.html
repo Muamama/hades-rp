@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Leaderboard | 冥界</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="top-line"></div>
+
+  <header class="site-header">
+    <nav class="main-nav">
+      <a href="index.html">主頁</a>
+      <a href="rates.html">指名費用</a>
+      <a href="timelist.html">時間表</a>
+      <a href="services.html">服務內容</a>
+      <a href="leaderboard.html">排行榜</a>
+      <a href="host.html">店員</a>
+      <a href="rules.html">規則條例</a>
+    </nav>
+  </header>
+
+  <main class="page inner-page">
+    <section class="page-title-block">
+      <h1 class="page-title">管理員後台</h1>
+    </section>
+
+    <section class="admin-board-section">
+      <div class="admin-card">
+        <h2 class="admin-title">管理員登入</h2>
+
+        <div class="admin-form-grid">
+          <label class="admin-label">
+            <span>Email</span>
+            <input id="adminEmail" class="admin-input" type="email" placeholder="admin@example.com" />
+          </label>
+
+          <label class="admin-label">
+            <span>密碼</span>
+            <input id="adminPassword" class="admin-input" type="password" placeholder="••••••••" />
+          </label>
+        </div>
+
+        <div class="admin-actions">
+          <button id="loginBtn" class="admin-btn" type="button">登入</button>
+          <button id="logoutBtn" class="admin-btn ghost" type="button">登出</button>
+        </div>
+
+        <p id="authMessage" class="admin-message">請先登入管理員帳號。</p>
+      </div>
+
+      <div class="admin-card">
+        <h2 class="admin-title">增加店員金額</h2>
+
+        <div class="admin-form-grid">
+          <label class="admin-label">
+            <span>店員</span>
+            <select id="hostSelect" class="admin-input">
+              <option value="刻耳柏洛斯">刻耳柏洛斯</option>
+              <option value="龍冽">龍冽</option>
+              <option value="安怛">安怛</option>
+              <option value="Jazper">Jazper</option>
+              <option value="格斯亞德">格斯亞德</option>
+              <option value="蛇魂">蛇魂</option>
+              <option value="餘燼">餘燼</option>
+              <option value="格拉斯莫">格拉斯莫</option>
+              <option value="法拉歐">法拉歐</option>
+              <option value="牛奶">牛奶</option>
+              <option value="無盡寒夜">無盡寒夜</option>
+              <option value="埃伊諾（Åyno）">埃伊諾（Åyno）</option>
+            </select>
+          </label>
+
+          <label class="admin-label">
+            <span>增加金額（GIL）</span>
+            <input id="amountInput" class="admin-input" type="number" min="1" step="1" placeholder="例如 10000" />
+          </label>
+        </div>
+
+        <div class="admin-actions">
+          <button id="addAmountBtn" class="admin-btn" type="button">增加金額</button>
+        </div>
+
+        <p id="adminMessage" class="admin-message">登入後才可修改排行榜。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="index.html">冥界</a>
+    <a href="#">THREADS</a>
+    <a href="#">DISCORD</a>
+  </footer>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const adminEmail = document.getElementById("adminEmail");
+    const adminPassword = document.getElementById("adminPassword");
+    const loginBtn = document.getElementById("loginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const authMessage = document.getElementById("authMessage");
+
+    const hostSelect = document.getElementById("hostSelect");
+    const amountInput = document.getElementById("amountInput");
+    const addAmountBtn = document.getElementById("addAmountBtn");
+    const adminMessage = document.getElementById("adminMessage");
+
+    async function checkSession() {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        authMessage.textContent = "登入狀態檢查失敗。";
+        return null;
+      }
+
+      if (data.session?.user) {
+        authMessage.textContent = `已登入：${data.session.user.email}`;
+        return data.session.user;
+      }
+
+      authMessage.textContent = "請先登入管理員帳號。";
+      return null;
+    }
+
+    loginBtn.addEventListener("click", async () => {
+      const email = adminEmail.value.trim();
+      const password = adminPassword.value;
+
+      if (!email || !password) {
+        authMessage.textContent = "請輸入 Email 與密碼。";
+        return;
+      }
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        authMessage.textContent = "登入失敗。";
+        console.error(error);
+        return;
+      }
+
+      authMessage.textContent = `已登入：${data.user.email}`;
+      adminMessage.textContent = "已通過管理員驗證，可以增加金額。";
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        authMessage.textContent = "登出失敗。";
+        console.error(error);
+        return;
+      }
+
+      authMessage.textContent = "已登出。";
+      adminMessage.textContent = "登入後才可修改排行榜。";
+    });
+
+    addAmountBtn.addEventListener("click", async () => {
+      const user = await checkSession();
+      if (!user) {
+        adminMessage.textContent = "請先登入管理員帳號。";
+        return;
+      }
+
+      const hostName = hostSelect.value;
+      const amount = Number(amountInput.value);
+
+      if (!hostName || !amount || amount <= 0) {
+        adminMessage.textContent = "請輸入正確金額。";
+        return;
+      }
+
+      const { data: currentRow, error: fetchError } = await supabase
+        .from("host_leaderboard")
+        .select("host_name, tip_count, total_amount")
+        .eq("host_name", hostName)
+        .single();
+
+      if (fetchError) {
+        adminMessage.textContent = "讀取店員資料失敗。";
+        console.error(fetchError);
+        return;
+      }
+
+      const newTipCount = (currentRow.tip_count || 0) + 1;
+      const newTotalAmount = (currentRow.total_amount || 0) + amount;
+
+      const { error: updateError } = await supabase
+        .from("host_leaderboard")
+        .update({
+          tip_count: newTipCount,
+          total_amount: newTotalAmount,
+          updated_at: new Date().toISOString()
+        })
+        .eq("host_name", hostName);
+
+      if (updateError) {
+        adminMessage.textContent = "更新失敗，請確認是否為管理員帳號。";
+        console.error(updateError);
+        return;
+      }
+
+      adminMessage.textContent = `已為 ${hostName} 增加 ${amount.toLocaleString()} GIL。`;
+      amountInput.value = "";
+    });
+
+    checkSession();
+  </script>
+</body>
+</html>
