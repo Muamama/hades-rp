@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
   <div class="top-line"></div>
 
@@ -56,10 +55,6 @@
       <div class="leaderboard-empty" id="leaderboardEmpty">
         目前尚無店員打賞資料。
       </div>
-
-      <div class="leaderboard-actions">
-        <button id="resetBoardBtn" class="leaderboard-reset-btn" type="button">清空排行榜</button>
-      </div>
     </section>
   </main>
 
@@ -69,81 +64,47 @@
     <a href="#">DISCORD</a>
   </footer>
 
-  <script>
-    const STORAGE_KEY = "meikai_host_leaderboard";
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-    const hostList = [
-      "刻耳柏洛斯",
-      "龍冽",
-      "安怛",
-      "Jazper",
-      "格斯亞德",
-      "蛇魂",
-      "餘燼",
-      "格拉斯莫",
-      "法拉歐",
-      "牛奶",
-      "無盡寒夜",
-      "埃伊諾（Åyno）"
-    ];
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
 
-    function createDefaultBoard() {
-      const hosts = {};
-      hostList.forEach((name) => {
-        hosts[name] = {
-          count: 0,
-          total: 0
-        };
-      });
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      return {
-        hosts
-      };
-    }
-
-    function loadBoard() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        return createDefaultBoard();
-      }
-
-      const parsed = JSON.parse(raw);
-
-      if (!parsed.hosts) {
-        return createDefaultBoard();
-      }
-
-      hostList.forEach((name) => {
-        if (!parsed.hosts[name]) {
-          parsed.hosts[name] = { count: 0, total: 0 };
-        }
-      });
-
-      return parsed;
-    }
-
-    function renderBoard() {
-      const board = loadBoard();
+    async function loadLeaderboard() {
       const body = document.getElementById("leaderboardBody");
       const empty = document.getElementById("leaderboardEmpty");
       const totalAmountEl = document.getElementById("totalAmount");
       const hostCountEl = document.getElementById("hostCount");
 
-      const rows = Object.entries(board.hosts)
-        .map(([name, info]) => ({
-          name,
-          count: info.count || 0,
-          total: info.total || 0
-        }))
-        .sort((a, b) => b.total - a.total || b.count - a.count || a.name.localeCompare(b.name, "zh-Hant"));
+      body.innerHTML = "";
 
-      const activeRows = rows.filter((row) => row.count > 0 || row.total > 0);
-      const totalAmount = rows.reduce((sum, row) => sum + row.total, 0);
+      const { data, error } = await supabase
+        .from("host_leaderboard")
+        .select("host_name, tip_count, total_amount")
+        .order("total_amount", { ascending: false })
+        .order("tip_count", { ascending: false })
+        .order("host_name", { ascending: true });
+
+      if (error) {
+        empty.style.display = "block";
+        empty.textContent = "排行榜載入失敗。";
+        console.error(error);
+        return;
+      }
+
+      const activeRows = (data || []).filter(
+        (row) => (row.tip_count || 0) > 0 || (row.total_amount || 0) > 0
+      );
+
+      const totalAmount = (data || []).reduce(
+        (sum, row) => sum + (row.total_amount || 0),
+        0
+      );
 
       totalAmountEl.textContent = `${totalAmount.toLocaleString()} GIL`;
       hostCountEl.textContent = activeRows.length.toLocaleString();
-
-      body.innerHTML = "";
 
       if (activeRows.length === 0) {
         empty.style.display = "block";
@@ -157,20 +118,15 @@
         div.className = "leaderboard-item";
         div.innerHTML = `
           <span>#${index + 1}</span>
-          <span>${row.name}</span>
-          <span>${row.count}</span>
-          <span>${row.total.toLocaleString()} GIL</span>
+          <span>${row.host_name}</span>
+          <span>${(row.tip_count || 0).toLocaleString()}</span>
+          <span>${(row.total_amount || 0).toLocaleString()} GIL</span>
         `;
         body.appendChild(div);
       });
     }
 
-    document.getElementById("resetBoardBtn").addEventListener("click", () => {
-      localStorage.removeItem(STORAGE_KEY);
-      renderBoard();
-    });
-
-    renderBoard();
+    loadLeaderboard();
   </script>
 </body>
 </html>
