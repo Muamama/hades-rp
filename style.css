@@ -1911,3 +1911,25 @@ body.popup-open {
   flex-shrink: 0;
   vertical-align: middle;
 }
+
+.gil-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.gil-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.4));
+}
+
+.service-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
