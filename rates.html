@@ -78,50 +78,146 @@
     <a href="#">THREADS</a>
     <a href="#">DISCORD</a>
   </footer>
-  <script>
+
+  <section class="schedule-section">
+  <h2 class="schedule-title">店員排班</h2>
+
+  <div class="schedule-wrap">
+    <!-- 左邊：排班表 -->
+    <div class="schedule-table" id="scheduleTable">
+      <div class="schedule-head">
+        <span>店員</span>
+        <span>日期</span>
+        <span>狀態</span>
+      </div>
+      <!-- JS會自動填 -->
+    </div>
+
+    <!-- 右邊：圖片預覽 -->
+    <div class="schedule-preview" id="schedulePreview">
+      <div class="schedule-preview-inner">
+        <img id="previewImage" src="images/哥哥.jpg" alt="刻耳柏洛斯" />
+        <h3 id="previewName">刻耳柏洛斯</h3>
+        <p id="previewText">點擊左側名字，查看今夜對應的店員。</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <a href="index.html">冥界</a>
+  <a href="#">THREADS</a>
+  <a href="#">DISCORD</a>
+</footer>
+
+<script>
   const data = [
-    { name: "刻耳柏洛斯", date: "2026-03-23", status: "wait" },
-    { name: "厄耳特洛斯", date: "2026-03-23", status: "busy" },
-    { name: "龍冽", date: "2026-03-24", status: "off" },
-    { name: "Jazper", date: "2026-03-23", status: "wait" },
-    { name: "格斯亞德", date: "2026-03-25", status: "busy" },
+    { name: "刻耳柏洛斯", date: "2026-03-23", status: "wait", img: "images/哥哥.jpg" },
+    { name: "龍冽", date: "2026-03-23", status: "busy", img: "images/host-01.png" },
+    { name: "安怛", date: "2026-03-23", status: "wait", img: "images/host-02.jpg" },
+    { name: "Jazper", date: "2026-03-23", status: "wait", img: "images/host-03.png" },
+    { name: "格斯亞德", date: "2026-03-23", status: "busy", img: "images/host-04.png" },
+    { name: "蛇魂", date: "2026-03-23", status: "wait", img: "images/host-05.png" },
+    { name: "餘燼", date: "2026-03-23", status: "wait", img: "images/host-06.png" },
+    { name: "格拉斯莫", date: "2026-03-23", status: "wait", img: "images/host-07.png" },
+    { name: "法拉歐", date: "2026-03-23", status: "busy", img: "images/host-08.png" },
+    { name: "牛奶", date: "2026-03-23", status: "wait", img: "images/host-09.png" },
+    { name: "無盡寒夜", date: "2026-03-23", status: "off", img: "images/host-10.png" },
+    { name: "埃伊諾（Åyno）", date: "2026-03-23", status: "wait", img: "images/host-11.png" }
   ];
 
   const table = document.getElementById("scheduleTable");
-  const today = new Date().toISOString().slice(0,10);
+  const previewBox = document.getElementById("schedulePreview");
+  const previewImage = document.getElementById("previewImage");
+  const previewName = document.getElementById("previewName");
 
-  data.forEach(item => {
+  data.forEach((item, index) => {
     const div = document.createElement("div");
     div.classList.add("schedule-item");
-
-    if(item.date === today){
-      div.classList.add("today");
-    }
+    div.dataset.name = item.name;
+    div.dataset.img = item.img;
 
     let statusText = "";
     let statusClass = "";
 
-    if(item.status === "wait"){
+    if (item.status === "wait") {
       statusText = "空閒";
       statusClass = "status-wait";
     }
-    if(item.status === "busy"){
+    if (item.status === "busy") {
       statusText = "已預定";
       statusClass = "status-busy";
     }
-    if(item.status === "off"){
+    if (item.status === "off") {
       statusText = "請假";
       statusClass = "status-off";
     }
 
     div.innerHTML = `
-      <span>${item.name}</span>
+      <span class="schedule-name">${item.name}</span>
       <span>${item.date}</span>
       <span class="${statusClass}">${statusText}</span>
     `;
 
+    div.addEventListener("click", () => {
+      document.querySelectorAll(".schedule-item").forEach(el => {
+        el.classList.remove("active");
+      });
+
+      div.classList.add("active");
+
+      previewImage.src = item.img;
+      previewImage.alt = item.name;
+      previewName.textContent = item.name;
+
+      previewBox.classList.add("show");
+    });
+
     table.appendChild(div);
+
+    // 預設第一個選中
+    if (index === 0) {
+      div.classList.add("active");
+      previewImage.src = item.img;
+      previewImage.alt = item.name;
+      previewName.textContent = item.name;
+      previewBox.classList.add("show");
+    }
   });
-  </script>
+</script>
+  <script>
+  const scheduleItems = document.querySelectorAll(".schedule-item");
+  const previewBox = document.getElementById("schedulePreview");
+  const previewImage = document.getElementById("previewImage");
+  const previewName = document.getElementById("previewName");
+
+  scheduleItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      // 清掉所有 active
+      scheduleItems.forEach((el) => el.classList.remove("active"));
+
+      // 只讓目前點到的變色
+      item.classList.add("active");
+
+      // 更新右邊圖片與名字
+      const imgSrc = item.dataset.img;
+      const name = item.dataset.name;
+
+      previewImage.src = imgSrc;
+      previewImage.alt = name;
+      previewName.textContent = name;
+
+      // 圖片區加上顯示效果
+      previewBox.classList.add("show");
+    });
+  });
+
+  // 預設第一位為選中
+  if (scheduleItems.length > 0) {
+    scheduleItems[0].click();
+  }
+</script>
+  
 </body>
 </html>
