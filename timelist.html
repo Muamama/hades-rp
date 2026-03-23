@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>時間表 | 冥界</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <div class="top-line"></div>
+
+  <header class="site-header">
+    <nav class="main-nav">
+      <a href="index.html">主頁</a>
+      <a href="rates.html">指名費用</a>
+      <a class="active" href="timelist.html">時間表</a>
+      <a href="services.html">服務內容</a>
+      <a href="host.html">店員</a>
+      <a href="rules.html">規則條例</a>
+    </nav>
+  </header>
+
+  <main class="page inner-page">
+
+    <section class="page-title-block">
+      <h1 class="page-title">今夜名冊</h1>
+    </section>
+
+    <!-- 排班 -->
+    <section class="schedule-section">
+      <h2 class="schedule-title">時間表</h2>
+
+      <div class="schedule-table" id="scheduleTable">
+        <div class="schedule-head">
+          <span>店員</span>
+          <span>日期</span>
+          <span>狀態</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- POP -->
+  <div class="host-popup-overlay" id="hostPopupOverlay">
+    <div class="host-popup-card">
+      <button class="host-popup-close" id="hostPopupClose">✕</button>
+
+      <div class="host-popup-image-wrap">
+        <img id="hostPopupImage" src="" alt="">
+      </div>
+
+      <div class="host-popup-info">
+        <h3 id="hostPopupName"></h3>
+        <p id="hostPopupText"></p>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <a href="index.html">冥界</a>
+    <a href="#">THREADS</a>
+    <a href="#">DISCORD</a>
+  </footer>
+
+  <script>
+    const data = [
+      { name: "刻耳柏洛斯", date: "2026-03-23", status: "wait", img: "images/哥哥.jpg" },
+      { name: "龍冽", date: "2026-03-23", status: "busy", img: "images/host-01.png" },
+      { name: "安怛", date: "2026-03-23", status: "wait", img: "images/host-02.jpg" },
+      { name: "Jazper", date: "2026-03-23", status: "wait", img: "images/host-03.png" },
+      { name: "格斯亞德", date: "2026-03-23", status: "busy", img: "images/host-04.png" },
+      { name: "蛇魂", date: "2026-03-23", status: "wait", img: "images/host-05.png" },
+      { name: "餘燼", date: "2026-03-23", status: "wait", img: "images/host-06.png" },
+      { name: "格拉斯莫", date: "2026-03-23", status: "wait", img: "images/host-07.png" },
+      { name: "法拉歐", date: "2026-03-23", status: "busy", img: "images/host-08.png" },
+      { name: "牛奶", date: "2026-03-23", status: "wait", img: "images/host-09.png" },
+      { name: "無盡寒夜", date: "2026-03-23", status: "off", img: "images/host-10.png" },
+      { name: "埃伊諾（Åyno）", date: "2026-03-23", status: "wait", img: "images/host-11.png" }
+    ];
+
+    const table = document.getElementById("scheduleTable");
+    const overlay = document.getElementById("hostPopupOverlay");
+    const popupImage = document.getElementById("hostPopupImage");
+    const popupName = document.getElementById("hostPopupName");
+    const popupText = document.getElementById("hostPopupText");
+    const popupClose = document.getElementById("hostPopupClose");
+
+    function getStatus(status){
+      if(status === "wait") return ["空閒", "status-wait", "今夜有空，等待你的指名。"];
+      if(status === "busy") return ["已預定", "status-busy", "已被預約，暫不可用。"];
+      return ["請假", "status-off", "今夜不在場。"];
+    }
+
+    function openPopup(item, el){
+      document.querySelectorAll(".schedule-item").forEach(e => e.classList.remove("active"));
+      el.classList.add("active");
+
+      popupImage.src = item.img;
+      popupName.textContent = item.name;
+      popupText.textContent = getStatus(item.status)[2];
+
+      overlay.classList.add("show");
+      document.body.classList.add("popup-open");
+    }
+
+    function closePopup(){
+      overlay.classList.remove("show");
+      document.body.classList.remove("popup-open");
+      document.querySelectorAll(".schedule-item").forEach(e => e.classList.remove("active"));
+    }
+
+    data.forEach(item=>{
+      const div = document.createElement("div");
+      div.classList.add("schedule-item");
+
+      const status = getStatus(item.status);
+
+      div.innerHTML = `
+        <span class="schedule-name">${item.name}</span>
+        <span>${item.date}</span>
+        <span class="${status[1]}">${status[0]}</span>
+      `;
+
+      div.onclick = () => openPopup(item, div);
+
+      table.appendChild(div);
+    });
+
+    popupClose.onclick = closePopup;
+
+    overlay.onclick = (e)=>{
+      if(e.target === overlay){
+        closePopup();
+      }
+    };
+  </script>
+
+</body>
+</html>
