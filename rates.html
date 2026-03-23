@@ -194,5 +194,25 @@
       }
     });
   </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const gilImg = '<img src="images/Gil_Icon.png" class="gil-icon" alt="GIL">';
+
+  function replaceGil(node) {
+    if (node.nodeType === 3) {
+      // 文字節點
+      if (node.nodeValue.includes("GIL")) {
+        const span = document.createElement("span");
+        span.innerHTML = node.nodeValue.replace(/GIL/g, gilImg);
+        node.replaceWith(span);
+      }
+    } else {
+      node.childNodes.forEach(replaceGil);
+    }
+  }
+
+  replaceGil(document.body);
+});
+</script>
 </body>
 </html>
