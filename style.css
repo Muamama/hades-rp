@@ -1896,41 +1896,12 @@ body.popup-open {
   display: none !important;
 }
 
+/* ===== 通用金幣樣式：只負責數字+圖示，不碰整體版面 ===== */
 .gil-price {
   display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
   gap: 6px;
   white-space: nowrap;
-  width: 100%;
-}
-
-.rates-item > span:last-child,
-.reward-btn > span:last-child,
-.rates-head,
-.rates-item {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-}
-
-.rates-head,
-.rates-item {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-}
-
-.rates-head > span:first-child,
-.rates-item > span:first-child {
-  justify-self: start;
-}
-
-.rates-head > span:last-child,
-.reward-btn > span:last-child,
-.rates-item > span:last-child {
-  justify-self: end;
-  text-align: right;
 }
 
 .gil-icon {
@@ -1940,39 +1911,69 @@ body.popup-open {
   flex-shrink: 0;
 }
 
-.service-name {
+/* ===== Services 頁專用 ===== */
+.services-page .service-name {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 18px;
 }
 
-.service-price-block {
+.services-page .service-price-block {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 6px;
 }
 
-.service-price-note {
+.services-page .service-price-note {
   font-size: 0.95rem;
   color: #d8c7a2;
   letter-spacing: 0.5px;
 }
 
-/* ===== 公開頁金幣特效 ===== */
-.service-gil-icon {
+.services-page .service-gil-icon {
   filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.42));
   animation: serviceGilFloat 2.4s ease-in-out infinite;
   transform-origin: center;
 }
 
-.service-row:hover .service-gil-icon {
+.services-page .service-row:hover .service-gil-icon {
   filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.72));
 }
 
-.service-row:hover .gil-price {
+.services-page .service-row:hover .gil-price {
   text-shadow: 0 0 8px rgba(212, 175, 55, 0.18);
+}
+
+/* ===== Rates 頁專用 ===== */
+.rates-page .rates-item .gil-price,
+.rates-page .reward-btn .gil-price {
+  justify-content: flex-end;
+}
+
+.rates-page .gil-icon {
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.45));
+  animation: serviceGilFloat 2.3s ease-in-out infinite;
+}
+
+.rates-page .rates-item:hover .gil-icon,
+.rates-page .reward-btn:hover .gil-icon {
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.8));
+}
+
+.rates-page .reward-popup-amount {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 6px;
+}
+
+.rates-page .reward-popup-amount img {
+  width: 20px;
+  height: 20px;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.6));
+  animation: serviceGilFloat 2.3s ease-in-out infinite;
 }
 
 @keyframes serviceGilFloat {
@@ -1984,14 +1985,13 @@ body.popup-open {
   }
 }
 
-/* 手機版 */
 @media (max-width: 700px) {
-  .service-name {
+  .services-page .service-name {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .service-price-block {
+  .services-page .service-price-block {
     align-items: flex-start;
   }
 }
