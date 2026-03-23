@@ -12,6 +12,18 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 
+<script>
+  const siteHeader = document.querySelector('.site-header');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      siteHeader.classList.add('scrolled');
+    } else {
+      siteHeader.classList.remove('scrolled');
+    }
+  });
+</script>
+  
 <body>
 
   <div class="top-line"></div>
