@@ -1927,6 +1927,7 @@ body.popup-open {
 }
 
 .rates-head > span:last-child,
+.reward-btn > span:last-child,
 .rates-item > span:last-child {
   justify-self: end;
   text-align: right;
