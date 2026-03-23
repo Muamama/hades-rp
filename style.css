@@ -1895,11 +1895,41 @@ body.popup-open {
 .hidden-admin {
   display: none !important;
 }
+
 .gil-price {
   display: inline-flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 6px;
   white-space: nowrap;
+  width: 100%;
+}
+
+.rates-item > span:last-child,
+.reward-btn > span:last-child,
+.rates-head,
+.rates-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.rates-head,
+.rates-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+
+.rates-head > span:first-child,
+.rates-item > span:first-child {
+  justify-self: start;
+}
+
+.rates-head > span:last-child,
+.rates-item > span:last-child {
+  justify-self: end;
+  text-align: right;
 }
 
 .gil-icon {
