@@ -1143,11 +1143,3 @@ a {
     text-align: center;
   }
 }
-
-@media (max-width: 600px) {
-  .host-card img,
-  .special-card img {
-    filter: none !important;
-    transform: none !important;
-  }
-}
