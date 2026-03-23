@@ -25,6 +25,24 @@ html, body {
   flex-direction: column;
 }
 
+body,
+button,
+input,
+textarea,
+select,
+a,
+p,
+span,
+li,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Noto Serif TC", serif;
+}
 img {
   max-width: 100%;
   display: block;
