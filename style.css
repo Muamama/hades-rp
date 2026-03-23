@@ -358,15 +358,18 @@ a {
   border: 2px solid var(--gold-soft);
   background: #d6d6d6;
 
-  filter: grayscale(100%);
+  /* 預設壓抑感（黑白+微暗） */
+  filter: grayscale(100%) brightness(0.85);
   transition: all 0.4s ease;
 }
 
+/* 滑過喚醒（彩色+微放大） */
 .host-card:hover img {
-  filter: grayscale(0%);
+  filter: grayscale(0%) brightness(1.05);
   transform: scale(1.03);
+  box-shadow: 0 0 12px rgba(212,175,55,0.25),
+              0 0 20px rgba(120,0,0,0.25);
 }
-
 /* ===== 困獸狂犬（瘋狂升級版） ===== */
 .special-group {
   margin-bottom: 120px;
