@@ -73,7 +73,7 @@ a {
 }
 
 .main-nav a {
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: 0.9rem;
   letter-spacing: 1.5px;
   color: var(--gold);
@@ -137,7 +137,7 @@ a {
 
 .brand-mark {
   margin: 0;
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   font-weight: 600;
   font-size: clamp(2.8rem, 6vw, 5.6rem);
   letter-spacing: 2px;
@@ -146,7 +146,7 @@ a {
 
 .brand-submark {
   margin: 8px 0 0;
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: 0.95rem;
   letter-spacing: 4px;
   color: #6c6c6c;
@@ -164,7 +164,7 @@ a {
   border-left: 6px solid #e8dfd1;
   padding: 18px 30px;
   color: var(--gold);
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: clamp(1rem, 2vw, 1.65rem);
   letter-spacing: 1.4px;
   text-align: center;
@@ -208,7 +208,7 @@ a {
   margin: 28px auto 0;
   text-align: center;
   color: var(--gold);
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: 0.95rem;
   letter-spacing: 1px;
 }
@@ -220,7 +220,7 @@ a {
 
 .page-title {
   margin: 0;
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: clamp(2.8rem, 5vw, 5rem);
   font-weight: 600;
   color: var(--gold);
@@ -247,7 +247,7 @@ a {
 
 .rates-label h2 {
   margin: 0;
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: 2.2rem;
   color: var(--gold);
   line-height: 1;
@@ -255,7 +255,7 @@ a {
 
 .rates-label p {
   margin: 4px 0 0;
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: 1.2rem;
   color: var(--gold);
   line-height: 1.1;
@@ -283,7 +283,7 @@ a {
 
 .rates-head {
   color: #fff4e6;
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   letter-spacing: 1px;
   border-bottom: 1px solid var(--gold-soft);
 }
@@ -318,7 +318,7 @@ a {
 
 .service-name h2 {
   margin: 0 0 8px;
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: 2rem;
   color: var(--gold);
   line-height: 1.05;
@@ -685,7 +685,7 @@ a {
   position: relative;
   z-index: 1;
   margin: 0;
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   font-size: clamp(4rem, 10vw, 7.5rem);
   line-height: 0.95;
   color: #d4af37;
@@ -749,7 +749,7 @@ a {
   margin-top: 48px;
   text-align: center;
   color: #b88745;
-  font-family: "Cinzel", serif;
+  font-family: "Noto Serif TC", serif;
   letter-spacing: 3px;
   line-height: 2;
   font-size: 1rem;
