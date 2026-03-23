@@ -1895,23 +1895,6 @@ body.popup-open {
 .hidden-admin {
   display: none !important;
 }
-
-.gil-price {
-  display: inline-flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
-  white-space: nowrap;
-}
-
-.gil-icon {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  flex-shrink: 0;
-  vertical-align: middle;
-}
-
 .gil-price {
   display: inline-flex;
   align-items: center;
@@ -1924,12 +1907,60 @@ body.popup-open {
   height: 18px;
   object-fit: contain;
   flex-shrink: 0;
-  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.4));
 }
 
 .service-name {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
+}
+
+.service-price-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.service-price-note {
+  font-size: 0.95rem;
+  color: #d8c7a2;
+  letter-spacing: 0.5px;
+}
+
+/* ===== 公開頁金幣特效 ===== */
+.service-gil-icon {
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.42));
+  animation: serviceGilFloat 2.4s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.service-row:hover .service-gil-icon {
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.72));
+}
+
+.service-row:hover .gil-price {
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.18);
+}
+
+@keyframes serviceGilFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+/* 手機版 */
+@media (max-width: 700px) {
+  .service-name {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .service-price-block {
+    align-items: flex-start;
+  }
 }
