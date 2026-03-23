@@ -264,7 +264,6 @@
     const hostPopupImage = document.getElementById("hostPopupImage");
     const hostPopupName = document.getElementById("hostPopupName");
     const hostPopupDesc = document.getElementById("hostPopupDesc");
-    const hostAdminPanel = document.getElementById("hostAdminPanel");
     const tipMessage = document.getElementById("tipMessage");
     const customAmountInput = document.getElementById("customAmountInput");
     const customTipBtn = document.getElementById("customTipBtn");
@@ -280,6 +279,16 @@
       return name;
     }
 
+    function updateAdminVisibility() {
+      if (currentUser) {
+        adminInlineSection.classList.remove("hidden-admin");
+        hostAdminPanel.classList.remove("hidden-admin");
+      } else {
+        adminInlineSection.classList.add("hidden-admin");
+        hostAdminPanel.classList.add("hidden-admin");
+      }
+    }
+    
     function openHostPopup(card) {
       currentHost = {
         name: normalizeHostName(card.dataset.hostName),
@@ -309,6 +318,8 @@
     }
 
     function updateAdminPanelState() {
+      updateAdminVisibility();
+    
       if (currentUser) {
         hostAdminPanel.classList.remove("locked");
         tipMessage.textContent = `已登入管理員，可替 ${currentHost?.name || "目前店員"} 增加打賞。`;
@@ -317,28 +328,30 @@
         tipMessage.textContent = "尚未登入管理員，無法送出打賞。";
       }
     }
-
+    
     async function checkSession() {
       const { data, error } = await supabase.auth.getSession();
-
+    
       if (error) {
         authMessage.textContent = "登入狀態檢查失敗。";
         console.error(error);
+        currentUser = null;
+        updateAdminPanelState();
         return null;
       }
-
+    
       currentUser = data.session?.user || null;
-
+    
       if (currentUser) {
         authMessage.textContent = `已登入：${currentUser.email}`;
       } else {
-        authMessage.textContent = "未登入。登入後可直接在店員卡片上打賞。";
+        authMessage.textContent = "未登入。";
       }
-
+    
       updateAdminPanelState();
       return currentUser;
     }
-
+    
     loginBtn.addEventListener("click", async () => {
       const email = adminEmail.value.trim();
       const password = adminPassword.value;
