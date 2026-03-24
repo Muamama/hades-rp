@@ -2337,8 +2337,23 @@ body {
   }
 }
 
-.popup-card {
+:root {
+  --footer-h: 72px;
+}
+
+/* 主內容區多留一點空間，避免展開卡片被 footer 遮住 */
+main,
+.content,
+.page-content {
+  padding-bottom: calc(var(--footer-h) + 32px);
+}
+
+/* 展開的 popup / 卡片層級拉高 */
+.popup-card,
+.expanded-card,
+.host-popup,
+.service-popup {
   position: relative;
-  z-index: 10000;
+  z-index: 100;
   margin-bottom: calc(var(--footer-h) + 20px);
 }
