@@ -11,7 +11,192 @@
 
   <link rel="stylesheet" href="style.css" />
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://jzhbqavasikwpxbqjksu.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_KFcwagT3Ho1ivjPv3Oq9zw_FNIaBVpX";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    let scheduleChannel = null;
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const siteHeader = document.querySelector(".site-header");
+      const table = document.getElementById("scheduleTable");
+      const overlay = document.getElementById("hostPopupOverlay");
+      const popupImage = document.getElementById("hostPopupImage");
+      const popupName = document.getElementById("hostPopupName");
+      const popupText = document.getElementById("hostPopupText");
+      const popupClose = document.getElementById("hostPopupClose");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 20) {
+          siteHeader.classList.add("scrolled");
+        } else {
+          siteHeader.classList.remove("scrolled");
+        }
+      });
+
+      function getStatus(status) {
+        if (status === "wait") return ["空閒", "status-wait", "今夜有空，等待你的指名。"];
+        if (status === "busy") return ["已預定", "status-busy", "已被預約，暫不可用。"];
+        return ["請假", "status-off", "今夜不在場。"];
+      }
+
+      function clearScheduleRows() {
+        table.querySelectorAll(".schedule-item, .schedule-empty, .schedule-loading, .schedule-error").forEach(el => el.remove());
+      }
+
+      function openPopup(item, el) {
+        document.querySelectorAll(".schedule-item").forEach(e => e.classList.remove("active"));
+        if (el) el.classList.add("active");
+
+        popupImage.src = item.img || "";
+        popupImage.alt = item.name || "";
+        popupName.textContent = item.name || "";
+        popupText.textContent = getStatus(item.status)[2];
+
+        overlay.classList.add("show");
+        document.body.classList.add("popup-open");
+      }
+
+      function closePopup() {
+        overlay.classList.remove("show");
+        document.body.classList.remove("popup-open");
+        document.querySelectorAll(".schedule-item").forEach(e => e.classList.remove("active"));
+      }
+
+      function renderLoading() {
+        clearScheduleRows();
+
+        const loading = document.createElement("div");
+        loading.className = "schedule-loading";
+        loading.innerHTML = `
+          <span class="schedule-name">讀取中</span>
+          <span>...</span>
+          <span class="status-wait">請稍候</span>
+        `;
+        table.appendChild(loading);
+      }
+
+      function renderError(message = "請稍後再試") {
+        clearScheduleRows();
+
+        const fail = document.createElement("div");
+        fail.className = "schedule-error";
+        fail.innerHTML = `
+          <span class="schedule-name">讀取失敗</span>
+          <span>--</span>
+          <span class="status-off">${message}</span>
+        `;
+        table.appendChild(fail);
+      }
+
+      function renderEmpty() {
+        clearScheduleRows();
+
+        const empty = document.createElement("div");
+        empty.className = "schedule-empty";
+        empty.innerHTML = `
+          <span class="schedule-name">目前無排班資料</span>
+          <span>--</span>
+          <span class="status-off">未開放</span>
+        `;
+        table.appendChild(empty);
+      }
+
+      function renderSchedule(data) {
+        clearScheduleRows();
+
+        if (!data || data.length === 0) {
+          renderEmpty();
+          return;
+        }
+
+        data.forEach(item => {
+          const div = document.createElement("div");
+          div.classList.add("schedule-item");
+
+          const status = getStatus(item.status);
+
+          div.innerHTML = `
+            <span class="schedule-name">${item.name || ""}</span>
+            <span>${item.date || ""}</span>
+            <span class="${status[1]}">${status[0]}</span>
+          `;
+
+          div.onclick = () => openPopup(item, div);
+
+          table.appendChild(div);
+        });
+      }
+
+      async function loadSchedule() {
+        renderLoading();
+
+        const { data, error } = await supabase
+          .from("schedule_list")
+          .select("*")
+          .order("sort_order", { ascending: true })
+          .order("id", { ascending: true });
+
+        if (error) {
+          console.error("讀取時間表失敗：", error);
+          renderError("請稍後再試");
+          return;
+        }
+
+        renderSchedule(data || []);
+      }
+
+      function setupRealtime() {
+        if (scheduleChannel) {
+          supabase.removeChannel(scheduleChannel);
+        }
+
+        scheduleChannel = supabase
+          .channel("schedule_list_realtime")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "schedule_list"
+            },
+            async () => {
+              await loadSchedule();
+            }
+          )
+          .subscribe((status) => {
+            console.log("schedule_list realtime status:", status);
+          });
+      }
+
+      popupClose.onclick = closePopup;
+
+      overlay.onclick = (e) => {
+        if (e.target === overlay) {
+          closePopup();
+        }
+      };
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closePopup();
+        }
+      });
+
+      loadSchedule();
+      setupRealtime();
+
+      window.addEventListener("beforeunload", () => {
+        if (scheduleChannel) {
+          supabase.removeChannel(scheduleChannel);
+        }
+      });
+    });
+  </script>
 </head>
 
 <body>
@@ -27,6 +212,7 @@
       <a href="leaderboard.html">排行榜</a>
       <a href="host.html">店員</a>
       <a href="rules.html">規則條例</a>
+      <a href="admin.html">管理後台</a>
     </nav>
   </header>
 
@@ -72,164 +258,6 @@
     <a href="#">THREADS</a>
     <a href="#">DISCORD</a>
   </footer>
-
-  <script>
-    /* =========================
-       Supabase 設定
-       請改成你自己的
-    ========================= */
-    const SUPABASE_URL = "https://jzhbqavasikwpxbqjksu.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_KFcwagT3Ho1ivjPv3Oq9zw_FNIaBVpX";
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    /* =========================
-       Header Scroll
-    ========================= */
-    const siteHeader = document.querySelector('.site-header');
-
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 20) {
-        siteHeader.classList.add('scrolled');
-      } else {
-        siteHeader.classList.remove('scrolled');
-      }
-    });
-
-    /* =========================
-       DOM
-    ========================= */
-    const table = document.getElementById("scheduleTable");
-    const overlay = document.getElementById("hostPopupOverlay");
-    const popupImage = document.getElementById("hostPopupImage");
-    const popupName = document.getElementById("hostPopupName");
-    const popupText = document.getElementById("hostPopupText");
-    const popupClose = document.getElementById("hostPopupClose");
-
-    /* =========================
-       狀態對應
-    ========================= */
-    function getStatus(status) {
-      if (status === "wait") return ["空閒", "status-wait", "今夜有空，等待你的指名。"];
-      if (status === "busy") return ["已預定", "status-busy", "已被預約，暫不可用。"];
-      return ["請假", "status-off", "今夜不在場。"];
-    }
-
-    /* =========================
-       Popup
-    ========================= */
-    function openPopup(item, el) {
-      document.querySelectorAll(".schedule-item").forEach(e => e.classList.remove("active"));
-      el.classList.add("active");
-
-      popupImage.src = item.img || "";
-      popupImage.alt = item.name || "";
-      popupName.textContent = item.name || "";
-      popupText.textContent = getStatus(item.status)[2];
-
-      overlay.classList.add("show");
-      document.body.classList.add("popup-open");
-    }
-
-    function closePopup() {
-      overlay.classList.remove("show");
-      document.body.classList.remove("popup-open");
-      document.querySelectorAll(".schedule-item").forEach(e => e.classList.remove("active"));
-    }
-
-    /* =========================
-       清空舊資料列
-    ========================= */
-    function clearScheduleItems() {
-      document.querySelectorAll(".schedule-item").forEach(item => item.remove());
-    }
-
-    /* =========================
-       渲染排班
-    ========================= */
-    function renderSchedule(data) {
-      clearScheduleItems();
-
-      if (!data || data.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "schedule-item";
-        empty.innerHTML = `
-          <span class="schedule-name">目前無排班資料</span>
-          <span>--</span>
-          <span class="status-off">未開放</span>
-        `;
-        table.appendChild(empty);
-        return;
-      }
-
-      data.forEach(item => {
-        const div = document.createElement("div");
-        div.classList.add("schedule-item");
-
-        const status = getStatus(item.status);
-
-        div.innerHTML = `
-          <span class="schedule-name">${item.name || ""}</span>
-          <span>${item.date || ""}</span>
-          <span class="${status[1]}">${status[0]}</span>
-        `;
-
-        div.onclick = () => openPopup(item, div);
-
-        table.appendChild(div);
-      });
-    }
-
-    /* =========================
-       讀取 Supabase
-    ========================= */
-    async function loadSchedule() {
-      const { data, error } = await supabaseClient
-        .from("schedule_list")
-        .select("*")
-        .order("sort_order", { ascending: true })
-        .order("id", { ascending: true });
-
-      if (error) {
-        console.error("讀取時間表失敗：", error);
-
-        clearScheduleItems();
-
-        const fail = document.createElement("div");
-        fail.className = "schedule-item";
-        fail.innerHTML = `
-          <span class="schedule-name">讀取失敗</span>
-          <span>--</span>
-          <span class="status-off">請稍後再試</span>
-        `;
-        table.appendChild(fail);
-        return;
-      }
-
-      renderSchedule(data || []);
-    }
-
-    /* =========================
-       事件
-    ========================= */
-    popupClose.onclick = closePopup;
-
-    overlay.onclick = (e) => {
-      if (e.target === overlay) {
-        closePopup();
-      }
-    };
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        closePopup();
-      }
-    });
-
-    /* =========================
-       初始化
-    ========================= */
-    loadSchedule();
-  </script>
 
 </body>
 </html>
