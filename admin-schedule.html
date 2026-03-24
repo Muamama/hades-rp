@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>排班管理 | 冥界</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg: #080606;
+      --panel: rgba(25, 18, 18, 0.88);
+      --panel-2: rgba(18, 12, 12, 0.88);
+      --gold: #d8b36a;
+      --gold-soft: rgba(216, 179, 106, 0.38);
+      --gold-deep: #8b6a2f;
+      --text: #f8f1df;
+      --muted: #c6b89b;
+      --danger: #7e2727;
+      --danger-hover: #a33636;
+      --ok: #876228;
+      --ok-hover: #a77a32;
+      --line: rgba(216, 179, 106, 0.18);
+      --input-bg: rgba(255, 255, 255, 0.04);
+      --shadow: 0 0 30px rgba(216, 179, 106, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at top, rgba(216,179,106,0.08), transparent 30%),
+        linear-gradient(180deg, #090606 0%, #120b0b 100%);
+      color: var(--text);
+      font-family: "Noto Serif TC", serif;
+      min-height: 100%;
+    }
+
+    body {
+      padding: 32px 18px 60px;
+    }
+
+    .admin-wrap {
+      width: min(1280px, 100%);
+      margin: 0 auto;
+    }
+
+    .admin-header {
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .admin-header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      text-shadow: 0 0 18px rgba(216, 179, 106, 0.2);
+    }
+
+    .admin-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      letter-spacing: 0.06em;
+    }
+
+    .admin-panel {
+      background: var(--panel);
+      border: 1px solid var(--gold-soft);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      margin-bottom: 24px;
+    }
+
+    .admin-panel h2 {
+      margin: 0 0 18px;
+      color: var(--gold);
+      font-size: 1.3rem;
+      letter-spacing: 0.08em;
+    }
+
+    .create-grid,
+    .row-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1.05fr 0.95fr 1.7fr 0.7fr auto auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .row-grid {
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .row-grid:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .list-head {
+      display: grid;
+      grid-template-columns: 1.4fr 1.05fr 0.95fr 1.7fr 0.7fr auto auto;
+      gap: 12px;
+      align-items: center;
+      color: var(--gold);
+      font-size: 0.92rem;
+      letter-spacing: 0.08em;
+      padding-bottom: 14px;
+      margin-bottom: 2px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      border: 1px solid var(--gold-soft);
+      background: var(--input-bg);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      font-family: "Noto Serif TC", serif;
+      outline: none;
+      transition: 0.25s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: rgba(216, 179, 106, 0.8);
+      box-shadow: 0 0 0 3px rgba(216, 179, 106, 0.08);
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-add,
+    .btn-save,
+    .btn-refresh {
+      background: linear-gradient(180deg, var(--ok) 0%, #6f4f1d 100%);
+      color: #fff5df;
+    }
+
+    .btn-add:hover,
+    .btn-save:hover,
+    .btn-refresh:hover {
+      background: linear-gradient(180deg, var(--ok-hover) 0%, #805b20 100%);
+      box-shadow: 0 0 18px rgba(216, 179, 106, 0.18);
+    }
+
+    .btn-delete {
+      background: linear-gradient(180deg, var(--danger) 0%, #5f1d1d 100%);
+      color: #fff0f0;
+    }
+
+    .btn-delete:hover {
+      background: linear-gradient(180deg, var(--danger-hover) 0%, #7d2222 100%);
+      box-shadow: 0 0 18px rgba(163, 54, 54, 0.18);
+    }
+
+    .top-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 14px;
+    }
+
+    .top-actions button {
+      width: auto;
+      min-width: 132px;
+    }
+
+    .status-text {
+      margin-top: 16px;
+      min-height: 24px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+    }
+
+    .empty-box {
+      padding: 22px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--gold-soft);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .admin-foot-note {
+      margin-top: 18px;
+      color: #b7a98d;
+      font-size: 0.9rem;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 1120px) {
+      .create-grid,
+      .row-grid,
+      .list-head {
+        grid-template-columns: 1fr;
+      }
+
+      .list-head {
+        display: none;
+      }
+
+      .row-grid {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+        margin-bottom: 14px;
+        background: var(--panel-2);
+      }
+
+      .row-grid:first-child {
+        padding-top: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-wrap">
+
+    <div class="admin-header">
+      <h1>排班管理</h1>
+      <p>今夜名冊 / Schedule Admin</p>
+    </div>
+
+    <section class="admin-panel">
+      <div class="top-actions">
+        <button type="button" class="btn-refresh" onclick="loadSchedule()">重新讀取</button>
+      </div>
+
+      <h2>新增排班</h2>
+
+      <div class="create-grid">
+        <input type="text" id="newName" placeholder="店員名稱">
+        <input type="date" id="newDate">
+        <select id="newStatus">
+          <option value="wait">空閒</option>
+          <option value="busy">已預定</option>
+          <option value="off">請假</option>
+        </select>
+        <input type="text" id="newImg" placeholder="圖片路徑，例如 images/host-01.png">
+        <input type="number" id="newSort" placeholder="排序">
+        <button type="button" class="btn-add" onclick="addSchedule()">新增</button>
+        <div></div>
+      </div>
+
+      <div class="status-text" id="createStatus"></div>
+    </section>
+
+    <section class="admin-panel">
+      <h2>現有排班</h2>
+
+      <div class="list-head">
+        <div>店員</div>
+        <div>日期</div>
+        <div>狀態</div>
+        <div>圖片路徑</div>
+        <div>排序</div>
+        <div>儲存</div>
+        <div>刪除</div>
+      </div>
+
+      <div id="scheduleList"></div>
+
+      <div class="admin-foot-note">
+        狀態只使用三種值：wait / busy / off。<br>
+        前台 timelist.html 會依照 sort_order 由小到大顯示。
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    /* =========================
+       Supabase 設定
+       請改成你自己的
+    ========================= */
+    const SUPABASE_URL = "https://jzhbqavasikwpxbqjksu.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_KFcwagT3Ho1ivjPv3Oq9zw_FNIaBVpX";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    /* =========================
+       DOM
+    ========================= */
+    const scheduleList = document.getElementById("scheduleList");
+    const createStatus = document.getElementById("createStatus");
+
+    /* =========================
+       文字訊息
+    ========================= */
+    function setCreateStatus(text, isError = false) {
+      createStatus.textContent = text;
+      createStatus.style.color = isError ? "#f0b2b2" : "#cbb78a";
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    /* =========================
+       Row Template
+    ========================= */
+    function rowTemplate(item) {
+      return `
+        <div class="row-grid" data-id="${item.id}">
+          <input type="text" class="edit-name" value="${escapeHtml(item.name || "")}" placeholder="店員名稱">
+          <input type="date" class="edit-date" value="${escapeHtml(item.date || "")}">
+          <select class="edit-status">
+            <option value="wait" ${item.status === "wait" ? "selected" : ""}>空閒</option>
+            <option value="busy" ${item.status === "busy" ? "selected" : ""}>已預定</option>
+            <option value="off" ${item.status === "off" ? "selected" : ""}>請假</option>
+          </select>
+          <input type="text" class="edit-img" value="${escapeHtml(item.img || "")}" placeholder="圖片路徑">
+          <input type="number" class="edit-sort" value="${item.sort_order ?? 0}" placeholder="排序">
+          <button type="button" class="btn-save" onclick="updateSchedule(${item.id}, this)">儲存</button>
+          <button type="button" class="btn-delete" onclick="deleteSchedule(${item.id})">刪除</button>
+        </div>
+      `;
+    }
+
+    /* =========================
+       載入全部資料
+    ========================= */
+    async function loadSchedule() {
+      scheduleList.innerHTML = `<div class="empty-box">讀取中...</div>`;
+
+      const { data, error } = await supabaseClient
+        .from("schedule_list")
+        .select("*")
+        .order("sort_order", { ascending: true })
+        .order("id", { ascending: true });
+
+      if (error) {
+        console.error("讀取排班失敗：", error);
+        scheduleList.innerHTML = `<div class="empty-box">讀取失敗，請檢查 Supabase 設定或 RLS 權限。</div>`;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        scheduleList.innerHTML = `<div class="empty-box">目前沒有排班資料。</div>`;
+        return;
+      }
+
+      scheduleList.innerHTML = data.map(rowTemplate).join("");
+    }
+
+    /* =========================
+       新增排班
+    ========================= */
+    async function addSchedule() {
+      const name = document.getElementById("newName").value.trim();
+      const date = document.getElementById("newDate").value;
+      const status = document.getElementById("newStatus").value;
+      const img = document.getElementById("newImg").value.trim();
+      const sort_order = Number(document.getElementById("newSort").value || 0);
+
+      if (!name) {
+        setCreateStatus("請填寫店員名稱。", true);
+        return;
+      }
+
+      if (!date) {
+        setCreateStatus("請填寫日期。", true);
+        return;
+      }
+
+      const { error } = await supabaseClient
+        .from("schedule_list")
+        .insert([
+          {
+            name,
+            date,
+            status,
+            img,
+            sort_order
+          }
+        ]);
+
+      if (error) {
+        console.error("新增排班失敗：", error);
+        setCreateStatus("新增失敗，請檢查 RLS 或欄位設定。", true);
+        return;
+      }
+
+      document.getElementById("newName").value = "";
+      document.getElementById("newDate").value = "";
+      document.getElementById("newStatus").value = "wait";
+      document.getElementById("newImg").value = "";
+      document.getElementById("newSort").value = "";
+
+      setCreateStatus("新增成功。");
+      loadSchedule();
+    }
+
+    /* =========================
+       更新排班
+    ========================= */
+    async function updateSchedule(id, btn) {
+      const row = btn.closest(".row-grid");
+      const name = row.querySelector(".edit-name").value.trim();
+      const date = row.querySelector(".edit-date").value;
+      const status = row.querySelector(".edit-status").value;
+      const img = row.querySelector(".edit-img").value.trim();
+      const sort_order = Number(row.querySelector(".edit-sort").value || 0);
+
+      if (!name) {
+        alert("店員名稱不能空白");
+        return;
+      }
+
+      if (!date) {
+        alert("日期不能空白");
+        return;
+      }
+
+      const { error } = await supabaseClient
+        .from("schedule_list")
+        .update({
+          name,
+          date,
+          status,
+          img,
+          sort_order
+        })
+        .eq("id", id);
+
+      if (error) {
+        console.error("更新失敗：", error);
+        alert("更新失敗，請檢查權限或資料表設定。");
+        return;
+      }
+
+      alert("已更新");
+      loadSchedule();
+    }
+
+    /* =========================
+       刪除排班
+    ========================= */
+    async function deleteSchedule(id) {
+      const ok = confirm("確定要刪除這筆排班嗎？");
+      if (!ok) return;
+
+      const { error } = await supabaseClient
+        .from("schedule_list")
+        .delete()
+        .eq("id", id);
+
+      if (error) {
+        console.error("刪除失敗：", error);
+        alert("刪除失敗，請檢查權限設定。");
+        return;
+      }
+
+      loadSchedule();
+    }
+
+    /* =========================
+       初始化
+    ========================= */
+    loadSchedule();
+  </script>
+
+</body>
+</html>
