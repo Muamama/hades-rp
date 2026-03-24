@@ -83,13 +83,43 @@
       transition: 0.25s ease;
     }
 
-    .admin-input:focus,
-    .admin-select:focus,
-    .schedule-row input:focus,
-    .schedule-row select:focus {
-      border-color: rgba(212, 175, 55, 0.62);
-      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+    /* admin 狀態下拉選單：黑底黃字 */
+    .admin-select,
+    .schedule-row select,
+    select.row-status,
+    select#newScheduleStatus {
+      background: #0b0b0b !important;
+      color: #f1d38b !important;
+      border: 1px solid rgba(212, 175, 55, 0.35) !important;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
     }
+    
+    /* 下拉展開選項 */
+    .admin-select option,
+    .schedule-row select option,
+    select.row-status option,
+    select#newScheduleStatus option {
+      background: #0b0b0b !important;
+      color: #f1d38b !important;
+    }
+    
+    /* 被選中的 option */
+    .admin-select option:checked,
+    .schedule-row select option:checked,
+    select.row-status option:checked,
+    select#newScheduleStatus option:checked {
+      background: #1a1a1a !important;
+      color: #ffd978 !important;
+    }
+      .admin-input:focus,
+      .admin-select:focus,
+      .schedule-row input:focus,
+      .schedule-row select:focus {
+        border-color: rgba(212, 175, 55, 0.62);
+        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+      }
 
     .admin-actions {
       display: flex;
