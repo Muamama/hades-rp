@@ -307,12 +307,18 @@ a {
   font-style: italic;
 }
 
-.host-group {
+
+
+.rules-list-wrap {
+  max-width: 820px;.host-group {
   margin-bottom: 100px;
   padding: 50px 0;
   position: relative;
 
-  /* 微紅光背景（比困獸狂犬弱） */
+.host-group {
+  margin-bottom: 100px;
+  padding: 50px 0;
+  position: relative;
   background: radial-gradient(circle at center, rgba(120,0,0,0.08), transparent 70%);
 }
 
@@ -342,20 +348,36 @@ a {
   object-fit: cover;
   border: 2px solid var(--gold-soft);
   background: #d6d6d6;
-
-  /* 預設壓抑感（黑白+微暗） */
+  display: block;
   filter: grayscale(100%) brightness(0.85);
   transition: all 0.4s ease;
 }
 
-/* 滑過喚醒（彩色+微放大） */
 .host-card:hover img {
   filter: grayscale(0%) brightness(1.05);
   transform: scale(1.03);
   box-shadow: 0 0 12px rgba(212,175,55,0.25),
               0 0 20px rgba(120,0,0,0.25);
 }
-/* ===== 困獸狂犬（瘋狂升級版） ===== */
+
+.host-card h3 {
+  margin: 12px 0 6px;
+  font-size: 1.1rem;
+  color: #fff0d6;
+  font-weight: 600;
+  text-align: center;
+}
+
+.host-card p {
+  max-width: 90%;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.65;
+  text-align: center;
+}
+
+/* ===== 困獸狂犬（哥哥弟弟專區） ===== */
 .special-group {
   margin-bottom: 120px;
   padding: 60px 0 50px;
@@ -366,7 +388,6 @@ a {
     radial-gradient(circle at top, rgba(120, 0, 0, 0.12), transparent 45%);
 }
 
-/* 整區暗紅霧氣 */
 .special-group::before {
   content: "";
   position: absolute;
@@ -375,7 +396,6 @@ a {
   pointer-events: none;
 }
 
-/* 標題（更像主視覺） */
 .special-group .host-group-title {
   font-size: 48px;
   letter-spacing: 12px;
@@ -389,7 +409,6 @@ a {
     0 0 24px rgba(120, 0, 0, 0.2);
 }
 
-/* 上下裝飾線 */
 .special-group .host-group-title::before,
 .special-group .host-group-title::after {
   content: "";
@@ -409,26 +428,28 @@ a {
   bottom: -18px;
 }
 
-/* 哥哥弟弟一排置中 */
 .special-grid {
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   gap: 90px;
   flex-wrap: wrap;
   position: relative;
   z-index: 1;
 }
 
-/* 主角卡片 */
 .special-card {
   width: 380px;
   position: relative;
   overflow: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   transition: transform 0.45s ease, box-shadow 0.45s ease, filter 0.45s ease;
   filter: brightness(0.96);
 }
 
-/* 卡片外圍壓迫紅暈 */
 .special-card::before {
   content: "";
   position: absolute;
@@ -440,12 +461,12 @@ a {
   z-index: 0;
 }
 
-/* 卡片圖片 */
 .special-card img {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
   border: 2px solid #d4af37;
+  display: block;
   box-shadow:
     0 0 0 rgba(0,0,0,0),
     0 0 30px rgba(0, 0, 0, 0.45);
@@ -454,7 +475,6 @@ a {
   z-index: 1;
 }
 
-/* 滑過時：更像野獸撲出來 */
 .special-card:hover {
   transform: translateY(-8px) scale(1.045);
   box-shadow: 0 0 35px rgba(120, 0, 0, 0.28);
@@ -473,39 +493,51 @@ a {
     0 0 40px rgba(120, 0, 0, 0.28);
 }
 
-/* 哥哥弟弟名字更有氣場 */
 .special-card h3 {
+  width: 100%;
+  margin: 18px auto 12px;
   font-size: 32px;
   letter-spacing: 2px;
-  margin-top: 18px;
-  margin-bottom: 12px;
   color: #f0dca8;
-  text-shadow: 0 0 12px rgba(120, 0, 0, 0.2);
+  font-weight: 700;
+  text-align: center;
+  text-shadow:
+    0 0 12px rgba(120, 0, 0, 0.2),
+    0 0 20px rgba(212, 175, 55, 0.08);
+  position: relative;
+  z-index: 1;
 }
 
-/* 語錄更像低語 */
 .special-card p {
+  width: 100%;
   max-width: 90%;
   margin: 0 auto;
   font-size: 16px;
   line-height: 1.9;
   color: #d8c7a2;
   text-align: center;
-}
-.host-card h3 {
-  margin: 12px 0 6px;
-  font-size: 1.1rem;
-  color: #fff0d6;
-  font-weight: 600;
-  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
-.host-card p {
-  max-width: 90%;
-  margin: 0 auto;
-  color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.65;
+/* 手機版 */
+@media (max-width: 900px) {
+  .special-grid {
+    gap: 48px;
+  }
+
+  .special-card {
+    width: min(88vw, 380px);
+  }
+
+  .special-card h3 {
+    font-size: 26px;
+  }
+
+  .special-card p {
+    font-size: 15px;
+    line-height: 1.8;
+  }
 }
 
 .rules-list-wrap {
@@ -531,7 +563,6 @@ a {
   font-size: 1.15rem;
   line-height: 1.85;
 }
-
 /* ===== Footer 黑化升級版 ===== */
 .site-footer {
   margin-top: 40px;
