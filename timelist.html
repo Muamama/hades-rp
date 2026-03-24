@@ -10,20 +10,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
-<script>
-  const siteHeader = document.querySelector('.site-header');
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      siteHeader.classList.add('scrolled');
-    } else {
-      siteHeader.classList.remove('scrolled');
-    }
-  });
-</script>
-  
 <body>
 
   <div class="top-line"></div>
@@ -84,21 +74,30 @@
   </footer>
 
   <script>
-    const data = [
-      { name: "刻耳柏洛斯", date: "2026-03-23", status: "wait", img: "images/哥哥.jpg" },
-      { name: "龍冽", date: "2026-03-23", status: "busy", img: "images/host-01.png" },
-      { name: "安怛", date: "2026-03-23", status: "wait", img: "images/host-02.jpg" },
-      { name: "Jazper", date: "2026-03-23", status: "wait", img: "images/host-03.png" },
-      { name: "格斯亞德", date: "2026-03-23", status: "busy", img: "images/host-04.png" },
-      { name: "蛇魂", date: "2026-03-23", status: "wait", img: "images/host-05.png" },
-      { name: "餘燼", date: "2026-03-23", status: "wait", img: "images/host-06.png" },
-      { name: "格拉斯莫", date: "2026-03-23", status: "wait", img: "images/host-07.png" },
-      { name: "法拉歐", date: "2026-03-23", status: "busy", img: "images/host-08.png" },
-      { name: "牛奶", date: "2026-03-23", status: "wait", img: "images/host-09.png" },
-      { name: "無盡寒夜", date: "2026-03-23", status: "off", img: "images/host-10.png" },
-      { name: "埃伊諾（Åyno）", date: "2026-03-23", status: "wait", img: "images/host-11.png" }
-    ];
+    /* =========================
+       Supabase 設定
+       請改成你自己的
+    ========================= */
+    const SUPABASE_URL = "https://jzhbqavasikwpxbqjksu.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_KFcwagT3Ho1ivjPv3Oq9zw_FNIaBVpX";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    /* =========================
+       Header Scroll
+    ========================= */
+    const siteHeader = document.querySelector('.site-header');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        siteHeader.classList.add('scrolled');
+      } else {
+        siteHeader.classList.remove('scrolled');
+      }
+    });
+
+    /* =========================
+       DOM
+    ========================= */
     const table = document.getElementById("scheduleTable");
     const overlay = document.getElementById("hostPopupOverlay");
     const popupImage = document.getElementById("hostPopupImage");
@@ -106,54 +105,130 @@
     const popupText = document.getElementById("hostPopupText");
     const popupClose = document.getElementById("hostPopupClose");
 
-    function getStatus(status){
-      if(status === "wait") return ["空閒", "status-wait", "今夜有空，等待你的指名。"];
-      if(status === "busy") return ["已預定", "status-busy", "已被預約，暫不可用。"];
+    /* =========================
+       狀態對應
+    ========================= */
+    function getStatus(status) {
+      if (status === "wait") return ["空閒", "status-wait", "今夜有空，等待你的指名。"];
+      if (status === "busy") return ["已預定", "status-busy", "已被預約，暫不可用。"];
       return ["請假", "status-off", "今夜不在場。"];
     }
 
-    function openPopup(item, el){
+    /* =========================
+       Popup
+    ========================= */
+    function openPopup(item, el) {
       document.querySelectorAll(".schedule-item").forEach(e => e.classList.remove("active"));
       el.classList.add("active");
 
-      popupImage.src = item.img;
-      popupName.textContent = item.name;
+      popupImage.src = item.img || "";
+      popupImage.alt = item.name || "";
+      popupName.textContent = item.name || "";
       popupText.textContent = getStatus(item.status)[2];
 
       overlay.classList.add("show");
       document.body.classList.add("popup-open");
     }
 
-    function closePopup(){
+    function closePopup() {
       overlay.classList.remove("show");
       document.body.classList.remove("popup-open");
       document.querySelectorAll(".schedule-item").forEach(e => e.classList.remove("active"));
     }
 
-    data.forEach(item=>{
-      const div = document.createElement("div");
-      div.classList.add("schedule-item");
+    /* =========================
+       清空舊資料列
+    ========================= */
+    function clearScheduleItems() {
+      document.querySelectorAll(".schedule-item").forEach(item => item.remove());
+    }
 
-      const status = getStatus(item.status);
+    /* =========================
+       渲染排班
+    ========================= */
+    function renderSchedule(data) {
+      clearScheduleItems();
 
-      div.innerHTML = `
-        <span class="schedule-name">${item.name}</span>
-        <span>${item.date}</span>
-        <span class="${status[1]}">${status[0]}</span>
-      `;
+      if (!data || data.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "schedule-item";
+        empty.innerHTML = `
+          <span class="schedule-name">目前無排班資料</span>
+          <span>--</span>
+          <span class="status-off">未開放</span>
+        `;
+        table.appendChild(empty);
+        return;
+      }
 
-      div.onclick = () => openPopup(item, div);
+      data.forEach(item => {
+        const div = document.createElement("div");
+        div.classList.add("schedule-item");
 
-      table.appendChild(div);
-    });
+        const status = getStatus(item.status);
 
+        div.innerHTML = `
+          <span class="schedule-name">${item.name || ""}</span>
+          <span>${item.date || ""}</span>
+          <span class="${status[1]}">${status[0]}</span>
+        `;
+
+        div.onclick = () => openPopup(item, div);
+
+        table.appendChild(div);
+      });
+    }
+
+    /* =========================
+       讀取 Supabase
+    ========================= */
+    async function loadSchedule() {
+      const { data, error } = await supabaseClient
+        .from("schedule_list")
+        .select("*")
+        .order("sort_order", { ascending: true })
+        .order("id", { ascending: true });
+
+      if (error) {
+        console.error("讀取時間表失敗：", error);
+
+        clearScheduleItems();
+
+        const fail = document.createElement("div");
+        fail.className = "schedule-item";
+        fail.innerHTML = `
+          <span class="schedule-name">讀取失敗</span>
+          <span>--</span>
+          <span class="status-off">請稍後再試</span>
+        `;
+        table.appendChild(fail);
+        return;
+      }
+
+      renderSchedule(data || []);
+    }
+
+    /* =========================
+       事件
+    ========================= */
     popupClose.onclick = closePopup;
 
-    overlay.onclick = (e)=>{
-      if(e.target === overlay){
+    overlay.onclick = (e) => {
+      if (e.target === overlay) {
         closePopup();
       }
     };
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        closePopup();
+      }
+    });
+
+    /* =========================
+       初始化
+    ========================= */
+    loadSchedule();
   </script>
 
 </body>
