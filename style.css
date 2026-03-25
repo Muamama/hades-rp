@@ -2362,28 +2362,6 @@ main,
   margin-bottom: calc(var(--footer-h) + 20px);
 }
 
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 999;
-
-  background: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(12px);
-
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-/* 內層 */
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  max-width: 1400px;
-  margin: auto;
-  padding: 12px 30px;
-}
-
 /* ===== LOGO ===== */
 .logo {
   position: absolute;
@@ -2420,29 +2398,3 @@ main,
   color: #d4af37;
 }
 
-/* ===== NAV ===== */
-.main-nav {
-  display: flex;
-  gap: 28px;
-}
-
-.main-nav a {
-  text-decoration: none;
-  color: #ddd;
-  font-size: 14px;
-  letter-spacing: 2px;
-
-  transition: all 0.3s ease;
-}
-
-/* hover */
-.main-nav a:hover {
-  color: #fff;
-  text-shadow: 0 0 8px rgba(255,255,255,0.6);
-}
-
-/* active */
-.main-nav .active {
-  color: #d4af37;
-  text-shadow: 0 0 10px rgba(212,175,55,0.8);
-}
