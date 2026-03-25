@@ -21,6 +21,45 @@
     }
   });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const siteHeader = document.querySelector('.site-header');
+
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      menuToggle.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+
+      const isOpen = mobileMenu.classList.contains('open');
+      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    mobileMenu.addEventListener('click', function (e) {
+      e.stopPropagation();
+    });
+
+    document.addEventListener('click', function () {
+      menuToggle.classList.remove('active');
+      mobileMenu.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  if (siteHeader) {
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 10) {
+        siteHeader.classList.add('scrolled');
+      } else {
+        siteHeader.classList.remove('scrolled');
+      }
+    });
+  }
+});
+</script>
   
 <body>
   <div class="top-line"></div>
