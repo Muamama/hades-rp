@@ -4,91 +4,119 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rules | 冥界</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-</head>
-<script>
-  const siteHeader = document.querySelector('.site-header');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      siteHeader.classList.add('scrolled');
-    } else {
-      siteHeader.classList.remove('scrolled');
+  <style>
+    /* ===== 規則頁置中修正 ===== */
+    .rules-list-wrap {
+      width: min(920px, 92%);
+      margin: 0 auto;
+      padding: 70px 20px 90px;
+      text-align: center;
+      position: relative;
     }
-  });
-</script>
-<script>
-  const siteHeader = document.querySelector('.site-header');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      siteHeader.classList.add('scrolled');
-    } else {
-      siteHeader.classList.remove('scrolled');
+    .rules-list-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at center, rgba(120, 0, 0, 0.08), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
     }
-  });
-</script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const menuToggle = document.getElementById('menuToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const siteHeader = document.querySelector('.site-header');
+    .rules-list {
+      position: relative;
+      z-index: 1;
+      list-style: none;
+      margin: 0 auto;
+      padding: 0;
+      max-width: 820px;
+      text-align: left;
+      counter-reset: rule-counter;
+    }
 
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', function (e) {
-      e.stopPropagation();
-      menuToggle.classList.toggle('active');
-      mobileMenu.classList.toggle('open');
+    .rules-list li {
+      counter-increment: rule-counter;
+      position: relative;
+      padding: 0 0 0 2.6em;
+      margin: 0 0 22px;
+      color: #f3ead7;
+      font-size: clamp(17px, 2vw, 28px);
+      line-height: 2;
+      letter-spacing: 0.5px;
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.35);
+    }
 
-      const isOpen = mobileMenu.classList.contains('open');
-      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
+    .rules-list li::before {
+      content: counter(rule-counter) ".";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #d4af37;
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+    }
 
-    mobileMenu.addEventListener('click', function (e) {
-      e.stopPropagation();
-    });
+    .rules-closing {
+      position: relative;
+      z-index: 1;
+      margin: 46px auto 0;
+      max-width: 760px;
+      text-align: center;
+      color: #d4af37;
+      font-size: clamp(18px, 2vw, 30px);
+      line-height: 2;
+      letter-spacing: 4px;
+      text-shadow:
+        0 0 10px rgba(212, 175, 55, 0.14),
+        0 0 24px rgba(120, 0, 0, 0.14);
+    }
 
-    document.addEventListener('click', function () {
-      menuToggle.classList.remove('active');
-      mobileMenu.classList.remove('open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    });
-  }
-
-  if (siteHeader) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 10) {
-        siteHeader.classList.add('scrolled');
-      } else {
-        siteHeader.classList.remove('scrolled');
+    @media (max-width: 768px) {
+      .rules-list-wrap {
+        width: min(94%, 94%);
+        padding: 50px 16px 70px;
       }
-    });
-  }
-});
-</script>
-  
+
+      .rules-list li {
+        padding-left: 2.2em;
+        margin-bottom: 18px;
+        font-size: 18px;
+        line-height: 1.9;
+      }
+
+      .rules-closing {
+        font-size: 18px;
+        letter-spacing: 2px;
+        line-height: 1.9;
+      }
+    }
+  </style>
+</head>
+
 <body>
   <div class="top-line"></div>
 
   <header class="site-header">
     <div class="header-inner">
-  
       <a href="index.html" class="logo">
         <img src="images/logo.png" alt="冥界 LOGO">
       </a>
-  
+
       <div class="header-title">冥界</div>
-  
+
       <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
         <span></span>
         <span></span>
         <span></span>
       </button>
-  
+
       <nav class="main-nav">
         <a href="index.html">主頁</a>
         <a href="rates.html">指名費用</a>
@@ -100,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <a href="echo.html">冥界回聲</a>
       </nav>
     </div>
-  
+
     <div class="mobile-menu" id="mobileMenu">
       <a href="index.html">主頁</a>
       <a href="rates.html">指名費用</a>
@@ -126,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </section>
 
-
     <section class="rules-list-wrap">
       <ol class="rules-list">
         <li>彼此同意，是一切互動的前提。</li>
@@ -136,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <li>請於服務開始前完成付款與確認。</li>
         <li>請勿散播、外流或未經同意分享私密內容與對話。</li>
         <li>若行為影響店內秩序，將被請離《冥界》。</li>
-        <li>角色扮演請盡量以小隊/私聊,在不影響全場之方式進行。</li>
+        <li>角色扮演請盡量以小隊／私聊，在不影響全場之方式進行。</li>
         <li>店家保有一切解釋權。</li>
         <li>若不理解界線，便不要越界。</li>
       </ol>
@@ -153,5 +180,44 @@ document.addEventListener('DOMContentLoaded', function () {
     <a href="#">THREADS</a>
     <a href="#">DISCORD</a>
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const siteHeader = document.querySelector('.site-header');
+
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', function (e) {
+          e.stopPropagation();
+          menuToggle.classList.toggle('active');
+          mobileMenu.classList.toggle('open');
+
+          const isOpen = mobileMenu.classList.contains('open');
+          menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        mobileMenu.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
+
+        document.addEventListener('click', function () {
+          menuToggle.classList.remove('active');
+          mobileMenu.classList.remove('open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      if (siteHeader) {
+        window.addEventListener('scroll', function () {
+          if (window.scrollY > 10) {
+            siteHeader.classList.add('scrolled');
+          } else {
+            siteHeader.classList.remove('scrolled');
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
