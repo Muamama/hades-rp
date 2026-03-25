@@ -311,42 +311,46 @@ a {
 }
 
 .host-group {
-  margin-bottom: 100px;
-  padding: 50px 0;
+  margin-bottom: 72px;
+  padding: 26px 20px 18px;
   position: relative;
-
-  /* 微紅光背景（比困獸狂犬弱） */
   background: radial-gradient(circle at center, rgba(120,0,0,0.08), transparent 70%);
 }
+
 
 .host-group-title {
   font-size: 34px;
   letter-spacing: 8px;
   text-align: center;
-  margin-bottom: 50px;
+  margin: 0 0 34px;
   color: #d4af37;
   position: relative;
 }
 
 .host-grid {
+  width: min(1280px, 100%);
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(4, minmax(160px, 1fr));
-  gap: 34px 30px;
+  grid-template-columns: repeat(4, minmax(0, 260px));
+  justify-content: center;
+  gap: 28px 24px;
   align-items: start;
 }
 
 .host-card {
+  width: 100%;
+  max-width: 260px;
+  margin: 0 auto;
   text-align: center;
 }
 
 .host-card img {
   width: 100%;
   aspect-ratio: 3 / 4;
+  max-height: 360px;
   object-fit: cover;
   border: 2px solid var(--gold-soft);
   background: #d6d6d6;
-
-  /* 預設壓抑感（黑白+微暗） */
   filter: grayscale(100%) brightness(0.85);
   transition: all 0.4s ease;
 }
@@ -355,13 +359,30 @@ a {
 .host-card:hover img {
   filter: grayscale(0%) brightness(1.05);
   transform: scale(1.03);
-  box-shadow: 0 0 12px rgba(212,175,55,0.25),
-              0 0 20px rgba(120,0,0,0.25);
+  box-shadow:
+    0 0 12px rgba(212,175,55,0.25),
+    0 0 20px rgba(120,0,0,0.25);
+}
+
+.host-card h3 {
+  margin: 12px 0 6px;
+  font-size: 1.05rem;
+  color: #fff0d6;
+  font-weight: 600;
+  text-align: center;
+}
+
+.host-card p {
+  max-width: 92%;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
 }
 /* ===== 困獸狂犬（瘋狂升級版） ===== */
 .special-group {
-  margin-bottom: 120px;
-  padding: 60px 0 50px;
+  margin-bottom: 68px;
+  padding: 28px 20px 20px;
   position: relative;
   overflow: hidden;
   background:
@@ -416,15 +437,14 @@ a {
 .special-grid {
   display: flex;
   justify-content: center;
-  gap: 90px;
+  gap: 42px;
   flex-wrap: wrap;
   position: relative;
   z-index: 1;
 }
 
-/* 主角卡片 */
 .special-card {
-  width: 380px;
+  width: min(100%, 320px);
   position: relative;
   overflow: hidden;
   transition: transform 0.45s ease, box-shadow 0.45s ease, filter 0.45s ease;
