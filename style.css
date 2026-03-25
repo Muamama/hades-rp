@@ -21,8 +21,13 @@ html, body {
   color: var(--text);
   font-family: "Noto Serif TC", serif;
   min-height: 100vh;
+}
+
+/* 新增一層包住內容 */
+.page-wrapper {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 body,
