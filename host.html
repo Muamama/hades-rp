@@ -511,9 +511,28 @@
 
     function setupHostCards() {
       hostCards.forEach((card) => {
-        card.addEventListener("click", () => {
-          openHostPopup(card);
+    
+        // 📱 手機：點擊先亮一下再開 popup
+        card.addEventListener("click", (e) => {
+          // 判斷是不是手機
+          if (window.innerWidth <= 768) {
+    
+            e.preventDefault();
+    
+            // 加上發光 class
+            card.classList.add("touch-active");
+    
+            // 延遲打開 popup（讓動畫出來）
+            setTimeout(() => {
+              openHostPopup(card);
+            }, 180);
+    
+          } else {
+            // 💻 電腦正常開
+            openHostPopup(card);
+          }
         });
+    
       });
     }
 
