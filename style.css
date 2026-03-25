@@ -23,6 +23,13 @@ html, body {
   min-height: 100vh;
 }
 
+body {
+  background: #000;
+}
+
+.site-header {
+  box-shadow: 0 -2px 10px rgba(0,0,0,1);
+}
 /* 新增一層包住內容 */
 .page-wrapper {
   display: flex;
