@@ -2202,7 +2202,9 @@ body {
   align-items: center;
   justify-content: center;
   gap: 2.2rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;   /* 🔥 改這裡 */
+  white-space: nowrap; /* 🔥 加這個 */
+
 }
 
 .main-nav a {
