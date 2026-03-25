@@ -2769,3 +2769,25 @@ main,
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.45);
 }
 
+.host-card.touch-active {
+  transform: translateY(-4px);
+}
+
+/* 手機點擊發光效果 */
+@media (max-width: 768px) {
+
+  .host-card img,
+  .special-card img {
+    transition: all 0.35s ease;
+  }
+
+  .host-card.touch-active img,
+  .special-card.touch-active img {
+    filter: grayscale(0%) brightness(1.08);
+    transform: scale(1.03);
+    box-shadow:
+      0 0 12px rgba(212,175,55,0.35),
+      0 0 22px rgba(120,0,0,0.35);
+  }
+
+}
