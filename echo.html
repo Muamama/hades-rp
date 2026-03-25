@@ -225,8 +225,7 @@
       color: #ffd7d7;
     }
 
-    .submit-btn,
-    .reload-btn {
+    .submit-btn {
       width: 100%;
       border: none;
       border-radius: 16px;
@@ -243,16 +242,14 @@
       transition: all 0.3s ease;
     }
 
-    .submit-btn:hover,
-    .reload-btn:hover {
+    .submit-btn:hover {
       transform: translateY(-2px);
       box-shadow:
         0 0 24px rgba(212, 175, 55, 0.22),
         0 8px 24px rgba(0, 0, 0, 0.25);
     }
 
-    .submit-btn:disabled,
-    .reload-btn:disabled {
+    .submit-btn:disabled {
       opacity: 0.65;
       cursor: not-allowed;
       transform: none;
@@ -270,17 +267,6 @@
       font-size: 13px;
       letter-spacing: 3px;
       color: rgba(239, 231, 210, 0.6);
-    }
-
-    .echo-actions {
-      padding: 18px 22px 0;
-    }
-
-    .reload-btn {
-      width: auto;
-      padding: 12px 18px;
-      font-size: 14px;
-      letter-spacing: 4px;
     }
 
     .echo-list {
@@ -365,27 +351,14 @@
       line-height: 1.9;
     }
 
-    .site-footer {
-      border-top: 1px solid rgba(212, 175, 55, 0.12);
-      background: rgba(4, 4, 4, 0.9);
-      padding: 26px 20px 30px;
+    /* 手機選單保底樣式，避免這頁吃不到 style.css 時直接消失 */
+    .mobile-menu {
+      display: none;
+    }
+
+    .mobile-menu.open {
       display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-      box-shadow: 0 -8px 22px rgba(212, 175, 55, 0.05);
-    }
-
-    .site-footer a {
-      color: rgba(239, 231, 210, 0.72);
-      letter-spacing: 3px;
-      font-size: 14px;
-      transition: all 0.3s ease;
-    }
-
-    .site-footer a:hover {
-      color: var(--gold);
-      text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+      flex-direction: column;
     }
 
     @media (max-width: 1100px) {
@@ -421,87 +394,28 @@
       .echo-card {
         padding: 18px 16px 16px;
       }
-
-      .echo-actions {
-        padding: 16px 16px 0;
-      }
-
-      .logo img {
-        width: 46px;
-        height: 46px;
-      }
     }
   </style>
 </head>
-<script>
-  const siteHeader = document.querySelector('.site-header');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      siteHeader.classList.add('scrolled');
-    } else {
-      siteHeader.classList.remove('scrolled');
-    }
-  });
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const menuToggle = document.getElementById('menuToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const siteHeader = document.querySelector('.site-header');
-
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', function (e) {
-      e.stopPropagation();
-      menuToggle.classList.toggle('active');
-      mobileMenu.classList.toggle('open');
-
-      const isOpen = mobileMenu.classList.contains('open');
-      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-
-    mobileMenu.addEventListener('click', function (e) {
-      e.stopPropagation();
-    });
-
-    document.addEventListener('click', function () {
-      menuToggle.classList.remove('active');
-      mobileMenu.classList.remove('open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    });
-  }
-
-  if (siteHeader) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 10) {
-        siteHeader.classList.add('scrolled');
-      } else {
-        siteHeader.classList.remove('scrolled');
-      }
-    });
-  }
-});
-</script>
-  
 <body>
   <div class="top-line"></div>
 
   <header class="site-header">
     <div class="header-inner">
-  
+
       <a href="index.html" class="logo">
         <img src="images/logo.png" alt="冥界 LOGO">
       </a>
-  
+
       <div class="header-title">冥界</div>
-  
+
       <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
         <span></span>
         <span></span>
         <span></span>
       </button>
-  
+
       <nav class="main-nav">
         <a href="index.html">主頁</a>
         <a href="rates.html">指名費用</a>
@@ -513,7 +427,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <a class="active" href="echo.html">冥界回聲</a>
       </nav>
     </div>
-  
+
     <div class="mobile-menu" id="mobileMenu">
       <a href="index.html">主頁</a>
       <a href="rates.html">指名費用</a>
@@ -545,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <h2 class="panel-title">留下回聲</h2>
           <p class="panel-subtitle">
             你可以使用暱稱，也可以保持匿名。<br>
-            留言送出後需經管理審核才會公開顯示。
+            留言送出後將直接公開顯示。
           </p>
         </div>
 
@@ -613,7 +527,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const nicknameInput = document.getElementById("nickname");
       const messageInput = document.getElementById("message");
       const submitBtn = document.getElementById("submitBtn");
-      const reloadBtn = document.getElementById("reloadBtn");
       const echoList = document.getElementById("echoList");
       const echoCount = document.getElementById("echoCount");
       const statusBox = document.getElementById("statusBox");
@@ -716,7 +629,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const { data, error } = await supabase
           .from("mingjie_echoes")
           .select("id, nickname, message, created_at")
-          .eq("status", "approved")
           .eq("is_visible", true)
           .eq("is_deleted", false)
           .order("created_at", { ascending: false });
@@ -781,8 +693,7 @@ document.addEventListener('DOMContentLoaded', function () {
           {
             nickname: nickname,
             message: message,
-            status: "pending",
-            is_visible: false,
+            is_visible: true,
             is_deleted: false
           }
         ]);
@@ -797,10 +708,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         nicknameInput.value = "";
         messageInput.value = "";
-        showStatus("你的回聲已送出，等待管理員審核後將會顯示。", "success");
-      });
-
-      reloadBtn.addEventListener("click", function () {
+        showStatus("你的回聲已送出，並已公開顯示。", "success");
         loadEchoes();
       });
 
