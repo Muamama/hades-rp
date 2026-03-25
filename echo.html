@@ -14,15 +14,14 @@
     :root {
       --bg: #050505;
       --bg-soft: #0c0c0c;
-      --panel: rgba(15, 15, 15, 0.82);
-      --panel-strong: rgba(20, 20, 20, 0.92);
+      --panel: rgba(15, 15, 15, 0.84);
+      --panel-strong: rgba(20, 20, 20, 0.95);
       --gold: #d4af37;
       --gold-soft: rgba(212, 175, 55, 0.45);
       --gold-dim: rgba(212, 175, 55, 0.18);
       --text: #efe7d2;
       --text-soft: rgba(239, 231, 210, 0.72);
       --line: rgba(212, 175, 55, 0.22);
-      --red-glow: rgba(120, 0, 0, 0.18);
       --shadow: 0 0 30px rgba(212, 175, 55, 0.08);
     }
 
@@ -38,7 +37,7 @@
       margin: 0;
       font-family: "Noto Serif TC", serif;
       background:
-        radial-gradient(circle at top, rgba(120, 0, 0, 0.18), transparent 28%),
+        radial-gradient(circle at top, rgba(120, 0, 0, 0.18), transparent 26%),
         radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.05), transparent 35%),
         linear-gradient(to bottom, #040404 0%, #090909 38%, #050505 100%);
       color: var(--text);
@@ -360,7 +359,33 @@
       color: rgba(239, 231, 210, 0.58);
     }
 
-    .submit-btn {
+    .status-box {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.8;
+      display: none;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-box.success {
+      background: rgba(20, 60, 20, 0.28);
+      border: 1px solid rgba(120, 220, 120, 0.22);
+      color: #d9f0d1;
+    }
+
+    .status-box.error {
+      background: rgba(80, 12, 12, 0.28);
+      border: 1px solid rgba(255, 120, 120, 0.18);
+      color: #ffd7d7;
+    }
+
+    .submit-btn,
+    .reload-btn {
       width: 100%;
       border: none;
       border-radius: 16px;
@@ -377,11 +402,19 @@
       transition: all 0.3s ease;
     }
 
-    .submit-btn:hover {
+    .submit-btn:hover,
+    .reload-btn:hover {
       transform: translateY(-2px);
       box-shadow:
         0 0 24px rgba(212, 175, 55, 0.22),
         0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .submit-btn:disabled,
+    .reload-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      transform: none;
     }
 
     .echo-list-panel .panel-head {
@@ -396,6 +429,17 @@
       font-size: 13px;
       letter-spacing: 3px;
       color: rgba(239, 231, 210, 0.6);
+    }
+
+    .echo-actions {
+      padding: 18px 22px 0;
+    }
+
+    .reload-btn {
+      width: auto;
+      padding: 12px 18px;
+      font-size: 14px;
+      letter-spacing: 4px;
     }
 
     .echo-list {
@@ -471,6 +515,13 @@
       text-align: center;
       color: var(--text-soft);
       line-height: 2;
+    }
+
+    .loading-state {
+      padding: 36px 20px;
+      text-align: center;
+      color: rgba(239, 231, 210, 0.7);
+      line-height: 1.9;
     }
 
     .site-footer {
@@ -555,6 +606,10 @@
         padding: 18px 16px 16px;
       }
 
+      .echo-actions {
+        padding: 16px 16px 0;
+      }
+
       .logo img {
         width: 46px;
         height: 46px;
@@ -562,7 +617,6 @@
     }
   </style>
 </head>
-
 <body>
   <div class="top-line"></div>
 
@@ -610,7 +664,7 @@
         <div class="echo-kicker">NETHER ECHO</div>
         <h1 class="echo-title">冥界回聲</h1>
         <p class="echo-desc">
-          若有些話不必署名，若有些情緒不適合帶走，
+          若有些話不必署名，若有些情緒不必被帶走，
           那便將它留在這裡。你可以匿名低語、傾倒片語、留下回音。
           所有被寫下的聲音，都會在夜裡慢慢發亮。
         </p>
@@ -623,7 +677,7 @@
           <h2 class="panel-title">留下回聲</h2>
           <p class="panel-subtitle">
             你可以使用暱稱，也可以保持匿名。<br>
-            請勿留下惡意內容、個資或廣告訊息。
+            留言送出後需經管理審核才會公開顯示。
           </p>
         </div>
 
@@ -648,10 +702,11 @@
               placeholder="在這裡留下你的回聲……"
               required
             ></textarea>
-            <div class="echo-note">字數上限 300 字</div>
+            <div class="echo-note">字數上限 300 字，請勿留下個資、聯絡方式或廣告內容。</div>
           </div>
 
-          <button type="submit" class="submit-btn">送出回聲</button>
+          <button type="submit" class="submit-btn" id="submitBtn">送出回聲</button>
+          <div class="status-box" id="statusBox"></div>
         </form>
       </div>
 
@@ -664,11 +719,12 @@
           <div class="echo-count" id="echoCount">目前 0 則回聲</div>
         </div>
 
+        <div class="echo-actions">
+          <button class="reload-btn" id="reloadBtn" type="button">重新載入</button>
+        </div>
+
         <div class="echo-list" id="echoList">
-          <div class="empty-state" id="emptyState">
-            目前還沒有留下任何回聲。<br>
-            成為第一個把聲音留在這裡的人吧。
-          </div>
+          <div class="loading-state">正在讀取回聲……</div>
         </div>
       </div>
     </section>
@@ -680,126 +736,211 @@
     <a href="#">DISCORD</a>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const menuToggle = document.getElementById('menuToggle');
-      const mobileMenu = document.getElementById('mobileMenu');
-      const siteHeader = document.querySelector('.site-header');
-      const echoForm = document.getElementById('echoForm');
-      const nicknameInput = document.getElementById('nickname');
-      const messageInput = document.getElementById('message');
-      const echoList = document.getElementById('echoList');
-      const echoCount = document.getElementById('echoCount');
-      const emptyState = document.getElementById('emptyState');
+    document.addEventListener("DOMContentLoaded", function () {
+      const menuToggle = document.getElementById("menuToggle");
+      const mobileMenu = document.getElementById("mobileMenu");
+      const siteHeader = document.querySelector(".site-header");
+
+      const echoForm = document.getElementById("echoForm");
+      const nicknameInput = document.getElementById("nickname");
+      const messageInput = document.getElementById("message");
+      const submitBtn = document.getElementById("submitBtn");
+      const reloadBtn = document.getElementById("reloadBtn");
+      const echoList = document.getElementById("echoList");
+      const echoCount = document.getElementById("echoCount");
+      const statusBox = document.getElementById("statusBox");
+
+      const supabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 
       if (menuToggle && mobileMenu) {
-        menuToggle.addEventListener('click', function (e) {
+        menuToggle.addEventListener("click", function (e) {
           e.stopPropagation();
-          menuToggle.classList.toggle('active');
-          mobileMenu.classList.toggle('open');
+          menuToggle.classList.toggle("active");
+          mobileMenu.classList.toggle("open");
 
-          const isOpen = mobileMenu.classList.contains('open');
-          menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          const isOpen = mobileMenu.classList.contains("open");
+          menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
         });
 
-        mobileMenu.addEventListener('click', function (e) {
+        mobileMenu.addEventListener("click", function (e) {
           e.stopPropagation();
         });
 
-        document.addEventListener('click', function () {
-          menuToggle.classList.remove('active');
-          mobileMenu.classList.remove('open');
-          menuToggle.setAttribute('aria-expanded', 'false');
+        document.addEventListener("click", function () {
+          menuToggle.classList.remove("active");
+          mobileMenu.classList.remove("open");
+          menuToggle.setAttribute("aria-expanded", "false");
         });
       }
 
       if (siteHeader) {
         const toggleHeaderClass = function () {
           if (window.scrollY > 10) {
-            siteHeader.classList.add('scrolled');
+            siteHeader.classList.add("scrolled");
           } else {
-            siteHeader.classList.remove('scrolled');
+            siteHeader.classList.remove("scrolled");
           }
         };
 
         toggleHeaderClass();
-        window.addEventListener('scroll', toggleHeaderClass);
+        window.addEventListener("scroll", toggleHeaderClass);
       }
 
-      let echoes = JSON.parse(localStorage.getItem('mingjie_echoes') || '[]');
+      function showStatus(message, type) {
+        statusBox.textContent = message;
+        statusBox.className = "status-box show " + type;
+      }
+
+      function hideStatus() {
+        statusBox.textContent = "";
+        statusBox.className = "status-box";
+      }
 
       function escapeHtml(text) {
-        const div = document.createElement('div');
+        const div = document.createElement("div");
         div.textContent = text;
         return div.innerHTML;
       }
 
       function formatDate(dateString) {
         const date = new Date(dateString);
-        const y = date.getFullYear();
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const d = String(date.getDate()).padStart(2, '0');
-        const hh = String(date.getHours()).padStart(2, '0');
-        const mm = String(date.getMinutes()).padStart(2, '0');
-        return `${y}-${m}-${d} ${hh}:${mm}`;
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
       }
 
-      function renderEchoes() {
-        echoList.innerHTML = '';
+      function renderEchoes(items) {
+        echoList.innerHTML = "";
 
-        if (!echoes.length) {
-          echoList.appendChild(emptyState);
-          echoCount.textContent = '目前 0 則回聲';
+        if (!items || items.length === 0) {
+          echoCount.textContent = "目前 0 則回聲";
+          echoList.innerHTML = `
+            <div class="empty-state">
+              目前還沒有公開的回聲。<br>
+              成為第一個把聲音留在這裡的人吧。
+            </div>
+          `;
           return;
         }
 
-        echoCount.textContent = `目前 ${echoes.length} 則回聲`;
+        echoCount.textContent = `目前 ${items.length} 則回聲`;
 
-        echoes.slice().reverse().forEach(function (item) {
-          const card = document.createElement('article');
-          card.className = 'echo-card';
-
+        items.forEach(function (item) {
+          const card = document.createElement("article");
+          card.className = "echo-card";
           card.innerHTML = `
             <div class="echo-meta">
-              <div class="echo-name">${escapeHtml(item.nickname || '匿名旅人')}</div>
-              <div class="echo-time">${formatDate(item.createdAt)}</div>
+              <div class="echo-name">${escapeHtml(item.nickname || "匿名旅人")}</div>
+              <div class="echo-time">${formatDate(item.created_at)}</div>
             </div>
             <p class="echo-message">${escapeHtml(item.message)}</p>
           `;
-
           echoList.appendChild(card);
         });
       }
 
-      if (echoForm) {
-        echoForm.addEventListener('submit', function (e) {
-          e.preventDefault();
+      async function loadEchoes() {
+        echoList.innerHTML = `<div class="loading-state">正在讀取回聲……</div>`;
 
-          const nickname = nicknameInput.value.trim();
-          const message = messageInput.value.trim();
+        const { data, error } = await supabase
+          .from("mingjie_echoes")
+          .select("id, nickname, message, created_at")
+          .eq("status", "approved")
+          .eq("is_visible", true)
+          .eq("is_deleted", false)
+          .order("created_at", { ascending: false });
 
-          if (!message) {
-            alert('請先寫下你的回聲。');
-            return;
-          }
+        if (error) {
+          echoList.innerHTML = `
+            <div class="empty-state">
+              回聲讀取失敗。<br>
+              請稍後再試一次。
+            </div>
+          `;
+          echoCount.textContent = "目前 0 則回聲";
+          return;
+        }
 
-          const newEcho = {
-            nickname: nickname || '匿名旅人',
-            message: message,
-            createdAt: new Date().toISOString()
-          };
+        renderEchoes(data);
+      }
 
-          echoes.push(newEcho);
-          localStorage.setItem('mingjie_echoes', JSON.stringify(echoes));
+      function containsBlockedText(text) {
+        const blocked = [
+          "http://", "https://", "www.", ".com", ".net", ".tw", "line", "wechat",
+          "telegram", "discord.gg", "@", "賴", "加我", "私我", "外約", "約嗎"
+        ];
 
-          nicknameInput.value = '';
-          messageInput.value = '';
-
-          renderEchoes();
+        const lower = text.toLowerCase();
+        return blocked.some(function (word) {
+          return lower.includes(word.toLowerCase());
         });
       }
 
-      renderEchoes();
+      echoForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        hideStatus();
+
+        const nickname = nicknameInput.value.trim() || "匿名旅人";
+        const message = messageInput.value.trim();
+
+        if (!message) {
+          showStatus("請先寫下你的回聲。", "error");
+          return;
+        }
+
+        if (nickname.length > 20) {
+          showStatus("暱稱不可超過 20 字。", "error");
+          return;
+        }
+
+        if (message.length > 300) {
+          showStatus("留言不可超過 300 字。", "error");
+          return;
+        }
+
+        if (containsBlockedText(message) || containsBlockedText(nickname)) {
+          showStatus("留言中含有不開放的聯絡或廣告內容，請修改後再送出。", "error");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "傳送中";
+
+        const { error } = await supabase.from("mingjie_echoes").insert([
+          {
+            nickname: nickname,
+            message: message,
+            status: "pending",
+            is_visible: false,
+            is_deleted: false
+          }
+        ]);
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "送出回聲";
+
+        if (error) {
+          showStatus("送出失敗，請稍後再試。", "error");
+          return;
+        }
+
+        nicknameInput.value = "";
+        messageInput.value = "";
+        showStatus("你的回聲已送出，等待管理員審核後將會顯示。", "success");
+      });
+
+      reloadBtn.addEventListener("click", function () {
+        loadEchoes();
+      });
+
+      loadEchoes();
     });
   </script>
 </body>
