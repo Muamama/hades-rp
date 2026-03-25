@@ -2384,9 +2384,12 @@ main,
 
 /* ===== LOGO ===== */
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  z-index: 1000;
 }
 
 /* 圖片 */
