@@ -15,6 +15,7 @@
     .gil-price {
       display: inline-flex;
       align-items: center;
+      justify-content: flex-end;
       gap: 6px;
       white-space: nowrap;
     }
@@ -34,7 +35,7 @@
     }
 
     @keyframes gilFloat {
-      0%,100% { transform: translateY(0); }
+      0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-2px); }
     }
 
@@ -52,78 +53,65 @@
       filter: drop-shadow(0 0 6px rgba(212,175,55,0.6));
       animation: gilFloat 2.3s ease-in-out infinite;
     }
+
+    /* ===== rates 對齊修正 ===== */
+    .rates-table {
+      width: min(740px, 92%);
+      margin: 0 auto;
+    }
+
+    .rates-head,
+    .rates-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      column-gap: 24px;
+    }
+
+    .rates-head {
+      padding: 0 0 12px;
+    }
+
+    .rates-item {
+      padding: 14px 0;
+    }
+
+    .rates-head span:last-child,
+    .rates-item span:last-child {
+      justify-self: end;
+      text-align: right;
+    }
+
+    .reward-btn {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      text-align: left;
+      padding: 14px 0;
+    }
   </style>
 </head>
 
-<script>
-  const siteHeader = document.querySelector('.site-header');
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      siteHeader.classList.add('scrolled');
-    } else {
-      siteHeader.classList.remove('scrolled');
-    }
-  });
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const menuToggle = document.getElementById('menuToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const siteHeader = document.querySelector('.site-header');
-
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', function (e) {
-      e.stopPropagation();
-      menuToggle.classList.toggle('active');
-      mobileMenu.classList.toggle('open');
-
-      const isOpen = mobileMenu.classList.contains('open');
-      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-
-    mobileMenu.addEventListener('click', function (e) {
-      e.stopPropagation();
-    });
-
-    document.addEventListener('click', function () {
-      menuToggle.classList.remove('active');
-      mobileMenu.classList.remove('open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    });
-  }
-
-  if (siteHeader) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 10) {
-        siteHeader.classList.add('scrolled');
-      } else {
-        siteHeader.classList.remove('scrolled');
-      }
-    });
-  }
-});
-</script>
-  
 <body>
   <div class="top-line"></div>
 
   <header class="site-header">
     <div class="header-inner">
-  
       <a href="index.html" class="logo">
         <img src="images/logo.png" alt="冥界 LOGO">
       </a>
-  
+
       <div class="header-title">冥界</div>
-  
+
       <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
         <span></span>
         <span></span>
         <span></span>
       </button>
-  
+
       <nav class="main-nav">
         <a href="index.html">主頁</a>
         <a class="active" href="rates.html">指名費用</a>
@@ -135,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <a href="echo.html">冥界回聲</a>
       </nav>
     </div>
-  
+
     <div class="mobile-menu" id="mobileMenu">
       <a href="index.html">主頁</a>
       <a class="active" href="rates.html">指名費用</a>
@@ -148,24 +136,23 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
   </header>
 
-<main>
-  <section class="echo-hero">
-    <div class="echo-hero-inner">
-      <div class="echo-kicker">NETHER RATES</div>
-      <h1 class="echo-title">指名費用</h1>
-      <p class="echo-desc">
-        每一次相遇都有它的代價，每一段停留也都有對應的重量。
-        在踏入之前，先看清這場夜晚將如何開始。
-      </p>
-    </div>
-  </section>
-  
+  <main>
+    <section class="echo-hero">
+      <div class="echo-hero-inner">
+        <div class="echo-kicker">NETHER RATES</div>
+        <h1 class="echo-title">指名費用</h1>
+        <p class="echo-desc">
+          每一次相遇都有它的代價，每一段停留也都有對應的重量。
+          在踏入之前，先看清這場夜晚將如何開始。
+        </p>
+      </div>
+    </section>
+
     <section class="rates-section">
 
       <!-- 普通 -->
-    <div class="rates-block">
-      <h2 class="rates-section-title">普通指名</h2>
-      <div class="rates-table">
+      <div class="rates-block">
+        <h2 class="rates-section-title">普通指名</h2>
         <div class="rates-table">
           <div class="rates-head">
             <span>時間</span>
@@ -175,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <span>30 MIN</span>
             <span class="gil-price">
               100,000
-              <img src="images/Gil_Icon.png" class="gil-icon">
+              <img src="images/Gil_Icon.png" class="gil-icon" alt="Gil">
             </span>
           </div>
         </div>
@@ -185,7 +172,6 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="rates-block">
         <h2 class="rates-section-title">包廂指名</h2>
         <div class="rates-table">
-        <div class="rates-table">
           <div class="rates-head">
             <span>時間</span>
             <span>價格</span>
@@ -194,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <span>30 MIN</span>
             <span class="gil-price">
               150,000
-              <img src="images/Gil_Icon.png" class="gil-icon">
+              <img src="images/Gil_Icon.png" class="gil-icon" alt="Gil">
             </span>
           </div>
         </div>
@@ -203,52 +189,53 @@ document.addEventListener('DOMContentLoaded', function () {
       <!-- 打賞 -->
       <div class="rates-block">
         <h2 class="rates-section-title">冥界供奉</h2>
-        <div class="rates-table">
         <div class="rates-table reward-table">
           <div class="rates-head">
             <span>階級</span>
             <span>金額</span>
           </div>
 
-          <button class="rates-item reward-btn"
+          <button
+            class="rates-item reward-btn"
             data-tier="餘燼供奉"
             data-amount="10000"
             data-desc="微弱卻溫熱的火..."
-            type="button">
-
+            type="button"
+          >
             <span>餘燼供奉</span>
             <span class="gil-price">
               10,000
-              <img src="images/Gil_Icon.png" class="gil-icon">
+              <img src="images/Gil_Icon.png" class="gil-icon" alt="Gil">
             </span>
           </button>
 
-          <button class="rates-item reward-btn"
+          <button
+            class="rates-item reward-btn"
             data-tier="狂火獻祭"
             data-amount="30000"
             data-desc="火勢蔓延..."
-            type="button">
-
+            type="button"
+          >
             <span>狂火獻祭</span>
             <span class="gil-price">
               30,000
-              <img src="images/Gil_Icon.png" class="gil-icon">
+              <img src="images/Gil_Icon.png" class="gil-icon" alt="Gil">
             </span>
           </button>
 
-          <button class="rates-item reward-btn"
+          <button
+            class="rates-item reward-btn"
             data-tier="深淵降臨"
             data-amount="50000"
             data-desc="最沉重的一次墜落..."
-            type="button">
-
+            type="button"
+          >
             <span>深淵降臨</span>
             <span class="gil-price">
               50,000
-              <img src="images/Gil_Icon.png" class="gil-icon">
+              <img src="images/Gil_Icon.png" class="gil-icon" alt="Gil">
             </span>
           </button>
-
         </div>
       </div>
 
@@ -259,7 +246,6 @@ document.addEventListener('DOMContentLoaded', function () {
         點擊供奉階級，可查看對應的供奉介紹。
       </p>
     </section>
-
   </main>
 
   <!-- POP -->
@@ -282,55 +268,110 @@ document.addEventListener('DOMContentLoaded', function () {
   </footer>
 
   <script>
-    const rewardButtons = document.querySelectorAll(".reward-btn");
-    const rewardPopupOverlay = document.getElementById("rewardPopupOverlay");
-    const rewardPopupClose = document.getElementById("rewardPopupClose");
+    const siteHeader = document.querySelector('.site-header');
 
-    const rewardPopupName = document.getElementById("rewardPopupName");
-    const rewardPopupAmount = document.getElementById("rewardPopupAmount");
-    const rewardPopupText = document.getElementById("rewardPopupText");
-
-    function gilHTML(amount) {
-      return `
-        <span class="reward-popup-amount">
-          ${Number(amount).toLocaleString()}
-          <img src="images/Gil_Icon.png">
-        </span>
-      `;
-    }
-
-    function openRewardPopup(tier, amount, desc) {
-      rewardPopupName.textContent = tier;
-      rewardPopupAmount.innerHTML = gilHTML(amount);
-      rewardPopupText.textContent = desc;
-
-      rewardPopupOverlay.classList.add("show");
-      document.body.classList.add("popup-open");
-    }
-
-    function closeRewardPopup() {
-      rewardPopupOverlay.classList.remove("show");
-      document.body.classList.remove("popup-open");
-    }
-
-    rewardButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        openRewardPopup(
-          btn.dataset.tier,
-          btn.dataset.amount,
-          btn.dataset.desc
-        );
+    if (siteHeader) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          siteHeader.classList.add('scrolled');
+        } else {
+          siteHeader.classList.remove('scrolled');
+        }
       });
-    });
+    }
+  </script>
 
-    rewardPopupClose.addEventListener("click", closeRewardPopup);
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const siteHeader = document.querySelector('.site-header');
 
-    rewardPopupOverlay.addEventListener("click", (e) => {
-      if (e.target === rewardPopupOverlay) closeRewardPopup();
-    });
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', function (e) {
+          e.stopPropagation();
+          menuToggle.classList.toggle('active');
+          mobileMenu.classList.toggle('open');
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeRewardPopup();
+          const isOpen = mobileMenu.classList.contains('open');
+          menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        mobileMenu.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
+
+        document.addEventListener('click', function () {
+          menuToggle.classList.remove('active');
+          mobileMenu.classList.remove('open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      if (siteHeader) {
+        window.addEventListener('scroll', function () {
+          if (window.scrollY > 10) {
+            siteHeader.classList.add('scrolled');
+          } else {
+            siteHeader.classList.remove('scrolled');
+          }
+        });
+      }
+
+      const rewardButtons = document.querySelectorAll(".reward-btn");
+      const rewardPopupOverlay = document.getElementById("rewardPopupOverlay");
+      const rewardPopupClose = document.getElementById("rewardPopupClose");
+
+      const rewardPopupName = document.getElementById("rewardPopupName");
+      const rewardPopupAmount = document.getElementById("rewardPopupAmount");
+      const rewardPopupText = document.getElementById("rewardPopupText");
+
+      function gilHTML(amount) {
+        return `
+          <span class="reward-popup-amount">
+            ${Number(amount).toLocaleString()}
+            <img src="images/Gil_Icon.png" alt="Gil">
+          </span>
+        `;
+      }
+
+      function openRewardPopup(tier, amount, desc) {
+        rewardPopupName.textContent = tier;
+        rewardPopupAmount.innerHTML = gilHTML(amount);
+        rewardPopupText.textContent = desc;
+
+        rewardPopupOverlay.classList.add("show");
+        document.body.classList.add("popup-open");
+      }
+
+      function closeRewardPopup() {
+        rewardPopupOverlay.classList.remove("show");
+        document.body.classList.remove("popup-open");
+      }
+
+      rewardButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          openRewardPopup(
+            btn.dataset.tier,
+            btn.dataset.amount,
+            btn.dataset.desc
+          );
+        });
+      });
+
+      if (rewardPopupClose) {
+        rewardPopupClose.addEventListener("click", closeRewardPopup);
+      }
+
+      if (rewardPopupOverlay) {
+        rewardPopupOverlay.addEventListener("click", (e) => {
+          if (e.target === rewardPopupOverlay) closeRewardPopup();
+        });
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeRewardPopup();
+      });
     });
   </script>
 </body>
