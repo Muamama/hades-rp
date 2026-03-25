@@ -2339,6 +2339,14 @@ body {
   .site-footer a {
     font-size: 0.9rem;
   }
+    .logo {
+    left: 12px;
+  }
+  
+  .logo img {
+    width: 38px;
+    height: 38px;
+  }
 }
 
 :root {
