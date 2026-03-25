@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>冥界回聲管理 | 冥界</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #050505;
+      --panel: rgba(15, 15, 15, 0.9);
+      --gold: #d4af37;
+      --line: rgba(212, 175, 55, 0.18);
+      --text: #efe7d2;
+      --text-soft: rgba(239, 231, 210, 0.72);
+      --green: #bfe7ba;
+      --red: #ffcdcd;
+      --yellow: #f8dd8d;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Serif TC", serif;
+      background:
+        radial-gradient(circle at top, rgba(120, 0, 0, 0.18), transparent 24%),
+        linear-gradient(to bottom, #040404 0%, #0a0a0a 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .top-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+      z-index: 1000;
+    }
+
+    .admin-wrap {
+      max-width: 1380px;
+      margin: 0 auto;
+      padding: 70px 20px 100px;
+    }
+
+    .admin-head {
+      margin-bottom: 28px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--panel);
+      box-shadow: 0 0 24px rgba(0, 0, 0, 0.28);
+    }
+
+    .admin-kicker {
+      color: rgba(212, 175, 55, 0.8);
+      font-size: 14px;
+      letter-spacing: 7px;
+      margin-bottom: 10px;
+    }
+
+    .admin-title {
+      margin: 0 0 12px;
+      color: var(--gold);
+      font-size: clamp(28px, 4vw, 48px);
+      letter-spacing: 8px;
+    }
+
+    .admin-desc {
+      margin: 0;
+      line-height: 1.9;
+      color: var(--text-soft);
+    }
+
+    .toolbar {
+      margin-bottom: 24px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .toolbar-left,
+    .toolbar-right {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .toolbar select,
+    .toolbar input {
+      background: #0b0b0b;
+      color: var(--text);
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-family: "Noto Serif TC", serif;
+      min-width: 180px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-family: "Noto Serif TC", serif;
+      cursor: pointer;
+      letter-spacing: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #f0d77d 0%, #d4af37 55%, #b78a18 100%);
+      color: #111;
+    }
+
+    .btn-dark {
+      background: #121212;
+      color: var(--gold);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .btn-green {
+      background: #101b10;
+      color: var(--green);
+      border: 1px solid rgba(150, 220, 150, 0.2);
+    }
+
+    .btn-red {
+      background: #1a1010;
+      color: var(--red);
+      border: 1px solid rgba(255, 120, 120, 0.18);
+    }
+
+    .btn-yellow {
+      background: #18150d;
+      color: var(--yellow);
+      border: 1px solid rgba(248, 221, 141, 0.18);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .status-bar {
+      margin-bottom: 20px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      display: none;
+      line-height: 1.8;
+    }
+
+    .status-bar.show {
+      display: block;
+    }
+
+    .status-bar.success {
+      background: rgba(20, 60, 20, 0.28);
+      border: 1px solid rgba(120, 220, 120, 0.22);
+      color: #d9f0d1;
+    }
+
+    .status-bar.error {
+      background: rgba(80, 12, 12, 0.28);
+      border: 1px solid rgba(255, 120, 120, 0.18);
+      color: #ffd7d7;
+    }
+
+    .echo-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .echo-card {
+      padding: 20px;
+      border-radius: 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.24);
+    }
+
+    .echo-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .echo-name {
+      font-size: 18px;
+      color: var(--gold);
+      letter-spacing: 3px;
+    }
+
+    .echo-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--text-soft);
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 2px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      background: rgba(212, 175, 55, 0.08);
+      color: var(--gold);
+    }
+
+    .badge.pending {
+      color: var(--yellow);
+      border-color: rgba(248, 221, 141, 0.2);
+      background: rgba(248, 221, 141, 0.08);
+    }
+
+    .badge.approved {
+      color: var(--green);
+      border-color: rgba(150, 220, 150, 0.2);
+      background: rgba(150, 220, 150, 0.08);
+    }
+
+    .badge.hidden {
+      color: #d4d4d4;
+      border-color: rgba(220, 220, 220, 0.12);
+      background: rgba(220, 220, 220, 0.05);
+    }
+
+    .badge.deleted {
+      color: var(--red);
+      border-color: rgba(255, 120, 120, 0.18);
+      background: rgba(255, 120, 120, 0.06);
+    }
+
+    .echo-message {
+      margin: 0 0 16px;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 2;
+      color: var(--text);
+    }
+
+    .echo-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .empty-state {
+      padding: 50px 20px;
+      text-align: center;
+      color: var(--text-soft);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel);
+      line-height: 2;
+    }
+
+    @media (max-width: 700px) {
+      .admin-wrap {
+        padding: 60px 14px 80px;
+      }
+
+      .admin-head,
+      .toolbar,
+      .echo-card {
+        padding: 16px;
+      }
+
+      .toolbar select,
+      .toolbar input {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-line"></div>
+
+  <div class="admin-wrap">
+    <section class="admin-head">
+      <div class="admin-kicker">NETHER ECHO ADMIN</div>
+      <h1 class="admin-title">冥界回聲管理後台</h1>
+      <p class="admin-desc">
+        這裡可以審核、隱藏、刪除匿名留言。只有登入 Supabase Auth 的帳號能進行管理操作。
+      </p>
+    </section>
+
+    <section class="toolbar">
+      <div class="toolbar-left">
+        <select id="statusFilter">
+          <option value="all">全部狀態</option>
+          <option value="pending">待審核</option>
+          <option value="approved">已公開</option>
+          <option value="hidden">已隱藏</option>
+          <option value="deleted">已刪除</option>
+        </select>
+
+        <input type="text" id="searchInput" placeholder="搜尋暱稱或留言內容" />
+      </div>
+
+      <div class="toolbar-right">
+        <button class="btn btn-dark" id="loginBtn" type="button">管理員登入</button>
+        <button class="btn btn-dark" id="logoutBtn" type="button">登出</button>
+        <button class="btn btn-gold" id="reloadBtn" type="button">重新載入</button>
+      </div>
+    </section>
+
+    <div class="status-bar" id="statusBar"></div>
+
+    <section class="echo-grid" id="echoGrid">
+      <div class="empty-state">正在載入管理資料……</div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const supabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+
+      const echoGrid = document.getElementById("echoGrid");
+      const statusBar = document.getElementById("statusBar");
+      const statusFilter = document.getElementById("statusFilter");
+      const searchInput = document.getElementById("searchInput");
+      const reloadBtn = document.getElementById("reloadBtn");
+      const loginBtn = document.getElementById("loginBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      let allEchoes = [];
+
+      function showStatus(message, type) {
+        statusBar.textContent = message;
+        statusBar.className = "status-bar show " + type;
+      }
+
+      function hideStatus() {
+        statusBar.textContent = "";
+        statusBar.className = "status-bar";
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, "0");
+        const d = String(date.getDate()).padStart(2, "0");
+        const hh = String(date.getHours()).padStart(2, "0");
+        const mm = String(date.getMinutes()).padStart(2, "0");
+        return `${y}-${m}-${d} ${hh}:${mm}`;
+      }
+
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text || "";
+        return div.innerHTML;
+      }
+
+      async function ensureAuth() {
+        const { data } = await supabase.auth.getSession();
+        return !!data.session;
+      }
+
+      async function adminLogin() {
+        const email = prompt("請輸入管理員帳號 Email");
+        if (!email) return;
+
+        const password = prompt("請輸入密碼");
+        if (!password) return;
+
+        const { error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (error) {
+          showStatus("登入失敗：" + error.message, "error");
+          return;
+        }
+
+        showStatus("登入成功。", "success");
+        loadEchoes();
+      }
+
+      async function adminLogout() {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+          showStatus("登出失敗：" + error.message, "error");
+          return;
+        }
+
+        showStatus("已登出。", "success");
+        loadEchoes();
+      }
+
+      function getBadge(item) {
+        if (item.is_deleted) {
+          return `<span class="badge deleted">已刪除</span>`;
+        }
+        if (item.status === "pending") {
+          return `<span class="badge pending">待審核</span>`;
+        }
+        if (item.status === "approved") {
+          return `<span class="badge approved">已公開</span>`;
+        }
+        if (item.status === "hidden") {
+          return `<span class="badge hidden">已隱藏</span>`;
+        }
+        return `<span class="badge">${escapeHtml(item.status || "未知")}</span>`;
+      }
+
+      function applyFilters() {
+        const statusValue = statusFilter.value;
+        const keyword = searchInput.value.trim().toLowerCase();
+
+        let filtered = allEchoes.filter(function (item) {
+          if (statusValue === "deleted") {
+            if (!item.is_deleted) return false;
+          } else if (statusValue !== "all") {
+            if (item.is_deleted) return false;
+            if (item.status !== statusValue) return false;
+          }
+
+          if (keyword) {
+            const nickname = (item.nickname || "").toLowerCase();
+            const message = (item.message || "").toLowerCase();
+            if (!nickname.includes(keyword) && !message.includes(keyword)) {
+              return false;
+            }
+          }
+
+          return true;
+        });
+
+        renderEchoes(filtered);
+      }
+
+      function renderEchoes(items) {
+        echoGrid.innerHTML = "";
+
+        if (!items.length) {
+          echoGrid.innerHTML = `<div class="empty-state">目前沒有符合條件的留言。</div>`;
+          return;
+        }
+
+        items.forEach(function (item) {
+          const card = document.createElement("article");
+          card.className = "echo-card";
+
+          const visibleText = item.is_visible ? "顯示中" : "未顯示";
+
+          card.innerHTML = `
+            <div class="echo-top">
+              <div>
+                <div class="echo-name">${escapeHtml(item.nickname || "匿名旅人")}</div>
+                <div class="echo-meta">
+                  <span>${formatDate(item.created_at)}</span>
+                  <span>${getBadge(item)}</span>
+                  <span class="badge">${visibleText}</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="echo-message">${escapeHtml(item.message)}</p>
+
+            <div class="echo-actions">
+              <button class="btn btn-green" data-action="approve" data-id="${item.id}">審核公開</button>
+              <button class="btn btn-yellow" data-action="hide" data-id="${item.id}">隱藏</button>
+              <button class="btn btn-dark" data-action="pending" data-id="${item.id}">退回待審核</button>
+              <button class="btn btn-red" data-action="delete" data-id="${item.id}">刪除</button>
+            </div>
+          `;
+
+          echoGrid.appendChild(card);
+        });
+      }
+
+      async function loadEchoes() {
+        hideStatus();
+        echoGrid.innerHTML = `<div class="empty-state">正在載入管理資料……</div>`;
+
+        const isLoggedIn = await ensureAuth();
+        if (!isLoggedIn) {
+          echoGrid.innerHTML = `<div class="empty-state">請先登入管理員帳號，才能查看與管理留言。</div>`;
+          return;
+        }
+
+        const { data, error } = await supabase
+          .from("mingjie_echoes")
+          .select("*")
+          .order("created_at", { ascending: false });
+
+        if (error) {
+          echoGrid.innerHTML = `<div class="empty-state">管理資料讀取失敗。</div>`;
+          showStatus("讀取失敗：" + error.message, "error");
+          return;
+        }
+
+        allEchoes = data || [];
+        applyFilters();
+      }
+
+      async function updateEcho(id, payload, successMessage) {
+        hideStatus();
+
+        const isLoggedIn = await ensureAuth();
+        if (!isLoggedIn) {
+          showStatus("請先登入管理員帳號。", "error");
+          return;
+        }
+
+        const { error } = await supabase
+          .from("mingjie_echoes")
+          .update(payload)
+          .eq("id", id);
+
+        if (error) {
+          showStatus("操作失敗：" + error.message, "error");
+          return;
+        }
+
+        showStatus(successMessage, "success");
+        loadEchoes();
+      }
+
+      echoGrid.addEventListener("click", async function (e) {
+        const button = e.target.closest("button[data-action]");
+        if (!button) return;
+
+        const action = button.dataset.action;
+        const id = button.dataset.id;
+
+        if (action === "approve") {
+          await updateEcho(
+            id,
+            { status: "approved", is_visible: true, is_deleted: false },
+            "留言已審核公開。"
+          );
+        }
+
+        if (action === "hide") {
+          await updateEcho(
+            id,
+            { status: "hidden", is_visible: false },
+            "留言已隱藏。"
+          );
+        }
+
+        if (action === "pending") {
+          await updateEcho(
+            id,
+            { status: "pending", is_visible: false, is_deleted: false },
+            "留言已退回待審核。"
+          );
+        }
+
+        if (action === "delete") {
+          const ok = confirm("確定要刪除這則留言嗎？");
+          if (!ok) return;
+
+          await updateEcho(
+            id,
+            { is_deleted: true, is_visible: false, status: "hidden" },
+            "留言已刪除。"
+          );
+        }
+      });
+
+      statusFilter.addEventListener("change", applyFilters);
+      searchInput.addEventListener("input", applyFilters);
+      reloadBtn.addEventListener("click", loadEchoes);
+      loginBtn.addEventListener("click", adminLogin);
+      logoutBtn.addEventListener("click", adminLogout);
+
+      loadEchoes();
+    });
+  </script>
+</body>
+</html>
