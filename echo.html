@@ -109,6 +109,14 @@
       align-items: start;
     }
 
+    .echo-form-panel {
+      order: 1;
+    }
+
+    .echo-list-panel {
+      order: 2;
+    }
+
     .echo-panel {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -351,7 +359,6 @@
       line-height: 1.9;
     }
 
-    /* 手機選單保底樣式，避免這頁吃不到 style.css 時直接消失 */
     .mobile-menu {
       display: none;
     }
@@ -364,6 +371,16 @@
     @media (max-width: 1100px) {
       .echo-wrap {
         grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .echo-list-panel {
+        order: 1;
+      }
+
+      .echo-form-panel {
+        order: 2;
       }
     }
 
@@ -382,12 +399,13 @@
       }
 
       .panel-head,
-      .echo-list {
-        padding: 16px;
-      }
       .echo-form {
         padding-left: 18px;
         padding-right: 18px;
+      }
+
+      .echo-list {
+        padding: 16px;
       }
 
       .echo-card {
@@ -453,7 +471,7 @@
     </section>
 
     <section class="echo-wrap">
-      <div class="echo-panel">
+      <div class="echo-panel echo-form-panel">
         <div class="panel-head">
           <h2 class="panel-title">留下回聲</h2>
           <p class="panel-subtitle">
