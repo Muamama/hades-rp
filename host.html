@@ -9,77 +9,31 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<script>
-  const siteHeader = document.querySelector('.site-header');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      siteHeader.classList.add('scrolled');
-    } else {
-      siteHeader.classList.remove('scrolled');
-    }
-  });
-</script>
-<body>
-  <div class="top-line"></div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const menuToggle = document.getElementById('menuToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const siteHeader = document.querySelector('.site-header');
-
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', function (e) {
-      e.stopPropagation();
-      menuToggle.classList.toggle('active');
-      mobileMenu.classList.toggle('open');
-
-      const isOpen = mobileMenu.classList.contains('open');
-      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-
-    mobileMenu.addEventListener('click', function (e) {
-      e.stopPropagation();
-    });
-
-    document.addEventListener('click', function () {
-      menuToggle.classList.remove('active');
-      mobileMenu.classList.remove('open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    });
-  }
-
-  if (siteHeader) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 10) {
-        siteHeader.classList.add('scrolled');
-      } else {
-        siteHeader.classList.remove('scrolled');
-      }
-    });
-  }
-});
-</script>
-  
 <body>
   <div class="top-line"></div>
 
   <header class="site-header">
     <div class="header-inner">
-  
       <a href="index.html" class="logo">
         <img src="images/logo.png" alt="冥界 LOGO">
       </a>
-  
+
       <div class="header-title">冥界</div>
-  
-      <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
+
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="開啟選單"
+        aria-expanded="false"
+        aria-controls="mobileMenu"
+        type="button"
+      >
         <span></span>
         <span></span>
         <span></span>
       </button>
-  
+
       <nav class="main-nav">
         <a href="index.html">主頁</a>
         <a href="rates.html">指名費用</a>
@@ -91,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <a href="echo.html">冥界回聲</a>
       </nav>
     </div>
-  
+
     <div class="mobile-menu" id="mobileMenu">
       <a href="index.html">主頁</a>
       <a href="rates.html">指名費用</a>
@@ -137,14 +91,13 @@ document.addEventListener('DOMContentLoaded', function () {
       <h2 class="host-group-title special-title">困獸狂犬</h2>
 
       <div class="host-grid special-grid">
-
         <article
           class="host-card special-card"
           data-host-name="刻耳柏洛斯"
           data-host-img="images/哥哥.jpg"
           data-host-desc="狂犬撕咬慾望，笑著把來者拖進夢裡。"
         >
-          <img src="images/哥哥.jpg" alt="哥哥" />
+          <img src="images/哥哥.jpg" alt="刻耳柏洛斯" />
           <h3>刻耳柏洛斯</h3>
           <p>狂犬撕咬慾望，笑著把來者拖進夢裡。</p>
         </article>
@@ -155,25 +108,24 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/弟弟.png"
           data-host-desc="靜靜看著，等你自己走進來。"
         >
-          <img src="images/弟弟.png" alt="弟弟" />
+          <img src="images/弟弟.png" alt="厄耳特洛斯" />
           <h3>厄耳特洛斯</h3>
           <p>靜靜看著，等你自己走進來。</p>
         </article>
-
       </div>
     </section>
 
     <section class="host-group">
       <h2 class="host-group-title">冥界之宴</h2>
-      <div class="host-grid">
 
+      <div class="host-grid">
         <article
           class="host-card"
           data-host-name="龍冽"
           data-host-img="images/host-01.png"
           data-host-desc="問你一個小問題......是你會怎麼做呢，當發現這世界的真相？"
         >
-          <img src="images/host-01.png" alt="Host 01" />
+          <img src="images/host-01.png" alt="龍冽" />
           <h3>龍冽</h3>
           <p>問你一個小問題......是你會怎麼做呢，當發現這世界的真相？</p>
         </article>
@@ -184,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-02.jpg"
           data-host-desc="甜心，愛情也可以是有價的。"
         >
-          <img src="images/host-02.jpg" alt="Host 02" />
+          <img src="images/host-02.jpg" alt="安怛" />
           <h3>安怛</h3>
           <p>甜心，愛情也可以是有價的。</p>
         </article>
@@ -195,7 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-03.png"
           data-host-desc="「隨便。」「⋯⋯還行。」"
         >
-          <img src="images/host-03.png" alt="Host 03" />
+          <img src="images/host-03.png" alt="Jazper" />
           <h3>Jazper</h3>
           <p>「隨便。」「⋯⋯還行。」</p>
         </article>
@@ -206,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-04.png"
           data-host-desc="我會站該站的地方。"
         >
-          <img src="images/host-04.png" alt="Host 04" />
+          <img src="images/host-04.png" alt="格斯亞德" />
           <h3>格斯亞德</h3>
           <p>我會站該站的地方。</p>
         </article>
@@ -217,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-05.png"
           data-host-desc="「……找我嗎」"
         >
-          <img src="images/host-05.png" alt="Host 05" />
+          <img src="images/host-05.png" alt="蛇魂" />
           <h3>蛇魂</h3>
           <p>「……找我嗎」</p>
         </article>
@@ -228,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-06.png"
           data-host-desc="「你好。」「為什麼想跟我說話⋯？」「呃⋯你確定？」"
         >
-          <img src="images/host-06.png" alt="Host 06" />
+          <img src="images/host-06.png" alt="餘燼" />
           <h3>餘燼</h3>
           <p>「你好。」「為什麼想跟我說話⋯？」「呃⋯你確定？」</p>
         </article>
@@ -239,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-07.png"
           data-host-desc="「很有趣的經驗哦，這個是獎勵！」"
         >
-          <img src="images/host-07.png" alt="Host 07" />
+          <img src="images/host-07.png" alt="格拉斯莫" />
           <h3>格拉斯莫</h3>
           <p>「很有趣的經驗哦，這個是獎勵！」</p>
         </article>
@@ -250,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-08.png"
           data-host-desc="「別跟余講話…嗯？你說胖嘟嘟跳蜥很可愛？」「想摸余的龍尾?只有被選中的小動物才行。怎麼樣才能被選中...你不是心知肚明嗎。」"
         >
-          <img src="images/host-08.png" alt="Host 08" />
+          <img src="images/host-08.png" alt="法拉歐" />
           <h3>法拉歐</h3>
           <p>「別跟余講話…嗯？你說胖嘟嘟跳蜥很可愛？」「想摸余的龍尾?只有被選中的小動物才行。怎麼樣才能被選中...你不是心知肚明嗎。」</p>
         </article>
@@ -261,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-09.png"
           data-host-desc="「好玩就好」、「因為很有趣啊」、「啊⋯靠」、「真麻煩」、「隨便⋯你喜歡就行」"
         >
-          <img src="images/host-09.png" alt="Host 09" />
+          <img src="images/host-09.png" alt="牛奶" />
           <h3>牛奶</h3>
           <p>「好玩就好」、「因為很有趣啊」、「啊⋯靠」、「真麻煩」、「隨便⋯你喜歡就行」</p>
         </article>
@@ -272,9 +224,9 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-10.png"
           data-host-desc="........."
         >
-          <img src="images/host-10.png" alt="Host 10" />
+          <img src="images/host-10.png" alt="無盡寒夜" />
           <h3>無盡寒夜</h3>
-          <p>"........."</p>
+          <p>.........</p>
         </article>
 
         <article
@@ -283,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-11.png"
           data-host-desc="「不介意的話請收下這顆糖，希望糖分能帶給你好心情。」"
         >
-          <img src="images/host-11.png" alt="Host 11" />
+          <img src="images/host-11.png" alt="埃伊諾" />
           <h3>埃伊諾</h3>
           <p>「不介意的話請收下這顆糖，希望糖分能帶給你好心情。」</p>
         </article>
@@ -294,22 +246,21 @@ document.addEventListener('DOMContentLoaded', function () {
           data-host-img="images/host-12.png"
           data-host-desc="「你不是不知道，只是不願承認。」「我不負責安慰，只負責讓你看清。」"
         >
-          <img src="images/host-12.png" alt="Host 12" />
+          <img src="images/host-12.png" alt="甲醛" />
           <h3>甲醛</h3>
-          <p>「你不是不知道，只是不願承認。」「我不負責安慰，只負責讓你看清。</p>
+          <p>「你不是不知道，只是不願承認。」「我不負責安慰，只負責讓你看清。」</p>
         </article>
 
-          <article
+        <article
           class="host-card"
           data-host-name="洛德勒斯"
           data-host-img="images/host-13.png"
           data-host-desc="人生就是要喝酒吧"
         >
-          <img src="images/host-13.png" alt="Host 13" />
+          <img src="images/host-13.png" alt="洛德勒斯" />
           <h3>洛德勒斯</h3>
           <p>人生就是要喝酒吧</p>
         </article>
-
       </div>
     </section>
   </main>
@@ -338,7 +289,14 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
 
         <div class="host-admin-custom">
-          <input id="customAmountInput" class="host-admin-input" type="number" min="1" step="1" placeholder="自訂金額（GIL）" />
+          <input
+            id="customAmountInput"
+            class="host-admin-input"
+            type="number"
+            min="1"
+            step="1"
+            placeholder="自訂金額（GIL）"
+          />
           <button id="customTipBtn" class="host-tip-btn wide" type="button">送出自訂打賞</button>
         </div>
 
@@ -379,14 +337,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const customTipBtn = document.getElementById("customTipBtn");
     const tipButtons = document.querySelectorAll(".host-tip-btn[data-amount]");
 
+    const menuToggle = document.getElementById("menuToggle");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const siteHeader = document.querySelector(".site-header");
+
     let currentHost = null;
     let currentUser = null;
 
     function normalizeHostName(name) {
-      if (name === "厄耳特洛斯") {
-        return "厄耳特洛斯";
-      }
-      return name;
+      return name ? name.trim() : "";
     }
 
     function updateAdminVisibility() {
@@ -398,7 +357,19 @@ document.addEventListener('DOMContentLoaded', function () {
         hostAdminPanel.classList.add("hidden-admin");
       }
     }
-    
+
+    function updateAdminPanelState() {
+      updateAdminVisibility();
+
+      if (currentUser) {
+        hostAdminPanel.classList.remove("locked");
+        tipMessage.textContent = `已登入管理員，可替 ${currentHost?.name || "目前店員"} 增加打賞。`;
+      } else {
+        hostAdminPanel.classList.add("locked");
+        tipMessage.textContent = "尚未登入管理員，無法送出打賞。";
+      }
+    }
+
     function openHostPopup(card) {
       currentHost = {
         name: normalizeHostName(card.dataset.hostName),
@@ -427,21 +398,9 @@ document.addEventListener('DOMContentLoaded', function () {
         : "登入管理員後可替目前店員增加打賞。";
     }
 
-    function updateAdminPanelState() {
-      updateAdminVisibility();
-    
-      if (currentUser) {
-        hostAdminPanel.classList.remove("locked");
-        tipMessage.textContent = `已登入管理員，可替 ${currentHost?.name || "目前店員"} 增加打賞。`;
-      } else {
-        hostAdminPanel.classList.add("locked");
-        tipMessage.textContent = "尚未登入管理員，無法送出打賞。";
-      }
-    }
-    
     async function checkSession() {
       const { data, error } = await supabase.auth.getSession();
-    
+
       if (error) {
         authMessage.textContent = "登入狀態檢查失敗。";
         console.error(error);
@@ -449,57 +408,18 @@ document.addEventListener('DOMContentLoaded', function () {
         updateAdminPanelState();
         return null;
       }
-    
+
       currentUser = data.session?.user || null;
-    
+
       if (currentUser) {
         authMessage.textContent = `已登入：${currentUser.email}`;
       } else {
         authMessage.textContent = "未登入。";
       }
-    
+
       updateAdminPanelState();
       return currentUser;
     }
-    
-    loginBtn.addEventListener("click", async () => {
-      const email = adminEmail.value.trim();
-      const password = adminPassword.value;
-
-      if (!email || !password) {
-        authMessage.textContent = "請輸入 Email 與密碼。";
-        return;
-      }
-
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) {
-        authMessage.textContent = "登入失敗。";
-        console.error(error);
-        return;
-      }
-
-      currentUser = data.user;
-      authMessage.textContent = `已登入：${data.user.email}`;
-      updateAdminPanelState();
-    });
-
-    logoutBtn.addEventListener("click", async () => {
-      const { error } = await supabase.auth.signOut();
-
-      if (error) {
-        authMessage.textContent = "登出失敗。";
-        console.error(error);
-        return;
-      }
-
-      currentUser = null;
-      authMessage.textContent = "已登出。";
-      updateAdminPanelState();
-    });
 
     async function addTipToHost(amount) {
       if (!currentUser) {
@@ -551,40 +471,131 @@ document.addEventListener('DOMContentLoaded', function () {
       customAmountInput.value = "";
     }
 
-    hostCards.forEach((card) => {
-      card.addEventListener("click", () => {
-        openHostPopup(card);
-      });
-    });
+    function setupMobileMenu() {
+      if (!menuToggle || !mobileMenu) return;
 
-    tipButtons.forEach((btn) => {
-      btn.addEventListener("click", async (e) => {
+      menuToggle.addEventListener("click", function (e) {
         e.stopPropagation();
-        const amount = Number(btn.dataset.amount);
+        menuToggle.classList.toggle("active");
+        mobileMenu.classList.toggle("open");
+
+        const isOpen = mobileMenu.classList.contains("open");
+        menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+
+      mobileMenu.addEventListener("click", function (e) {
+        e.stopPropagation();
+      });
+
+      document.addEventListener("click", function () {
+        menuToggle.classList.remove("active");
+        mobileMenu.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+      });
+    }
+
+    function setupHeaderScrollEffect() {
+      if (!siteHeader) return;
+
+      function handleScroll() {
+        if (window.scrollY > 10) {
+          siteHeader.classList.add("scrolled");
+        } else {
+          siteHeader.classList.remove("scrolled");
+        }
+      }
+
+      handleScroll();
+      window.addEventListener("scroll", handleScroll);
+    }
+
+    function setupHostCards() {
+      hostCards.forEach((card) => {
+        card.addEventListener("click", () => {
+          openHostPopup(card);
+        });
+      });
+    }
+
+    function setupTipButtons() {
+      tipButtons.forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          const amount = Number(btn.dataset.amount);
+          await addTipToHost(amount);
+        });
+      });
+
+      customTipBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        const amount = Number(customAmountInput.value);
         await addTipToHost(amount);
       });
-    });
+    }
 
-    customTipBtn.addEventListener("click", async (e) => {
-      e.stopPropagation();
-      const amount = Number(customAmountInput.value);
-      await addTipToHost(amount);
-    });
+    function setupPopupEvents() {
+      hostPopupClose.addEventListener("click", closeHostPopup);
 
-    hostPopupClose.addEventListener("click", closeHostPopup);
+      hostPopupOverlay.addEventListener("click", (e) => {
+        if (e.target === hostPopupOverlay) {
+          closeHostPopup();
+        }
+      });
 
-    hostPopupOverlay.addEventListener("click", (e) => {
-      if (e.target === hostPopupOverlay) {
-        closeHostPopup();
-      }
-    });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && hostPopupOverlay.classList.contains("show")) {
+          closeHostPopup();
+        }
+      });
+    }
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        closeHostPopup();
-      }
-    });
+    function setupAuthButtons() {
+      loginBtn.addEventListener("click", async () => {
+        const email = adminEmail.value.trim();
+        const password = adminPassword.value;
 
+        if (!email || !password) {
+          authMessage.textContent = "請輸入 Email 與密碼。";
+          return;
+        }
+
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) {
+          authMessage.textContent = "登入失敗。";
+          console.error(error);
+          return;
+        }
+
+        currentUser = data.user;
+        authMessage.textContent = `已登入：${data.user.email}`;
+        updateAdminPanelState();
+      });
+
+      logoutBtn.addEventListener("click", async () => {
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+          authMessage.textContent = "登出失敗。";
+          console.error(error);
+          return;
+        }
+
+        currentUser = null;
+        authMessage.textContent = "已登出。";
+        updateAdminPanelState();
+      });
+    }
+
+    setupMobileMenu();
+    setupHeaderScrollEffect();
+    setupHostCards();
+    setupTipButtons();
+    setupPopupEvents();
+    setupAuthButtons();
     checkSession();
   </script>
 </body>
