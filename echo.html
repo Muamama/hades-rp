@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>冥界回聲 | 冥界</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-soft: #0c0c0c;
+      --panel: rgba(15, 15, 15, 0.82);
+      --panel-strong: rgba(20, 20, 20, 0.92);
+      --gold: #d4af37;
+      --gold-soft: rgba(212, 175, 55, 0.45);
+      --gold-dim: rgba(212, 175, 55, 0.18);
+      --text: #efe7d2;
+      --text-soft: rgba(239, 231, 210, 0.72);
+      --line: rgba(212, 175, 55, 0.22);
+      --red-glow: rgba(120, 0, 0, 0.18);
+      --shadow: 0 0 30px rgba(212, 175, 55, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Noto Serif TC", serif;
+      background:
+        radial-gradient(circle at top, rgba(120, 0, 0, 0.18), transparent 28%),
+        radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.05), transparent 35%),
+        linear-gradient(to bottom, #040404 0%, #090909 38%, #050505 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .top-line {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+      z-index: 1001;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(5, 5, 5, 0.72);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+      transition: all 0.35s ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(8, 8, 8, 0.88);
+      box-shadow:
+        0 6px 24px rgba(0, 0, 0, 0.35),
+        0 0 18px rgba(212, 175, 55, 0.12);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+    }
+
+    .header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      min-height: 84px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .logo img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.18));
+    }
+
+    .header-title {
+      font-size: 30px;
+      letter-spacing: 12px;
+      color: var(--gold);
+      text-shadow: 0 0 18px rgba(212, 175, 55, 0.16);
+      white-space: nowrap;
+      flex: 1;
+      text-align: center;
+      margin-left: 20px;
+    }
+
+    .main-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-shrink: 0;
+    }
+
+    .main-nav a,
+    .mobile-menu a {
+      position: relative;
+      color: var(--text);
+      font-size: 15px;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .main-nav a::after,
+    .mobile-menu a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -6px;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+    }
+
+    .main-nav a:hover,
+    .mobile-menu a:hover,
+    .main-nav a.active,
+    .mobile-menu a.active {
+      color: var(--gold);
+      text-shadow: 0 0 8px rgba(212, 175, 55, 0.25);
+    }
+
+    .main-nav a:hover::after,
+    .mobile-menu a:hover::after,
+    .main-nav a.active::after,
+    .mobile-menu a.active::after {
+      width: 100%;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      background: rgba(12, 12, 12, 0.8);
+      border-radius: 12px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--gold);
+      border-radius: 999px;
+      transition: all 0.3s ease;
+    }
+
+    .menu-toggle.active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .mobile-menu {
+      display: none;
+      padding: 0 24px 18px;
+      background: rgba(8, 8, 8, 0.96);
+      border-top: 1px solid rgba(212, 175, 55, 0.12);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.34);
+    }
+
+    .mobile-menu.open {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .echo-hero {
+      position: relative;
+      padding: 140px 20px 70px;
+      overflow: hidden;
+    }
+
+    .echo-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at center, rgba(212, 175, 55, 0.06), transparent 32%),
+        radial-gradient(circle at 50% 10%, rgba(120, 0, 0, 0.16), transparent 30%);
+      pointer-events: none;
+    }
+
+    .echo-hero-inner {
+      position: relative;
+      max-width: 980px;
+      margin: 0 auto;
+      text-align: center;
+      z-index: 1;
+    }
+
+    .echo-kicker {
+      font-size: 14px;
+      letter-spacing: 8px;
+      color: rgba(212, 175, 55, 0.8);
+      margin-bottom: 18px;
+    }
+
+    .echo-title {
+      margin: 0 0 18px;
+      font-size: clamp(34px, 6vw, 72px);
+      letter-spacing: 14px;
+      color: var(--gold);
+      text-shadow:
+        0 0 16px rgba(212, 175, 55, 0.16),
+        0 0 34px rgba(120, 0, 0, 0.16);
+    }
+
+    .echo-desc {
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 2;
+      font-size: 16px;
+      color: var(--text-soft);
+    }
+
+    .echo-wrap {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 20px 120px;
+      display: grid;
+      grid-template-columns: 420px minmax(0, 1fr);
+      gap: 34px;
+      align-items: start;
+    }
+
+    .echo-panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow:
+        0 0 24px rgba(0, 0, 0, 0.3),
+        0 0 18px rgba(212, 175, 55, 0.06);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+
+    .panel-head {
+      padding: 24px 26px 18px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+      background:
+        linear-gradient(to bottom, rgba(212, 175, 55, 0.04), transparent),
+        linear-gradient(to right, rgba(120, 0, 0, 0.08), transparent);
+    }
+
+    .panel-title {
+      margin: 0 0 8px;
+      font-size: 24px;
+      letter-spacing: 6px;
+      color: var(--gold);
+    }
+
+    .panel-subtitle {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--text-soft);
+    }
+
+    .echo-form {
+      padding: 24px 26px 28px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 14px;
+      letter-spacing: 3px;
+      color: var(--gold);
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      background: rgba(7, 7, 7, 0.92);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-family: "Noto Serif TC", serif;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: inset 0 0 0 1px transparent;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: rgba(212, 175, 55, 0.5);
+      box-shadow:
+        0 0 0 1px rgba(212, 175, 55, 0.22),
+        0 0 16px rgba(212, 175, 55, 0.08);
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: rgba(239, 231, 210, 0.34);
+    }
+
+    .form-textarea {
+      min-height: 180px;
+      resize: vertical;
+      line-height: 1.9;
+    }
+
+    .echo-note {
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.9;
+      color: rgba(239, 231, 210, 0.58);
+    }
+
+    .submit-btn {
+      width: 100%;
+      border: none;
+      border-radius: 16px;
+      padding: 16px 20px;
+      cursor: pointer;
+      font-family: "Noto Serif TC", serif;
+      font-size: 16px;
+      letter-spacing: 6px;
+      color: #111;
+      background: linear-gradient(135deg, #f0d77d 0%, #d4af37 55%, #b78a18 100%);
+      box-shadow:
+        0 0 20px rgba(212, 175, 55, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 24px rgba(212, 175, 55, 0.22),
+        0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .echo-list-panel .panel-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .echo-count {
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: rgba(239, 231, 210, 0.6);
+    }
+
+    .echo-list {
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .echo-card {
+      position: relative;
+      padding: 22px 22px 18px;
+      border-radius: 20px;
+      background:
+        linear-gradient(to bottom, rgba(212, 175, 55, 0.02), transparent),
+        rgba(10, 10, 10, 0.95);
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .echo-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.08), transparent 35%);
+      pointer-events: none;
+    }
+
+    .echo-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(212, 175, 55, 0.24);
+      box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.24),
+        0 0 20px rgba(212, 175, 55, 0.06);
+    }
+
+    .echo-meta {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .echo-name {
+      font-size: 16px;
+      letter-spacing: 3px;
+      color: var(--gold);
+    }
+
+    .echo-time {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: rgba(239, 231, 210, 0.45);
+    }
+
+    .echo-message {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      line-height: 2;
+      font-size: 15px;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .empty-state {
+      padding: 46px 24px 52px;
+      text-align: center;
+      color: var(--text-soft);
+      line-height: 2;
+    }
+
+    .site-footer {
+      border-top: 1px solid rgba(212, 175, 55, 0.12);
+      background: rgba(4, 4, 4, 0.9);
+      padding: 26px 20px 30px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      box-shadow: 0 -8px 22px rgba(212, 175, 55, 0.05);
+    }
+
+    .site-footer a {
+      color: rgba(239, 231, 210, 0.72);
+      letter-spacing: 3px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .site-footer a:hover {
+      color: var(--gold);
+      text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
+    }
+
+    @media (max-width: 1100px) {
+      .echo-wrap {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .main-nav {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .header-title {
+        font-size: 24px;
+        letter-spacing: 8px;
+        margin-left: 0;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .header-inner {
+        min-height: 78px;
+        padding: 0 16px;
+      }
+
+      .mobile-menu {
+        padding: 0 16px 18px;
+      }
+
+      .echo-hero {
+        padding: 120px 16px 54px;
+      }
+
+      .echo-title {
+        letter-spacing: 8px;
+      }
+
+      .echo-wrap {
+        padding: 0 16px 90px;
+        gap: 24px;
+      }
+
+      .panel-head,
+      .echo-form {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .echo-list {
+        padding: 16px;
+      }
+
+      .echo-card {
+        padding: 18px 16px 16px;
+      }
+
+      .logo img {
+        width: 46px;
+        height: 46px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top-line"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="冥界 LOGO">
+      </a>
+
+      <div class="header-title">冥界</div>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="main-nav">
+        <a href="index.html">主頁</a>
+        <a href="rates.html">指名費用</a>
+        <a href="timelist.html">時間表</a>
+        <a href="services.html">服務內容</a>
+        <a href="leaderboard.html">排行榜</a>
+        <a href="host.html">店員</a>
+        <a href="rules.html">規則條例</a>
+        <a class="active" href="echo.html">冥界回聲</a>
+      </nav>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">主頁</a>
+      <a href="rates.html">指名費用</a>
+      <a href="timelist.html">時間表</a>
+      <a href="services.html">服務內容</a>
+      <a href="leaderboard.html">排行榜</a>
+      <a href="host.html">店員</a>
+      <a href="rules.html">規則條例</a>
+      <a class="active" href="echo.html">冥界回聲</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="echo-hero">
+      <div class="echo-hero-inner">
+        <div class="echo-kicker">NETHER ECHO</div>
+        <h1 class="echo-title">冥界回聲</h1>
+        <p class="echo-desc">
+          若有些話不必署名，若有些情緒不適合帶走，
+          那便將它留在這裡。你可以匿名低語、傾倒片語、留下回音。
+          所有被寫下的聲音，都會在夜裡慢慢發亮。
+        </p>
+      </div>
+    </section>
+
+    <section class="echo-wrap">
+      <div class="echo-panel">
+        <div class="panel-head">
+          <h2 class="panel-title">留下回聲</h2>
+          <p class="panel-subtitle">
+            你可以使用暱稱，也可以保持匿名。<br>
+            請勿留下惡意內容、個資或廣告訊息。
+          </p>
+        </div>
+
+        <form class="echo-form" id="echoForm">
+          <div class="form-group">
+            <label class="form-label" for="nickname">暱稱</label>
+            <input
+              type="text"
+              id="nickname"
+              class="form-input"
+              maxlength="20"
+              placeholder="不填將顯示為匿名旅人"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="message">內容</label>
+            <textarea
+              id="message"
+              class="form-textarea"
+              maxlength="300"
+              placeholder="在這裡留下你的回聲……"
+              required
+            ></textarea>
+            <div class="echo-note">字數上限 300 字</div>
+          </div>
+
+          <button type="submit" class="submit-btn">送出回聲</button>
+        </form>
+      </div>
+
+      <div class="echo-panel echo-list-panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">回聲長廊</h2>
+            <p class="panel-subtitle">來自夜裡的匿名片語與未署名心聲。</p>
+          </div>
+          <div class="echo-count" id="echoCount">目前 0 則回聲</div>
+        </div>
+
+        <div class="echo-list" id="echoList">
+          <div class="empty-state" id="emptyState">
+            目前還沒有留下任何回聲。<br>
+            成為第一個把聲音留在這裡的人吧。
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="index.html">冥界入口</a>
+    <a href="#">THREADS</a>
+    <a href="#">DISCORD</a>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const siteHeader = document.querySelector('.site-header');
+      const echoForm = document.getElementById('echoForm');
+      const nicknameInput = document.getElementById('nickname');
+      const messageInput = document.getElementById('message');
+      const echoList = document.getElementById('echoList');
+      const echoCount = document.getElementById('echoCount');
+      const emptyState = document.getElementById('emptyState');
+
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', function (e) {
+          e.stopPropagation();
+          menuToggle.classList.toggle('active');
+          mobileMenu.classList.toggle('open');
+
+          const isOpen = mobileMenu.classList.contains('open');
+          menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        mobileMenu.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
+
+        document.addEventListener('click', function () {
+          menuToggle.classList.remove('active');
+          mobileMenu.classList.remove('open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      if (siteHeader) {
+        const toggleHeaderClass = function () {
+          if (window.scrollY > 10) {
+            siteHeader.classList.add('scrolled');
+          } else {
+            siteHeader.classList.remove('scrolled');
+          }
+        };
+
+        toggleHeaderClass();
+        window.addEventListener('scroll', toggleHeaderClass);
+      }
+
+      let echoes = JSON.parse(localStorage.getItem('mingjie_echoes') || '[]');
+
+      function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        const hh = String(date.getHours()).padStart(2, '0');
+        const mm = String(date.getMinutes()).padStart(2, '0');
+        return `${y}-${m}-${d} ${hh}:${mm}`;
+      }
+
+      function renderEchoes() {
+        echoList.innerHTML = '';
+
+        if (!echoes.length) {
+          echoList.appendChild(emptyState);
+          echoCount.textContent = '目前 0 則回聲';
+          return;
+        }
+
+        echoCount.textContent = `目前 ${echoes.length} 則回聲`;
+
+        echoes.slice().reverse().forEach(function (item) {
+          const card = document.createElement('article');
+          card.className = 'echo-card';
+
+          card.innerHTML = `
+            <div class="echo-meta">
+              <div class="echo-name">${escapeHtml(item.nickname || '匿名旅人')}</div>
+              <div class="echo-time">${formatDate(item.createdAt)}</div>
+            </div>
+            <p class="echo-message">${escapeHtml(item.message)}</p>
+          `;
+
+          echoList.appendChild(card);
+        });
+      }
+
+      if (echoForm) {
+        echoForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          const nickname = nicknameInput.value.trim();
+          const message = messageInput.value.trim();
+
+          if (!message) {
+            alert('請先寫下你的回聲。');
+            return;
+          }
+
+          const newEcho = {
+            nickname: nickname || '匿名旅人',
+            message: message,
+            createdAt: new Date().toISOString()
+          };
+
+          echoes.push(newEcho);
+          localStorage.setItem('mingjie_echoes', JSON.stringify(echoes));
+
+          nicknameInput.value = '';
+          messageInput.value = '';
+
+          renderEchoes();
+        });
+      }
+
+      renderEchoes();
+    });
+  </script>
+</body>
+</html>
