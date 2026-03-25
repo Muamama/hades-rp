@@ -2776,18 +2776,75 @@ main,
 /* 手機點擊發光效果 */
 @media (max-width: 768px) {
 
+  .host-card,
+  .special-card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+
   .host-card img,
   .special-card img {
     transition: all 0.35s ease;
   }
 
-  .host-card.touch-active img,
-  .special-card.touch-active img {
-    filter: grayscale(0%) brightness(1.08);
-    transform: scale(1.03);
-    box-shadow:
-      0 0 12px rgba(212,175,55,0.35),
-      0 0 22px rgba(120,0,0,0.35);
+  /* 點擊瞬間 */
+  .host-card.touch-active,
+  .special-card.touch-active {
+    transform: translateY(-6px) scale(1.02);
   }
 
+  /* 彩色 + 光 */
+  .host-card.touch-active img,
+  .special-card.touch-active img {
+    filter: grayscale(0%) brightness(1.1);
+    transform: scale(1.04);
+    box-shadow:
+      0 0 14px rgba(212,175,55,0.45),
+      0 0 30px rgba(120,0,0,0.35);
+  }
+
+  /* 🔥 紅霧效果 */
+  .host-card.touch-active::after,
+  .special-card.touch-active::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(120,0,0,0.25), transparent 70%);
+    opacity: 0;
+    animation: bloodMist 0.4s ease forwards;
+    pointer-events: none;
+  }
+
+  /* ✨ 金光掃過 */
+  .host-card.touch-active::before,
+  .special-card.touch-active::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -30%;
+    width: 60%;
+    height: 200%;
+    background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(212,175,55,0.25),
+      transparent
+    );
+    transform: rotate(25deg);
+    animation: goldFlash 0.5s ease forwards;
+    pointer-events: none;
+  }
+
+  @keyframes bloodMist {
+    0% { opacity: 0; }
+    50% { opacity: 0.6; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes goldFlash {
+    0% { left: -40%; opacity: 0; }
+    40% { opacity: 1; }
+    100% { left: 120%; opacity: 0; }
+  }
 }
