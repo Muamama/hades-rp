@@ -512,30 +512,35 @@
     function setupHostCards() {
       hostCards.forEach((card) => {
     
-        // 📱 手機：點擊先亮一下再開 popup
         card.addEventListener("click", (e) => {
-          // 判斷是不是手機
+    
+          // 📱 手機模式
           if (window.innerWidth <= 768) {
     
             e.preventDefault();
     
-            // 加上發光 class
+            // 加效果
             card.classList.add("touch-active");
     
-            // 延遲打開 popup（讓動畫出來）
+            // 動畫結束後開 popup
             setTimeout(() => {
               openHostPopup(card);
-            }, 180);
+            }, 220);
+    
+            // 清除效果（避免卡住）
+            setTimeout(() => {
+              card.classList.remove("touch-active");
+            }, 500);
     
           } else {
-            // 💻 電腦正常開
+            // 💻 桌機正常
             openHostPopup(card);
           }
+    
         });
     
       });
     }
-
     function setupTipButtons() {
       tipButtons.forEach((btn) => {
         btn.addEventListener("click", async (e) => {
