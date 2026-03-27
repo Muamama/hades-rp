@@ -2851,25 +2851,149 @@ main,
 
 /* 首頁中央 LOGO */
 .hero-logo {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 50px 0 40px;
+  margin: 70px 0 55px;
+  isolation: isolate;
+  animation: logoSummon 1.8s ease-out both;
 }
 
+/* 紅霧底層 */
+.hero-logo-aura {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(120, 0, 0, 0.32) 0%, rgba(80, 0, 0, 0.18) 35%, rgba(0, 0, 0, 0) 72%);
+  filter: blur(28px);
+  opacity: 0.9;
+  z-index: 0;
+  animation: redMistFlow 6s ease-in-out infinite alternate;
+}
+
+/* LOGO 本體 */
 .hero-logo img {
-  width: 100px; /* 🔥 可調整大小 */
-  max-width: 20vw;
+  position: relative;
+  z-index: 2;
+  width: 150px;         /* 比你現在大 */
+  max-width: 32vw;
+  display: block;
 
-  /* 高級感 */
-  filter: drop-shadow(0 0 12px rgba(212,175,55,0.6));
-  opacity: 0.95;
+  /* 把白邊感壓低，改用偏金紅的陰影 */
+  filter:
+    brightness(0.98)
+    contrast(1.08)
+    drop-shadow(0 0 8px rgba(255, 190, 80, 0.22))
+    drop-shadow(0 0 18px rgba(120, 0, 0, 0.28));
 
-  transition: all 0.4s ease;
+  opacity: 0;
+  transform: translateY(12px) scale(0.88);
+  animation: logoFadeIn 1.6s ease-out 0.2s forwards;
+
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
 }
 
-/* hover 微動態 */
-.hero-logo img:hover {
+/* hover：低吼感微震 */
+.hero-logo:hover img {
+  animation:
+    logoFadeIn 1.6s ease-out 0.2s forwards,
+    growlShake 0.16s linear infinite;
   transform: scale(1.05);
-  filter: drop-shadow(0 0 18px rgba(212,175,55,0.9));
+  filter:
+    brightness(1)
+    contrast(1.12)
+    drop-shadow(0 0 10px rgba(255, 210, 120, 0.28))
+    drop-shadow(0 0 22px rgba(150, 0, 0, 0.34));
+}
+
+.hero-logo:hover .hero-logo-aura {
+  animation:
+    redMistFlow 3.2s ease-in-out infinite alternate,
+    auraPulse 1.4s ease-in-out infinite;
+}
+
+/* 召喚淡入 */
+@keyframes logoFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.88);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(0) scale(1.03);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 外層整體浮現 */
+@keyframes logoSummon {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* 紅霧慢慢流 */
+@keyframes redMistFlow {
+  0% {
+    transform: scale(0.9) translate(-10px, -4px);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.06) translate(12px, 6px);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0.96) translate(-6px, 10px);
+    opacity: 0.58;
+  }
+}
+
+/* hover 時 aura 呼吸 */
+@keyframes auraPulse {
+  0% {
+    opacity: 0.65;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* 低吼微震 */
+@keyframes growlShake {
+  0%   { transform: translate(0, 0) scale(1.05) rotate(0deg); }
+  25%  { transform: translate(-1px, 1px) scale(1.052) rotate(-0.4deg); }
+  50%  { transform: translate(1px, -1px) scale(1.048) rotate(0.4deg); }
+  75%  { transform: translate(-1px, 0) scale(1.052) rotate(-0.3deg); }
+  100% { transform: translate(1px, 1px) scale(1.05) rotate(0.3deg); }
+}
+
+/* 手機版 */
+@media (max-width: 768px) {
+  .hero-logo {
+    margin: 52px 0 42px;
+  }
+
+  .hero-logo-aura {
+    width: 170px;
+    height: 170px;
+    filter: blur(22px);
+  }
+
+  .hero-logo img {
+    width: 110px;
+    max-width: 38vw;
+  }
 }
