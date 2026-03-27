@@ -2859,7 +2859,7 @@ main,
 
 .hero-logo img {
   width: 90px; /* 🔥 可調整大小 */
-  max-width: 40vw;
+  max-width: 20vw;
 
   /* 高級感 */
   filter: drop-shadow(0 0 12px rgba(212,175,55,0.6));
