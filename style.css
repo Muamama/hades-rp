@@ -2858,7 +2858,7 @@ main,
 }
 
 .hero-logo img {
-  width: 90px; /* 🔥 可調整大小 */
+  width: 100px; /* 🔥 可調整大小 */
   max-width: 20vw;
 
   /* 高級感 */
