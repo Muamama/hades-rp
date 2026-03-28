@@ -2997,3 +2997,60 @@ main,
     max-width: 38vw;
   }
 }
+
+/* 🔥 全站區塊標題統一 */
+.section-title {
+  font-size: 34px;
+  letter-spacing: 8px;
+  text-align: center;
+  margin-bottom: 50px;
+
+  color: #d4af37;
+
+  /* 金色光 */
+  text-shadow: 
+    0 0 6px rgba(212,175,55,0.4),
+    0 0 14px rgba(212,175,55,0.25);
+
+  position: relative;
+}
+
+/* 🔥 底線裝飾（跟普通指名一樣） */
+.section-title::after {
+  content: "";
+  display: block;
+  width: 120px;
+  height: 2px;
+  margin: 14px auto 0;
+
+  background: linear-gradient(to right, transparent, #d4af37, transparent);
+}
+
+.service-list {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 20px 120px; /* 🔥 上下留白 */
+}
+
+/* 每個服務之間拉開 */
+.service-row {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 40px;
+
+  padding: 40px 0;
+  border-bottom: 1px solid rgba(212,175,55,0.1);
+}
+
+/* 最後一個不要線 */
+.service-row:last-child {
+  border-bottom: none;
+}
+
+.echo-hero {
+  padding: 120px 20px 80px; /* 🔥 上下間距統一 */
+}
+
+.service-list {
+  margin-top: 40px; /* 🔥 與標題距離一致 */
+}
