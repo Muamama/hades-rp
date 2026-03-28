@@ -3209,3 +3209,126 @@ main,
     font-size: 16px;
   }
 }
+
+@media (max-width: 768px) {
+
+  /* hero 區 */
+  .echo-hero {
+    padding: 96px 18px 46px;
+  }
+
+  .echo-hero-inner {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .echo-kicker {
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .echo-title {
+    font-size: 34px;
+    letter-spacing: 4px;
+    line-height: 1.15;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .echo-desc {
+    max-width: 100%;
+    font-size: 15px;
+    line-height: 1.9;
+    text-align: center;
+    padding: 0 4px;
+  }
+
+  /* 服務列表整體 */
+  .service-list {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 26px 18px 80px;
+  }
+
+  /* 每一列服務：桌機雙欄 -> 手機直排 */
+  .service-row {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: none !important;
+    gap: 14px;
+    width: 100%;
+    padding: 26px 0;
+    border-bottom: 1px solid rgba(212,175,55,0.14);
+  }
+
+  .service-row:last-child {
+    border-bottom: none;
+  }
+
+  /* 左欄 */
+  .service-name {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 6px;
+    text-align: left;
+  }
+
+  .service-name h2 {
+    margin: 0;
+    font-size: 21px;
+    line-height: 1.25;
+    letter-spacing: 2px;
+    color: #d4af37;
+    text-shadow:
+      0 0 6px rgba(212,175,55,0.35),
+      0 0 14px rgba(212,175,55,0.18);
+  }
+
+  /* 價格區 */
+  .service-price-block {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .gil-price {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    white-space: nowrap;
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .service-gil-icon,
+  .gil-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  /* 右欄描述 */
+  .service-desc {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+  }
+
+  .service-desc p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.95;
+    color: rgba(255,255,255,0.88);
+    word-break: break-word;
+  }
+}
