@@ -3054,3 +3054,37 @@ main,
 .service-list {
   margin-top: 40px; /* 🔥 與標題距離一致 */
 }
+
+.rates-section {
+  padding: 80px 20px 120px; /* 🔥 上下空間 */
+}
+
+/* 每一塊（普通 / 包廂 / 冥界供奉） */
+.rates-block {
+  max-width: 900px;
+  margin: 0 auto 80px; /* 🔥 區塊之間距離 */
+}
+
+.rates-item {
+  padding: 18px 0; /* 原本 14 → 放鬆 */
+  border-bottom: 1px solid rgba(212,175,55,0.08);
+}
+
+.rates-item:last-child {
+  border-bottom: none;
+}
+
+.rates-table {
+  margin-top: 30px; /* 🔥 跟標題距離 */
+}
+
+.rates-block {
+  position: relative;
+  padding: 40px 20px;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(120,0,0,0.08),
+    transparent 70%
+  );
+}
