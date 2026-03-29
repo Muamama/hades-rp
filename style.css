@@ -2280,10 +2280,10 @@ body {
   margin: 0 auto;
 
   display: flex;
-  justify-content: space-between; /* 🔥 改這行 */
+  align-items: center;
+  justify-content: space-between;
   gap: 20px;
 }
-
 /* LOGO */
 .logo {
   position: relative;   /* 🔥 改這行 */
