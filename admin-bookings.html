@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>預約後台 | 冥界</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --bg: #080606;
+      --panel: rgba(25, 18, 18, 0.88);
+      --panel-2: rgba(18, 12, 12, 0.88);
+      --gold: #d8b36a;
+      --gold-soft: rgba(216, 179, 106, 0.38);
+      --gold-deep: #8b6a2f;
+      --text: #f8f1df;
+      --muted: #c6b89b;
+      --danger: #7e2727;
+      --danger-hover: #a33636;
+      --ok: #876228;
+      --ok-hover: #a77a32;
+      --line: rgba(216, 179, 106, 0.18);
+      --input-bg: rgba(255, 255, 255, 0.04);
+      --shadow: 0 0 30px rgba(216, 179, 106, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at top, rgba(216,179,106,0.08), transparent 30%),
+        linear-gradient(180deg, #090606 0%, #120b0b 100%);
+      color: var(--text);
+      font-family: "Noto Serif TC", serif;
+      min-height: 100%;
+    }
+
+    body {
+      padding: 32px 18px 60px;
+    }
+
+    .admin-wrap {
+      width: min(1380px, 100%);
+      margin: 0 auto;
+    }
+
+    .admin-header {
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .admin-header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      text-shadow: 0 0 18px rgba(216, 179, 106, 0.2);
+    }
+
+    .admin-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+      letter-spacing: 0.06em;
+    }
+
+    .admin-panel {
+      background: var(--panel);
+      border: 1px solid var(--gold-soft);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      margin-bottom: 24px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      margin-bottom: 18px;
+    }
+
+    button {
+      border: 1px solid var(--gold-soft);
+      background: var(--input-bg);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      font-family: "Noto Serif TC", serif;
+      outline: none;
+      transition: 0.25s ease;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-main {
+      background: linear-gradient(180deg, var(--ok) 0%, #6f4f1d 100%);
+      color: #fff5df;
+    }
+
+    .btn-main:hover {
+      background: linear-gradient(180deg, var(--ok-hover) 0%, #805b20 100%);
+      box-shadow: 0 0 18px rgba(216, 179, 106, 0.18);
+    }
+
+    .btn-danger {
+      background: linear-gradient(180deg, var(--danger) 0%, #5f1d1d 100%);
+      color: #fff0f0;
+    }
+
+    .btn-danger:hover {
+      background: linear-gradient(180deg, var(--danger-hover) 0%, #7d2222 100%);
+      box-shadow: 0 0 18px rgba(163, 54, 54, 0.18);
+    }
+
+    .status-text {
+      margin-top: 4px;
+      min-height: 24px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+    }
+
+    .empty-box {
+      padding: 22px;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--gold-soft);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .list-head,
+    .row-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1.2fr 1.3fr 1fr 0.8fr auto auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .list-head {
+      color: var(--gold);
+      font-size: 0.92rem;
+      letter-spacing: 0.08em;
+      padding-bottom: 14px;
+      margin-bottom: 2px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .row-grid {
+      padding: 14px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .row-grid:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .cell {
+      min-width: 0;
+      word-break: break-word;
+      line-height: 1.7;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 88px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .status-confirmed {
+      color: #d4af37;
+      background: rgba(212,175,55,0.08);
+    }
+
+    .status-cancelled {
+      color: #ffb1b1;
+      background: rgba(220,80,80,0.08);
+    }
+
+    .status-completed {
+      color: #d8c89c;
+      background: rgba(170,140,90,0.08);
+    }
+
+    @media (max-width: 1180px) {
+      .list-head {
+        display: none;
+      }
+
+      .row-grid {
+        grid-template-columns: 1fr;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 14px;
+        margin-bottom: 14px;
+        background: var(--panel-2);
+      }
+
+      .row-grid:first-child {
+        padding-top: 14px;
+      }
+
+      .cell::before {
+        content: attr(data-label);
+        display: block;
+        color: var(--gold);
+        margin-bottom: 4px;
+        font-size: 13px;
+        letter-spacing: 1px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <h1>預約後台</h1>
+      <p>Reservation Admin / 冥界預約紀錄</p>
+    </div>
+
+    <section class="admin-panel">
+      <div class="toolbar">
+        <button type="button" class="btn-main" onclick="loginAdmin()">登入</button>
+        <button type="button" class="btn-main" onclick="refreshBookings()">重新讀取</button>
+        <button type="button" class="btn-danger" onclick="logoutAdmin()">登出</button>
+      </div>
+
+      <div class="status-text" id="pageStatus"></div>
+
+      <div class="list-head">
+        <div>店員</div>
+        <div>日期</div>
+        <div>客戶</div>
+        <div>聯絡方式</div>
+        <div>備註</div>
+        <div>建立時間</div>
+        <div>狀態</div>
+        <div>完成</div>
+        <div>取消</div>
+      </div>
+
+      <div id="bookingList"></div>
+    </section>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://jzhbqavasikwpxbqjksu.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_KFcwagT3Ho1ivjPv3Oq9zw_FNIaBVpX";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const bookingList = document.getElementById("bookingList");
+    const pageStatus = document.getElementById("pageStatus");
+
+    let bookingsChannel = null;
+
+    function setStatus(text, isError = false) {
+      pageStatus.textContent = text || "";
+      pageStatus.style.color = isError ? "#f0b2b2" : "#cbb78a";
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function formatDateTime(value) {
+      if (!value) return "";
+      try {
+        return new Date(value).toLocaleString("zh-TW");
+      } catch {
+        return value;
+      }
+    }
+
+    function getStatusClass(status) {
+      if (status === "cancelled") return "status-cancelled";
+      if (status === "completed") return "status-completed";
+      return "status-confirmed";
+    }
+
+    function getStatusText(status) {
+      if (status === "cancelled") return "已取消";
+      if (status === "completed") return "已完成";
+      return "已預約";
+    }
+
+    function rowTemplate(item) {
+      const isClosed = item.status === "cancelled" || item.status === "completed";
+
+      return `
+        <div class="row-grid">
+          <div class="cell" data-label="店員">${escapeHtml(item.host_name || "")}</div>
+          <div class="cell" data-label="日期">${escapeHtml(item.schedule_date || "")}</div>
+          <div class="cell" data-label="客戶">${escapeHtml(item.customer_name || "")}</div>
+          <div class="cell" data-label="聯絡方式">${escapeHtml(item.customer_contact || "")}</div>
+          <div class="cell" data-label="備註">${escapeHtml(item.customer_note || "")}</div>
+          <div class="cell" data-label="建立時間">${escapeHtml(formatDateTime(item.created_at))}</div>
+          <div class="cell" data-label="狀態">
+            <span class="status-pill ${getStatusClass(item.status)}">${getStatusText(item.status)}</span>
+          </div>
+          <div class="cell" data-label="完成">
+            ${
+              isClosed
+                ? "-"
+                : `<button type="button" class="btn-main" onclick="markCompleted(${item.id})">完成</button>`
+            }
+          </div>
+          <div class="cell" data-label="取消">
+            ${
+              isClosed
+                ? "-"
+                : `<button type="button" class="btn-danger" onclick="cancelBooking(${item.id})">取消</button>`
+            }
+          </div>
+        </div>
+      `;
+    }
+
+    async function ensureSession() {
+      const { data, error } = await supabaseClient.auth.getSession();
+      if (error) {
+        console.error(error);
+        return false;
+      }
+      return !!data.session;
+    }
+
+    async function refreshBookings() {
+      bookingList.innerHTML = `<div class="empty-box">讀取中...</div>`;
+
+      const hasSession = await ensureSession();
+      if (!hasSession) {
+        bookingList.innerHTML = `<div class="empty-box">請先以管理員帳號登入。</div>`;
+        setStatus("尚未登入。", true);
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from("reservations")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("讀取預約失敗：", error);
+        bookingList.innerHTML = `<div class="empty-box">讀取失敗，請確認登入帳號是否已加入 admin_users。</div>`;
+        setStatus("讀取失敗。", true);
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        bookingList.innerHTML = `<div class="empty-box">目前沒有預約資料。</div>`;
+        setStatus("目前沒有預約資料。");
+        return;
+      }
+
+      bookingList.innerHTML = data.map(rowTemplate).join("");
+      setStatus("已讀取最新預約資料。");
+    }
+
+    async function loginAdmin() {
+      const email = prompt("請輸入管理員 Email");
+      if (!email) return;
+
+      const password = prompt("請輸入密碼");
+      if (!password) return;
+
+      const { error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        console.error("登入失敗：", error);
+        setStatus("登入失敗：" + error.message, true);
+        return;
+      }
+
+      setStatus("登入成功。");
+      await refreshBookings();
+      setupRealtime();
+    }
+
+    async function logoutAdmin() {
+      const { error } = await supabaseClient.auth.signOut();
+      if (error) {
+        console.error("登出失敗：", error);
+        setStatus("登出失敗。", true);
+        return;
+      }
+
+      if (bookingsChannel) {
+        supabaseClient.removeChannel(bookingsChannel);
+        bookingsChannel = null;
+      }
+
+      bookingList.innerHTML = `<div class="empty-box">你已登出。</div>`;
+      setStatus("已登出。");
+    }
+
+    async function cancelBooking(id) {
+      const ok = confirm("確定要取消這筆預約嗎？");
+      if (!ok) return;
+
+      const { error } = await supabaseClient
+        .from("reservations")
+        .update({ status: "cancelled" })
+        .eq("id", id);
+
+      if (error) {
+        console.error("取消失敗：", error);
+        setStatus("取消失敗，請檢查管理員權限。", true);
+        return;
+      }
+
+      setStatus("已取消預約。");
+      await refreshBookings();
+    }
+
+    async function markCompleted(id) {
+      const ok = confirm("確定要將這筆預約標記為完成嗎？");
+      if (!ok) return;
+
+      const { error } = await supabaseClient
+        .from("reservations")
+        .update({ status: "completed" })
+        .eq("id", id);
+
+      if (error) {
+        console.error("更新失敗：", error);
+        setStatus("更新失敗，請檢查管理員權限。", true);
+        return;
+      }
+
+      setStatus("已標記為完成。");
+      await refreshBookings();
+    }
+
+    function setupRealtime() {
+      if (bookingsChannel) {
+        supabaseClient.removeChannel(bookingsChannel);
+      }
+
+      bookingsChannel = supabaseClient
+        .channel("admin_bookings_realtime")
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "reservations"
+          },
+          async () => {
+            await refreshBookings();
+          }
+        )
+        .subscribe((status) => {
+          console.log("admin bookings realtime:", status);
+        });
+    }
+
+    refreshBookings();
+  </script>
+</body>
+</html>
