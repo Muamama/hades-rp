@@ -11,109 +11,252 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
-    .booking-wrap {
-      width: min(760px, calc(100% - 32px));
-      margin: 70px auto 120px;
-      padding: 32px 24px;
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      background: rgba(10, 8, 8, 0.78);
-      box-shadow: 0 0 30px rgba(120, 0, 0, 0.12);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
+    .booking-shell {
+      width: min(920px, 92%);
+      margin: 0 auto 90px;
+      display: grid;
+      gap: 34px;
     }
 
-    .booking-title {
+    .booking-block {
+      position: relative;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      background:
+        radial-gradient(circle at top, rgba(120,0,0,0.12), transparent 55%),
+        rgba(10, 8, 8, 0.82);
+      border-radius: 24px;
+      padding: 34px 28px;
+      box-shadow:
+        0 0 30px rgba(120, 0, 0, 0.12),
+        0 0 18px rgba(212, 175, 55, 0.04);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+
+    .booking-block::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(212,175,55,0.03), transparent 25%),
+        linear-gradient(0deg, rgba(120,0,0,0.06), transparent 30%);
+      pointer-events: none;
+    }
+
+    .booking-section-title {
+      position: relative;
+      margin: 0 0 12px;
       text-align: center;
       color: #d4af37;
-      letter-spacing: 6px;
-      font-size: 30px;
-      margin-bottom: 12px;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: 0.18em;
+      text-shadow: 0 0 12px rgba(212,175,55,0.16);
     }
 
-    .booking-desc {
+    .booking-section-desc {
+      position: relative;
+      margin: 0 auto 28px;
+      max-width: 700px;
       text-align: center;
       color: rgba(255,255,255,0.72);
-      line-height: 1.8;
-      margin-bottom: 28px;
+      line-height: 1.95;
+      font-size: 0.96rem;
     }
 
     .booking-form {
+      position: relative;
       display: grid;
+      gap: 20px;
+    }
+
+    .booking-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
 
     .booking-field {
-      display: grid;
+      display: flex;
+      flex-direction: column;
       gap: 8px;
     }
 
-    .booking-field label {
-      color: #d4af37;
-      font-size: 15px;
-      letter-spacing: 2px;
+    .booking-field.full {
+      grid-column: 1 / -1;
     }
 
-    .booking-field input,
-    .booking-field select,
-    .booking-field textarea {
+    .booking-label {
+      color: #f1d38b;
+      font-size: 0.94rem;
+      letter-spacing: 0.08em;
+      line-height: 1.6;
+    }
+
+    .booking-input,
+    .booking-select,
+    .booking-textarea {
       width: 100%;
-      border: 1px solid rgba(212,175,55,0.2);
+      min-height: 50px;
+      border-radius: 16px;
+      border: 1px solid rgba(212,175,55,0.20);
       background: rgba(255,255,255,0.04);
-      color: #f5f1e8;
+      color: #f7f1e4;
       padding: 14px 16px;
-      border-radius: 12px;
-      font-family: inherit;
+      font-size: 0.98rem;
+      font-family: "Noto Serif TC", serif;
       outline: none;
+      transition: 0.25s ease;
       box-sizing: border-box;
     }
 
-    .booking-field textarea {
-      min-height: 120px;
+    .booking-select {
+      background: #0b0b0b;
+      color: #f1d38b;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .booking-select option {
+      background: #0b0b0b;
+      color: #f1d38b;
+    }
+
+    .booking-textarea {
+      min-height: 140px;
       resize: vertical;
+      line-height: 1.85;
+    }
+
+    .booking-input:focus,
+    .booking-select:focus,
+    .booking-textarea:focus {
+      border-color: rgba(212,175,55,0.56);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.08);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .booking-note {
+      margin-top: -4px;
+      color: rgba(255,255,255,0.56);
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+
+    .booking-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-top: 6px;
+    }
+
+    .booking-message {
+      min-height: 26px;
+      text-align: center;
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+      color: #d7c59a;
+      line-height: 1.8;
+    }
+
+    .booking-message.success {
+      color: #bff0c8;
+    }
+
+    .booking-message.error {
+      color: #ffb2b2;
     }
 
     .booking-submit {
-      border: none;
+      min-width: 220px;
+      min-height: 50px;
+      border: 1px solid rgba(212,175,55,0.34);
       border-radius: 999px;
-      padding: 14px 24px;
-      font-family: inherit;
-      font-size: 15px;
-      letter-spacing: 2px;
+      padding: 12px 26px;
+      background:
+        linear-gradient(180deg, rgba(212,175,55,0.18), rgba(120,0,0,0.22));
+      color: #f8edd2;
+      font-size: 0.98rem;
+      letter-spacing: 0.12em;
+      font-family: "Noto Serif TC", serif;
       cursor: pointer;
-      background: linear-gradient(135deg, #7a0000, #b11212, #d4af37);
-      color: #fff;
-      box-shadow: 0 0 20px rgba(177, 18, 18, 0.22);
-      transition: transform 0.25s ease, opacity 0.25s ease;
+      transition: 0.25s ease;
+      box-shadow: 0 0 18px rgba(212,175,55,0.08);
     }
 
     .booking-submit:hover {
       transform: translateY(-1px);
+      border-color: rgba(212,175,55,0.55);
+      box-shadow:
+        0 0 18px rgba(212,175,55,0.14),
+        0 0 22px rgba(120,0,0,0.14);
     }
 
     .booking-submit:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
 
-    .booking-message {
-      min-height: 24px;
-      text-align: center;
-      font-size: 15px;
-      letter-spacing: 1px;
+    .booking-tips {
+      position: relative;
+      display: grid;
+      gap: 14px;
     }
 
-    .booking-message.success { color: #d4af37; }
-    .booking-message.error { color: #ff8d8d; }
+    .booking-tip-card {
+      border: 1px solid rgba(212,175,55,0.16);
+      background: rgba(255,255,255,0.02);
+      border-radius: 18px;
+      padding: 18px 18px;
+    }
+
+    .booking-tip-title {
+      margin: 0 0 8px;
+      color: #f1d38b;
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+    }
+
+    .booking-tip-text {
+      margin: 0;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.9;
+      font-size: 0.94rem;
+    }
 
     @media (max-width: 768px) {
-      .booking-wrap {
-        margin: 50px auto 100px;
-        padding: 24px 18px;
+      .booking-shell {
+        gap: 24px;
+        margin-bottom: 78px;
       }
 
-      .booking-title {
-        font-size: 24px;
-        letter-spacing: 4px;
+      .booking-block {
+        padding: 24px 18px;
+        border-radius: 20px;
+      }
+
+      .booking-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .booking-section-title {
+        font-size: 1.35rem;
+        letter-spacing: 0.14em;
+      }
+
+      .booking-section-desc {
+        font-size: 0.92rem;
+        line-height: 1.9;
+      }
+
+      .booking-submit {
+        width: 100%;
+        min-width: 0;
       }
     }
   </style>
@@ -365,44 +508,77 @@ document.addEventListener('DOMContentLoaded', function () {
         <div class="echo-kicker">NETHER BOOKING</div>
         <h1 class="echo-title">冥界預約</h1>
         <p class="echo-desc">
-          只會顯示尚未被預約且今日在場的時段。送出後，該時段會自動從可預約列表移除。
+          有些夜晚只會開一次門，有些名字也只會在對的時刻被喚醒。選擇仍未被帶走的時段，讓相遇落在你想要的那一刻。
         </p>
       </div>
     </section>
 
-    <section class="booking-wrap">
-      <h2 class="booking-title">預 約 表 單</h2>
-      <p class="booking-desc">
-        請填寫你的聯絡方式與想預約的時段。已被預約的時段不會出現在選單中。
-      </p>
+    <section class="booking-shell">
+      <div class="booking-block">
+        <h2 class="booking-section-title">預 約 儀 式</h2>
+        <p class="booking-section-desc">
+          請留下你的名字與聯絡方式，從尚未被預約的時段中選擇你想靠近的對象。<br>
+          當時段被帶走後，它會立刻從表單中消失。
+        </p>
 
-      <form class="booking-form" id="bookingForm">
-        <div class="booking-field">
-          <label for="schedule_id">可預約時段</label>
-          <select id="schedule_id" name="schedule_id" required>
-            <option value="">讀取中...</option>
-          </select>
+        <form class="booking-form" id="bookingForm">
+          <div class="booking-grid">
+            <div class="booking-field full">
+              <label class="booking-label" for="schedule_id">可預約時段</label>
+              <select class="booking-select" id="schedule_id" name="schedule_id" required>
+                <option value="">讀取中...</option>
+              </select>
+              <div class="booking-note">只會顯示目前空閒且可被預約的時段。</div>
+            </div>
+
+            <div class="booking-field">
+              <label class="booking-label" for="customer_name">你的名字</label>
+              <input class="booking-input" id="customer_name" name="customer_name" type="text" placeholder="請輸入名字" required />
+            </div>
+
+            <div class="booking-field">
+              <label class="booking-label" for="customer_contact">聯絡方式</label>
+              <input class="booking-input" id="customer_contact" name="customer_contact" type="text" placeholder="Discord / LINE / X / 電話" required />
+            </div>
+
+            <div class="booking-field full">
+              <label class="booking-label" for="customer_note">備註</label>
+              <textarea class="booking-textarea" id="customer_note" name="customer_note" placeholder="想說的話、需求、其他備註"></textarea>
+            </div>
+          </div>
+
+          <div class="booking-actions">
+            <div class="booking-message" id="bookingMessage"></div>
+            <button class="booking-submit" id="bookingSubmit" type="submit">送 出 預 約</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="booking-block">
+        <h2 class="booking-section-title">預 約 提 示</h2>
+        <div class="booking-tips">
+          <div class="booking-tip-card">
+            <h3 class="booking-tip-title">可預約時段</h3>
+            <p class="booking-tip-text">
+              表單只會顯示目前仍為空閒的時段；若有人先一步完成預約，該時段會立即消失。
+            </p>
+          </div>
+
+          <div class="booking-tip-card">
+            <h3 class="booking-tip-title">送出之後</h3>
+            <p class="booking-tip-text">
+              預約送出後，後台會看見你填寫的資料，對應時段也會同步變成已預定。
+            </p>
+          </div>
+
+          <div class="booking-tip-card">
+            <h3 class="booking-tip-title">聯絡方式</h3>
+            <p class="booking-tip-text">
+              請留下可以聯絡到你的方式，避免後續無法確認，讓這場相遇在開始前就失去回音。
+            </p>
+          </div>
         </div>
-
-        <div class="booking-field">
-          <label for="customer_name">你的名字</label>
-          <input id="customer_name" name="customer_name" type="text" placeholder="請輸入名字" required />
-        </div>
-
-        <div class="booking-field">
-          <label for="customer_contact">聯絡方式</label>
-          <input id="customer_contact" name="customer_contact" type="text" placeholder="Discord / LINE / X / 電話" required />
-        </div>
-
-        <div class="booking-field">
-          <label for="customer_note">備註</label>
-          <textarea id="customer_note" name="customer_note" placeholder="想說的話、需求、其他備註"></textarea>
-        </div>
-
-        <div class="booking-message" id="bookingMessage"></div>
-
-        <button class="booking-submit" id="bookingSubmit" type="submit">送出預約</button>
-      </form>
+      </div>
     </section>
   </main>
 
