@@ -733,7 +733,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <form class="booking-form" id="bookingForm">
           <div class="booking-grid">
             <div class="booking-field full">
-              <label class="booking-label" for="schedule_id">可預約時段</label>
+              <label class="booking-label" for="schedule_id">可預約店員/時段</label>
               <select class="booking-select" id="schedule_id" name="schedule_id" required>
                 <option value="">讀取中...</option>
               </select>
@@ -769,14 +769,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <div class="booking-tip-card">
             <h3 class="booking-tip-title">可預約時段</h3>
             <p class="booking-tip-text">
-              表單只會顯示目前仍為空閒的時段；若有人先一步完成預約，該時段會立即消失。
-            </p>
-          </div>
-
-          <div class="booking-tip-card">
-            <h3 class="booking-tip-title">送出之後</h3>
-            <p class="booking-tip-text">
-              預約送出後，後台會看見你填寫的資料，對應時段也會同步變成已預定。
+              表單只會顯示目前仍為空閒的店員時段,若有人先一步完成預約，該店員無法預約。
             </p>
           </div>
 
