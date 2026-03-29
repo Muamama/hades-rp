@@ -3,289 +3,163 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>預約表單 | 冥界</title>
+  <title>時間表 | 冥界</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css" />
-
-  <style>
-    .booking-shell {
-      width: min(920px, 92%);
-      margin: 0 auto 90px;
-      display: grid;
-      gap: 34px;
-    }
-
-    .booking-block {
-      position: relative;
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      background:
-        radial-gradient(circle at top, rgba(120,0,0,0.12), transparent 55%),
-        rgba(10, 8, 8, 0.82);
-      border-radius: 24px;
-      padding: 34px 28px;
-      box-shadow:
-        0 0 30px rgba(120, 0, 0, 0.12),
-        0 0 18px rgba(212, 175, 55, 0.04);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      overflow: hidden;
-    }
-
-    .booking-block::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(212,175,55,0.03), transparent 25%),
-        linear-gradient(0deg, rgba(120,0,0,0.06), transparent 30%);
-      pointer-events: none;
-    }
-
-    .booking-section-title {
-      position: relative;
-      margin: 0 0 12px;
-      text-align: center;
-      color: #d4af37;
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      letter-spacing: 0.18em;
-      text-shadow: 0 0 12px rgba(212,175,55,0.16);
-    }
-
-    .booking-section-desc {
-      position: relative;
-      margin: 0 auto 28px;
-      max-width: 700px;
-      text-align: center;
-      color: rgba(255,255,255,0.72);
-      line-height: 1.95;
-      font-size: 0.96rem;
-    }
-
-    .booking-form {
-      position: relative;
-      display: grid;
-      gap: 20px;
-    }
-
-    .booking-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .booking-field {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .booking-field.full {
-      grid-column: 1 / -1;
-    }
-
-    .booking-label {
-      color: #f1d38b;
-      font-size: 0.94rem;
-      letter-spacing: 0.08em;
-      line-height: 1.6;
-    }
-
-    .booking-input,
-    .booking-select,
-    .booking-textarea {
-      width: 100%;
-      min-height: 50px;
-      border-radius: 16px;
-      border: 1px solid rgba(212,175,55,0.20);
-      background: rgba(255,255,255,0.04);
-      color: #f7f1e4;
-      padding: 14px 16px;
-      font-size: 0.98rem;
-      font-family: "Noto Serif TC", serif;
-      outline: none;
-      transition: 0.25s ease;
-      box-sizing: border-box;
-    }
-
-    .booking-select {
-      background: #0b0b0b;
-      color: #f1d38b;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-    }
-
-    .booking-select option {
-      background: #0b0b0b;
-      color: #f1d38b;
-    }
-
-    .booking-textarea {
-      min-height: 140px;
-      resize: vertical;
-      line-height: 1.85;
-    }
-
-    .booking-input:focus,
-    .booking-select:focus,
-    .booking-textarea:focus {
-      border-color: rgba(212,175,55,0.56);
-      box-shadow: 0 0 0 3px rgba(212,175,55,0.08);
-      background: rgba(255,255,255,0.05);
-    }
-
-    .booking-note {
-      margin-top: -4px;
-      color: rgba(255,255,255,0.56);
-      font-size: 0.88rem;
-      line-height: 1.8;
-    }
-
-    .booking-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-      margin-top: 6px;
-    }
-
-    .booking-message {
-      min-height: 26px;
-      text-align: center;
-      font-size: 0.95rem;
-      letter-spacing: 0.05em;
-      color: #d7c59a;
-      line-height: 1.8;
-    }
-
-    .booking-message.success {
-      color: #bff0c8;
-    }
-
-    .booking-message.error {
-      color: #ffb2b2;
-    }
-
-    .booking-submit {
-      min-width: 220px;
-      min-height: 50px;
-      border: 1px solid rgba(212,175,55,0.34);
-      border-radius: 999px;
-      padding: 12px 26px;
-      background:
-        linear-gradient(180deg, rgba(212,175,55,0.18), rgba(120,0,0,0.22));
-      color: #f8edd2;
-      font-size: 0.98rem;
-      letter-spacing: 0.12em;
-      font-family: "Noto Serif TC", serif;
-      cursor: pointer;
-      transition: 0.25s ease;
-      box-shadow: 0 0 18px rgba(212,175,55,0.08);
-    }
-
-    .booking-submit:hover {
-      transform: translateY(-1px);
-      border-color: rgba(212,175,55,0.55);
-      box-shadow:
-        0 0 18px rgba(212,175,55,0.14),
-        0 0 22px rgba(120,0,0,0.14);
-    }
-
-    .booking-submit:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .booking-tips {
-      position: relative;
-      display: grid;
-      gap: 14px;
-    }
-
-    .booking-tip-card {
-      border: 1px solid rgba(212,175,55,0.16);
-      background: rgba(255,255,255,0.02);
-      border-radius: 18px;
-      padding: 18px 18px;
-    }
-
-    .booking-tip-title {
-      margin: 0 0 8px;
-      color: #f1d38b;
-      font-size: 1rem;
-      letter-spacing: 0.08em;
-    }
-
-    .booking-tip-text {
-      margin: 0;
-      color: rgba(255,255,255,0.72);
-      line-height: 1.9;
-      font-size: 0.94rem;
-    }
-
-    @media (max-width: 768px) {
-      .booking-shell {
-        gap: 24px;
-        margin-bottom: 78px;
-      }
-
-      .booking-block {
-        padding: 24px 18px;
-        border-radius: 20px;
-      }
-
-      .booking-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-
-      .booking-section-title {
-        font-size: 1.35rem;
-        letter-spacing: 0.14em;
-      }
-
-      .booking-section-desc {
-        font-size: 0.92rem;
-        line-height: 1.9;
-      }
-
-      .booking-submit {
-        width: 100%;
-        min-width: 0;
-      }
-    }
-  </style>
 
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
     const SUPABASE_URL = "https://jzhbqavasikwpxbqjksu.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_KFcwagT3Ho1ivjPv3Oq9zw_FNIaBVpX";
+
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let scheduleChannel = null;
     let reservationChannel = null;
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const slotSelect = document.getElementById("schedule_id");
-      const form = document.getElementById("bookingForm");
-      const submitBtn = document.getElementById("bookingSubmit");
-      const message = document.getElementById("bookingMessage");
+    window.addEventListener("DOMContentLoaded", () => {
       const siteHeader = document.querySelector(".site-header");
+      const table = document.getElementById("scheduleTable");
+      const overlay = document.getElementById("hostPopupOverlay");
+      const popupImage = document.getElementById("hostPopupImage");
+      const popupName = document.getElementById("hostPopupName");
+      const popupText = document.getElementById("hostPopupText");
+      const popupClose = document.getElementById("hostPopupClose");
 
-      function setMessage(text, type = "") {
-        message.textContent = text || "";
-        message.className = "booking-message" + (type ? ` ${type}` : "");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 20) {
+          siteHeader.classList.add("scrolled");
+        } else {
+          siteHeader.classList.remove("scrolled");
+        }
+      });
+
+      function getStatus(status) {
+        if (status === "wait") {
+          return ["空閒", "status-wait", "今夜有空，等待你的指名。"];
+        }
+        if (status === "busy") {
+          return ["已預定", "status-busy", "已被預約，暫不可用。"];
+        }
+        return ["請假", "status-off", "今夜不在場。"];
       }
 
-      async function loadAvailableSlots() {
-        slotSelect.innerHTML = `<option value="">讀取中...</option>`;
-        slotSelect.disabled = true;
+      function clearScheduleRows() {
+        table.querySelectorAll(".schedule-item, .schedule-empty, .schedule-loading, .schedule-error").forEach(el => el.remove());
+      }
+
+      function openPopup(item, el) {
+        document.querySelectorAll(".schedule-item").forEach(e => e.classList.remove("active"));
+        if (el) el.classList.add("active");
+
+        popupImage.src = item.img || "";
+        popupImage.alt = item.name || "";
+        popupName.textContent = item.name || "";
+        popupText.textContent = getStatus(item.final_status || item.status)[2];
+
+        overlay.classList.add("show");
+        document.body.classList.add("popup-open");
+      }
+
+      function closePopup() {
+        overlay.classList.remove("show");
+        document.body.classList.remove("popup-open");
+        document.querySelectorAll(".schedule-item").forEach(e => e.classList.remove("active"));
+      }
+
+      function renderLoading() {
+        clearScheduleRows();
+
+        const loading = document.createElement("div");
+        loading.className = "schedule-loading";
+        loading.innerHTML = `
+          <span class="schedule-name">讀取中</span>
+          <span>……</span>
+          <span class="status-wait">請稍候</span>
+        `;
+        table.appendChild(loading);
+      }
+
+      function renderError(message = "請稍後再試") {
+        clearScheduleRows();
+
+        const fail = document.createElement("div");
+        fail.className = "schedule-error";
+        fail.innerHTML = `
+          <span class="schedule-name">讀取失敗</span>
+          <span>--</span>
+          <span class="status-off">${message}</span>
+        `;
+        table.appendChild(fail);
+      }
+
+      function renderEmpty() {
+        clearScheduleRows();
+
+        const empty = document.createElement("div");
+        empty.className = "schedule-empty";
+        empty.innerHTML = `
+          <span class="schedule-name">目前無排班資料</span>
+          <span>--</span>
+          <span class="status-off">未開放</span>
+        `;
+        table.appendChild(empty);
+      }
+
+      function buildFinalSchedule(scheduleList, reservations) {
+        const reservedMap = new Set(
+          (reservations || [])
+            .filter(item => item.status === "pending" || item.status === "confirmed")
+            .map(item => Number(item.schedule_id))
+        );
+
+        return (scheduleList || []).map(item => {
+          let finalStatus = item.status || "off";
+
+          if (item.status !== "off" && reservedMap.has(Number(item.id))) {
+            finalStatus = "busy";
+          }
+
+          return {
+            ...item,
+            final_status: finalStatus
+          };
+        });
+      }
+
+      function renderSchedule(data) {
+        clearScheduleRows();
+
+        if (!data || data.length === 0) {
+          renderEmpty();
+          return;
+        }
+
+        data.forEach(item => {
+          const div = document.createElement("div");
+          div.classList.add("schedule-item");
+
+          const status = getStatus(item.final_status || item.status);
+
+          div.innerHTML = `
+            <span class="schedule-name">${item.name || ""}</span>
+            <span>${item.date || ""}</span>
+            <span class="${status[1]}">${status[0]}</span>
+          `;
+
+          div.onclick = () => openPopup(item, div);
+
+          table.appendChild(div);
+        });
+      }
+
+      async function loadSchedule() {
+        renderLoading();
 
         const [
           { data: scheduleData, error: scheduleError },
@@ -293,8 +167,7 @@
         ] = await Promise.all([
           supabase
             .from("schedule_list")
-            .select("id, name, date, status")
-            .neq("status", "off")
+            .select("*")
             .order("sort_order", { ascending: true })
             .order("id", { ascending: true }),
           supabase
@@ -302,123 +175,105 @@
             .select("schedule_id, status")
         ]);
 
-        if (scheduleError || reservationError) {
-          console.error(scheduleError || reservationError);
-          slotSelect.innerHTML = `<option value="">載入失敗</option>`;
-          setMessage("可預約時段讀取失敗，請稍後再試。", "error");
+        if (scheduleError) {
+          console.error("讀取時間表失敗：", scheduleError);
+          renderError("請稍後再試");
           return;
         }
 
-        const reservedIds = new Set((reservationData || []).map(item => Number(item.schedule_id)));
-        const available = (scheduleData || []).filter(item => item.status === "wait" && !reservedIds.has(Number(item.id)));
-
-        if (!available.length) {
-          slotSelect.innerHTML = `<option value="">目前沒有可預約時段</option>`;
-          setMessage("目前沒有可預約時段。", "error");
+        if (reservationError) {
+          console.error("讀取預約資料失敗：", reservationError);
+          renderError("請稍後再試");
           return;
         }
 
-        slotSelect.innerHTML = `<option value="">請選擇時段</option>` + available.map(item => {
-          return `<option value="${item.id}">${item.name || ""}｜${item.date || ""}</option>`;
-        }).join("");
-
-        slotSelect.disabled = false;
-        setMessage("");
-      }
-
-      async function submitReservation(e) {
-        e.preventDefault();
-        setMessage("");
-
-        const scheduleId = form.schedule_id.value.trim();
-        const customerName = form.customer_name.value.trim();
-        const customerContact = form.customer_contact.value.trim();
-        const customerNote = form.customer_note.value.trim();
-
-        if (!scheduleId || !customerName || !customerContact) {
-          setMessage("請完整填寫必要欄位。", "error");
-          return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = "送出中...";
-
-        const { data, error } = await supabase.rpc("create_reservation", {
-          p_schedule_id: Number(scheduleId),
-          p_customer_name: customerName,
-          p_customer_contact: customerContact,
-          p_customer_note: customerNote || null
-        });
-
-        if (error) {
-          console.error(error);
-          setMessage("預約失敗，請稍後再試。", "error");
-          submitBtn.disabled = false;
-          submitBtn.textContent = "送出預約";
-          return;
-        }
-
-        if (!data?.success) {
-          setMessage(data?.message || "此時段已不可預約。", "error");
-          submitBtn.disabled = false;
-          submitBtn.textContent = "送出預約";
-          await loadAvailableSlots();
-          return;
-        }
-
-        setMessage("預約成功，請等待後台確認。", "success");
-        form.reset();
-        await loadAvailableSlots();
-
-        submitBtn.disabled = false;
-        submitBtn.textContent = "送出預約";
+        const finalData = buildFinalSchedule(scheduleData || [], reservationData || []);
+        renderSchedule(finalData);
       }
 
       function setupRealtime() {
-        if (scheduleChannel) supabase.removeChannel(scheduleChannel);
-        if (reservationChannel) supabase.removeChannel(reservationChannel);
+        if (scheduleChannel) {
+          supabase.removeChannel(scheduleChannel);
+        }
+        if (reservationChannel) {
+          supabase.removeChannel(reservationChannel);
+        }
 
         scheduleChannel = supabase
-          .channel("booking_schedule_realtime")
-          .on("postgres_changes", {
-            event: "*",
-            schema: "public",
-            table: "schedule_list"
-          }, loadAvailableSlots)
-          .subscribe();
+          .channel("schedule_list_realtime")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "schedule_list"
+            },
+            async () => {
+              await loadSchedule();
+            }
+          )
+          .subscribe((status) => {
+            console.log("schedule_list realtime status:", status);
+          });
 
         reservationChannel = supabase
-          .channel("booking_reservations_realtime")
-          .on("postgres_changes", {
-            event: "*",
-            schema: "public",
-            table: "reservations"
-          }, loadAvailableSlots)
-          .subscribe();
+          .channel("reservations_realtime")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "reservations"
+            },
+            async () => {
+              await loadSchedule();
+            }
+          )
+          .subscribe((status) => {
+            console.log("reservations realtime status:", status);
+          });
       }
 
-      form.addEventListener("submit", submitReservation);
+      popupClose.onclick = closePopup;
 
-      if (siteHeader) {
-        window.addEventListener("scroll", function () {
-          if (window.scrollY > 10) {
-            siteHeader.classList.add("scrolled");
-          } else {
-            siteHeader.classList.remove("scrolled");
-          }
-        });
-      }
+      overlay.onclick = (e) => {
+        if (e.target === overlay) {
+          closePopup();
+        }
+      };
 
-      loadAvailableSlots();
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closePopup();
+        }
+      });
+
+      loadSchedule();
       setupRealtime();
 
       window.addEventListener("beforeunload", () => {
-        if (scheduleChannel) supabase.removeChannel(scheduleChannel);
-        if (reservationChannel) supabase.removeChannel(reservationChannel);
+        if (scheduleChannel) {
+          supabase.removeChannel(scheduleChannel);
+        }
+        if (reservationChannel) {
+          supabase.removeChannel(reservationChannel);
+        }
       });
     });
   </script>
 </head>
+
+<script>
+  const siteHeader = document.querySelector('.site-header');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      siteHeader.classList.add('scrolled');
+    } else {
+      siteHeader.classList.remove('scrolled');
+    }
+  });
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -458,29 +313,30 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
-
+  
 <body>
   <div class="top-line"></div>
 
   <header class="site-header">
     <div class="header-inner">
+  
       <a href="index.html" class="logo">
         <img src="images/logo.png" alt="冥界 LOGO">
       </a>
-
+  
       <div class="header-title">冥界</div>
-
+  
       <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
         <span></span>
         <span></span>
         <span></span>
       </button>
-
+  
       <nav class="main-nav">
         <a href="index.html">主頁</a>
         <a href="rates.html">指名費用</a>
-        <a href="timelist.html">時間表</a>
-        <a class="active" href="booking.html">預約</a>
+        <a class="active" href="timelist.html">時間表</a>
+        <a href="booking.html">預約</a>
         <a href="services.html">服務內容</a>
         <a href="leaderboard.html">排行榜</a>
         <a href="host.html">店員</a>
@@ -488,12 +344,12 @@ document.addEventListener('DOMContentLoaded', function () {
         <a href="echo.html">冥界回聲</a>
       </nav>
     </div>
-
+  
     <div class="mobile-menu" id="mobileMenu">
       <a href="index.html">主頁</a>
       <a href="rates.html">指名費用</a>
-      <a href="timelist.html">時間表</a>
-      <a class="active" href="booking.html">預約</a>
+      <a class="active" href="timelist.html">時間表</a>
+      <a href="booking.html">預約</a>
       <a href="services.html">服務內容</a>
       <a href="leaderboard.html">排行榜</a>
       <a href="host.html">店員</a>
@@ -505,87 +361,47 @@ document.addEventListener('DOMContentLoaded', function () {
   <main>
     <section class="echo-hero">
       <div class="echo-hero-inner">
-        <div class="echo-kicker">NETHER BOOKING</div>
-        <h1 class="echo-title">冥界預約</h1>
+        <div class="echo-kicker">NETHER SCHEDULE</div>
+        <h1 class="echo-title">冥界時間表</h1>
         <p class="echo-desc">
-          有些夜晚只會開一次門，有些名字也只會在對的時刻被喚醒。選擇仍未被帶走的時段，讓相遇落在你想要的那一刻。
+          有些人只在特定的夜裡現身，有些相遇也只在對的時刻發生。查看最新排程與出勤時間，找到那個屬於你們交會的時刻。
         </p>
       </div>
     </section>
 
-    <section class="booking-shell">
-      <div class="booking-block">
-        <h2 class="booking-section-title">預 約 儀 式</h2>
-        <p class="booking-section-desc">
-          請留下你的名字與聯絡方式，從尚未被預約的時段中選擇你想靠近的對象。<br>
-          當時段被帶走後，它會立刻從表單中消失。
-        </p>
+    <section class="schedule-section">
+      <h2 class="rates-section-title">時間表</h2>
 
-        <form class="booking-form" id="bookingForm">
-          <div class="booking-grid">
-            <div class="booking-field full">
-              <label class="booking-label" for="schedule_id">可預約時段</label>
-              <select class="booking-select" id="schedule_id" name="schedule_id" required>
-                <option value="">讀取中...</option>
-              </select>
-              <div class="booking-note">只會顯示目前空閒且可被預約的時段。</div>
-            </div>
-
-            <div class="booking-field">
-              <label class="booking-label" for="customer_name">你的名字</label>
-              <input class="booking-input" id="customer_name" name="customer_name" type="text" placeholder="請輸入名字" required />
-            </div>
-
-            <div class="booking-field">
-              <label class="booking-label" for="customer_contact">聯絡方式</label>
-              <input class="booking-input" id="customer_contact" name="customer_contact" type="text" placeholder="Discord / LINE / X / 電話" required />
-            </div>
-
-            <div class="booking-field full">
-              <label class="booking-label" for="customer_note">備註</label>
-              <textarea class="booking-textarea" id="customer_note" name="customer_note" placeholder="想說的話、需求、其他備註"></textarea>
-            </div>
-          </div>
-
-          <div class="booking-actions">
-            <div class="booking-message" id="bookingMessage"></div>
-            <button class="booking-submit" id="bookingSubmit" type="submit">送 出 預 約</button>
-          </div>
-        </form>
-      </div>
-
-      <div class="booking-block">
-        <h2 class="booking-section-title">預 約 提 示</h2>
-        <div class="booking-tips">
-          <div class="booking-tip-card">
-            <h3 class="booking-tip-title">可預約時段</h3>
-            <p class="booking-tip-text">
-              表單只會顯示目前仍為空閒的時段；若有人先一步完成預約，該時段會立即消失。
-            </p>
-          </div>
-
-          <div class="booking-tip-card">
-            <h3 class="booking-tip-title">送出之後</h3>
-            <p class="booking-tip-text">
-              預約送出後，後台會看見你填寫的資料，對應時段也會同步變成已預定。
-            </p>
-          </div>
-
-          <div class="booking-tip-card">
-            <h3 class="booking-tip-title">聯絡方式</h3>
-            <p class="booking-tip-text">
-              請留下可以聯絡到你的方式，避免後續無法確認，讓這場相遇在開始前就失去回音。
-            </p>
-          </div>
+      <div class="schedule-table" id="scheduleTable">
+        <div class="schedule-head">
+          <span>店員</span>
+          <span>日期</span>
+          <span>狀態</span>
         </div>
       </div>
     </section>
   </main>
+
+  <div class="host-popup-overlay" id="hostPopupOverlay">
+    <div class="host-popup-card">
+      <button class="host-popup-close" id="hostPopupClose">✕</button>
+
+      <div class="host-popup-image-wrap">
+        <img id="hostPopupImage" src="" alt="">
+      </div>
+
+      <div class="host-popup-info">
+        <h3 id="hostPopupName"></h3>
+        <p id="hostPopupText"></p>
+      </div>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <a href="index.html">冥界入口</a>
     <a href="#">THREADS</a>
     <a href="#">DISCORD</a>
   </footer>
+
 </body>
 </html>
