@@ -2279,8 +2279,8 @@ body {
   margin: 0 auto;
 
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-between; /* 🔥 改這行 */
+  gap: 20px;
 }
 
 /* LOGO */
