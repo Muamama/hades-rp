@@ -20,6 +20,7 @@
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     let scheduleChannel = null;
+    let reservationChannel = null;
 
     window.addEventListener("DOMContentLoaded", () => {
       const siteHeader = document.querySelector(".site-header");
@@ -55,7 +56,7 @@
         popupImage.src = item.img || "";
         popupImage.alt = item.name || "";
         popupName.textContent = item.name || "";
-        popupText.textContent = getStatus(item.status)[2];
+        popupText.textContent = getStatus(item.final_status || item.status)[2];
 
         overlay.classList.add("show");
         document.body.classList.add("popup-open");
@@ -106,6 +107,27 @@
         table.appendChild(empty);
       }
 
+      function buildFinalSchedule(scheduleList, reservations) {
+        const reservedMap = new Set(
+          (reservations || [])
+            .filter(item => item.status === "pending" || item.status === "confirmed")
+            .map(item => Number(item.schedule_id))
+        );
+
+        return (scheduleList || []).map(item => {
+          let finalStatus = item.status || "off";
+
+          if (item.status !== "off" && reservedMap.has(Number(item.id))) {
+            finalStatus = "busy";
+          }
+
+          return {
+            ...item,
+            final_status: finalStatus
+          };
+        });
+      }
+
       function renderSchedule(data) {
         clearScheduleRows();
 
@@ -118,7 +140,7 @@
           const div = document.createElement("div");
           div.classList.add("schedule-item");
 
-          const status = getStatus(item.status);
+          const status = getStatus(item.final_status || item.status);
 
           div.innerHTML = `
             <span class="schedule-name">${item.name || ""}</span>
@@ -135,24 +157,42 @@
       async function loadSchedule() {
         renderLoading();
 
-        const { data, error } = await supabase
-          .from("schedule_list")
-          .select("*")
-          .order("sort_order", { ascending: true })
-          .order("id", { ascending: true });
+        const [
+          { data: scheduleData, error: scheduleError },
+          { data: reservationData, error: reservationError }
+        ] = await Promise.all([
+          supabase
+            .from("schedule_list")
+            .select("*")
+            .order("sort_order", { ascending: true })
+            .order("id", { ascending: true }),
+          supabase
+            .from("reservations_public_view")
+            .select("schedule_id, status")
+        ]);
 
-        if (error) {
-          console.error("讀取時間表失敗：", error);
+        if (scheduleError) {
+          console.error("讀取時間表失敗：", scheduleError);
           renderError("請稍後再試");
           return;
         }
 
-        renderSchedule(data || []);
+        if (reservationError) {
+          console.error("讀取預約資料失敗：", reservationError);
+          renderError("請稍後再試");
+          return;
+        }
+
+        const finalData = buildFinalSchedule(scheduleData || [], reservationData || []);
+        renderSchedule(finalData);
       }
 
       function setupRealtime() {
         if (scheduleChannel) {
           supabase.removeChannel(scheduleChannel);
+        }
+        if (reservationChannel) {
+          supabase.removeChannel(reservationChannel);
         }
 
         scheduleChannel = supabase
@@ -170,6 +210,23 @@
           )
           .subscribe((status) => {
             console.log("schedule_list realtime status:", status);
+          });
+
+        reservationChannel = supabase
+          .channel("reservations_realtime")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "reservations"
+            },
+            async () => {
+              await loadSchedule();
+            }
+          )
+          .subscribe((status) => {
+            console.log("reservations realtime status:", status);
           });
       }
 
@@ -193,6 +250,9 @@
       window.addEventListener("beforeunload", () => {
         if (scheduleChannel) {
           supabase.removeChannel(scheduleChannel);
+        }
+        if (reservationChannel) {
+          supabase.removeChannel(reservationChannel);
         }
       });
     });
@@ -272,6 +332,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <a href="index.html">主頁</a>
         <a href="rates.html">指名費用</a>
         <a class="active" href="timelist.html">時間表</a>
+        <a href="booking.html">預約</a>
         <a href="services.html">服務內容</a>
         <a href="leaderboard.html">排行榜</a>
         <a href="host.html">店員</a>
@@ -284,6 +345,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <a href="index.html">主頁</a>
       <a href="rates.html">指名費用</a>
       <a class="active" href="timelist.html">時間表</a>
+      <a href="booking.html">預約</a>
       <a href="services.html">服務內容</a>
       <a href="leaderboard.html">排行榜</a>
       <a href="host.html">店員</a>
@@ -302,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function () {
         </p>
       </div>
     </section>
-    <!-- 排班 -->
+
     <section class="schedule-section">
       <h2 class="rates-section-title">時間表</h2>
 
@@ -314,10 +376,8 @@ document.addEventListener('DOMContentLoaded', function () {
         </div>
       </div>
     </section>
-
   </main>
 
-  <!-- POP -->
   <div class="host-popup-overlay" id="hostPopupOverlay">
     <div class="host-popup-card">
       <button class="host-popup-close" id="hostPopupClose">✕</button>
