@@ -2286,10 +2286,11 @@ body {
 }
 /* LOGO */
 .logo {
-  position: relative;   /* 🔥 改這行 */
+  position: relative;
   left: auto;
   top: auto;
   transform: none;
+  flex: 0 0 auto;
 }
 
 .logo img {
