@@ -2529,7 +2529,7 @@ body {
   }
 
   .header-inner {
-    width: calc(100% - 24px);
+    justify-content: center;
   }
 
   .logo {
