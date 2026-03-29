@@ -83,7 +83,6 @@
       transition: 0.25s ease;
     }
 
-    /* admin 狀態下拉選單：黑底黃字 */
     .admin-select,
     .schedule-row select,
     select.row-status,
@@ -95,8 +94,7 @@
       -webkit-appearance: none;
       -moz-appearance: none;
     }
-    
-    /* 下拉展開選項 */
+
     .admin-select option,
     .schedule-row select option,
     select.row-status option,
@@ -104,8 +102,7 @@
       background: #0b0b0b !important;
       color: #f1d38b !important;
     }
-    
-    /* 被選中的 option */
+
     .admin-select option:checked,
     .schedule-row select option:checked,
     select.row-status option:checked,
@@ -113,13 +110,14 @@
       background: #1a1a1a !important;
       color: #ffd978 !important;
     }
-      .admin-input:focus,
-      .admin-select:focus,
-      .schedule-row input:focus,
-      .schedule-row select:focus {
-        border-color: rgba(212, 175, 55, 0.62);
-        box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
-      }
+
+    .admin-input:focus,
+    .admin-select:focus,
+    .schedule-row input:focus,
+    .schedule-row select:focus {
+      border-color: rgba(212, 175, 55, 0.62);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+    }
 
     .admin-actions {
       display: flex;
@@ -226,6 +224,67 @@
       opacity: 0.92;
     }
 
+    .booking-head,
+    .booking-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1.15fr 1.2fr 1fr 0.8fr auto auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .booking-head {
+      padding: 0 14px 12px;
+      color: #f1d38b;
+      font-size: 0.92rem;
+      letter-spacing: 0.06em;
+      opacity: 0.92;
+    }
+
+    .booking-row {
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.16);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .booking-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .booking-cell {
+      color: rgba(255,255,255,0.88);
+      line-height: 1.7;
+      word-break: break-word;
+    }
+
+    .booking-status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 86px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(212,175,55,0.2);
+      background: rgba(255,255,255,0.04);
+      color: #f7e0a1;
+    }
+
+    .booking-status-pill.cancelled {
+      color: #ffc5c5;
+      border-color: rgba(185,62,62,0.34);
+      background: rgba(185,62,62,0.10);
+    }
+
+    .booking-status-pill.completed {
+      color: #c7f3d1;
+      border-color: rgba(98,180,118,0.30);
+      background: rgba(98,180,118,0.10);
+    }
+
     .admin-note {
       margin-top: 14px;
       color: rgba(255,255,255,0.62);
@@ -238,16 +297,153 @@
       font-size: 0.92rem;
     }
 
+    .lock-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at center, rgba(120, 0, 0, 0.18), transparent 40%),
+        rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    .lock-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .lock-card {
+      width: min(460px, 100%);
+      border: 1px solid rgba(212, 175, 55, 0.30);
+      background: rgba(12, 12, 12, 0.92);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow:
+        0 0 28px rgba(212, 175, 55, 0.10),
+        0 0 60px rgba(120, 0, 0, 0.10);
+      text-align: center;
+    }
+
+    .lock-kicker {
+      color: rgba(255,255,255,0.58);
+      letter-spacing: 0.18em;
+      font-size: 0.82rem;
+      margin-bottom: 10px;
+    }
+
+    .lock-title {
+      margin: 0 0 10px;
+      color: #f1d38b;
+      font-size: 1.7rem;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 14px rgba(212,175,55,0.18);
+    }
+
+    .lock-desc {
+      margin: 0 0 18px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.9;
+      font-size: 0.95rem;
+    }
+
+    .lock-form {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+      text-align: left;
+    }
+
+    .lock-label {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .lock-label span {
+      color: #f2e6c7;
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+    }
+
+    .lock-input {
+      width: 100%;
+      min-height: 46px;
+      border-radius: 14px;
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      background: rgba(255,255,255,0.04);
+      color: #f7f1e4;
+      padding: 12px 14px;
+      font-size: 0.98rem;
+      outline: none;
+      transition: 0.25s ease;
+    }
+
+    .lock-input:focus {
+      border-color: rgba(212, 175, 55, 0.62);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.08);
+    }
+
+    .lock-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .lock-message {
+      margin-top: 14px;
+      min-height: 24px;
+      color: #d7c59a;
+      line-height: 1.8;
+      font-size: 0.94rem;
+    }
+
+    .lock-message.error {
+      color: #ffb2b2;
+    }
+
+    .admin-protected {
+      visibility: hidden;
+    }
+
+    .admin-protected.unlocked {
+      visibility: visible;
+    }
+
+    body.modal-locked {
+      overflow: hidden;
+    }
+
     @media (max-width: 1080px) {
       .admin-form-grid,
       .admin-form-grid.schedule-create,
       .schedule-row,
-      .schedule-head {
+      .schedule-head,
+      .booking-head,
+      .booking-row {
         grid-template-columns: 1fr;
       }
 
-      .schedule-head {
+      .schedule-head,
+      .booking-head {
         display: none;
+      }
+
+      .booking-cell::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 4px;
+        color: #f1d38b;
+        font-size: 0.86rem;
+        letter-spacing: 0.05em;
       }
     }
   </style>
@@ -303,25 +499,69 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
   
-<body>
+<body class="modal-locked">
   <div class="top-line"></div>
 
-  <header class="site-header">
-    <div class="header-inner">
-  
-      <a href="index.html" class="logo">
-        <img src="images/logo.png" alt="冥界 LOGO">
-      </a>
-  
-      <div class="header-title">冥界</div>
-  
-      <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-  
-      <nav class="main-nav">
+  <!-- 進頁登入 POP -->
+  <div class="lock-screen" id="lockScreen">
+    <div class="lock-card">
+      <div class="lock-kicker">NETHER ADMIN ACCESS</div>
+      <h2 class="lock-title">管理員驗證</h2>
+      <p class="lock-desc">
+        進入後台前請先登入管理員帳號。<br>
+        未通過驗證前，後台內容不會顯示。
+      </p>
+
+      <div class="lock-form">
+        <label class="lock-label">
+          <span>Email</span>
+          <input id="lockEmail" class="lock-input" type="email" placeholder="admin@example.com" />
+        </label>
+
+        <label class="lock-label">
+          <span>密碼</span>
+          <input id="lockPassword" class="lock-input" type="password" placeholder="••••••••" />
+        </label>
+      </div>
+
+      <div class="lock-actions">
+        <button id="lockLoginBtn" class="admin-btn" type="button">登入後進入</button>
+      </div>
+
+      <p id="lockMessage" class="lock-message">請先登入管理員帳號。</p>
+    </div>
+  </div>
+
+  <div id="adminProtected" class="admin-protected">
+    <header class="site-header">
+      <div class="header-inner">
+    
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="冥界 LOGO">
+        </a>
+    
+        <div class="header-title">冥界</div>
+    
+        <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+    
+        <nav class="main-nav">
+          <a href="index.html">主頁</a>
+          <a href="rates.html">指名費用</a>
+          <a href="timelist.html">時間表</a>
+          <a href="services.html">服務內容</a>
+          <a href="leaderboard.html">排行榜</a>
+          <a href="host.html">店員</a>
+          <a href="rules.html">規則條例</a>
+          <a href="echo.html">冥界回聲</a>
+          <a class="active" href="admin.html">管理員後台</a>
+        </nav>
+      </div>
+    
+      <div class="mobile-menu" id="mobileMenu">
         <a href="index.html">主頁</a>
         <a href="rates.html">指名費用</a>
         <a href="timelist.html">時間表</a>
@@ -331,167 +571,190 @@ document.addEventListener('DOMContentLoaded', function () {
         <a href="rules.html">規則條例</a>
         <a href="echo.html">冥界回聲</a>
         <a class="active" href="admin.html">管理員後台</a>
-      </nav>
-    </div>
-  
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="index.html">主頁</a>
-      <a href="rates.html">指名費用</a>
-      <a href="timelist.html">時間表</a>
-      <a href="services.html">服務內容</a>
-      <a href="leaderboard.html">排行榜</a>
-      <a href="host.html">店員</a>
-      <a href="rules.html">規則條例</a>
-      <a href="echo.html">冥界回聲</a>
-      <a class="active" href="admin.html">管理員後台</a>
-    </div>
-  </header>
-
-
-  <main class="page inner-page">
-    <section class="page-title-block">
-      <h1 class="page-title">管理員後台</h1>
-    </section>
-
-    <section class="admin-board-section">
-
-      <!-- 登入 -->
-      <div class="admin-card">
-        <h2 class="admin-title">管理員登入</h2>
-        <p class="admin-subtitle">登入後即可管理排行榜與時間表。</p>
-
-        <div class="admin-form-grid">
-          <label class="admin-label">
-            <span>Email</span>
-            <input id="adminEmail" class="admin-input" type="email" placeholder="admin@example.com" />
-          </label>
-
-          <label class="admin-label">
-            <span>密碼</span>
-            <input id="adminPassword" class="admin-input" type="password" placeholder="••••••••" />
-          </label>
-        </div>
-
-        <div class="admin-actions">
-          <button id="loginBtn" class="admin-btn" type="button">登入</button>
-          <button id="logoutBtn" class="admin-btn ghost" type="button">登出</button>
-          <button id="refreshSessionBtn" class="admin-btn ghost" type="button">重新檢查登入狀態</button>
-        </div>
-
-        <p id="authMessage" class="admin-message">請先登入管理員帳號。</p>
       </div>
+    </header>
 
-      <!-- 排行榜 -->
-      <div class="admin-card">
-        <h2 class="admin-title">排行榜管理</h2>
+    <main class="page inner-page">
+      <section class="page-title-block">
+        <h1 class="page-title">管理員後台</h1>
+      </section>
 
-        <div class="admin-form-grid">
-          <label class="admin-label">
+      <section class="admin-board-section">
+
+        <!-- 登入 -->
+        <div class="admin-card">
+          <h2 class="admin-title">管理員登入</h2>
+          <p class="admin-subtitle">登入後即可管理排行榜、時間表與預約資料。</p>
+
+          <div class="admin-form-grid">
+            <label class="admin-label">
+              <span>Email</span>
+              <input id="adminEmail" class="admin-input" type="email" placeholder="admin@example.com" />
+            </label>
+
+            <label class="admin-label">
+              <span>密碼</span>
+              <input id="adminPassword" class="admin-input" type="password" placeholder="••••••••" />
+            </label>
+          </div>
+
+          <div class="admin-actions">
+            <button id="loginBtn" class="admin-btn" type="button">登入</button>
+            <button id="logoutBtn" class="admin-btn ghost" type="button">登出</button>
+            <button id="refreshSessionBtn" class="admin-btn ghost" type="button">重新檢查登入狀態</button>
+          </div>
+
+          <p id="authMessage" class="admin-message">請先登入管理員帳號。</p>
+        </div>
+
+        <!-- 排行榜 -->
+        <div class="admin-card">
+          <h2 class="admin-title">排行榜管理</h2>
+
+          <div class="admin-form-grid">
+            <label class="admin-label">
+              <span>店員</span>
+              <select id="hostSelect" class="admin-input admin-select">
+                <option value="刻耳柏洛斯">刻耳柏洛斯</option>
+                <option value="厄耳特洛斯">厄耳特洛斯</option>
+                <option value="龍冽">龍冽</option>
+                <option value="安怛">安怛</option>
+                <option value="Jazper">Jazper</option>
+                <option value="格斯亞德">格斯亞德</option>
+                <option value="蛇魂">蛇魂</option>
+                <option value="餘燼">餘燼</option>
+                <option value="格拉斯莫">格拉斯莫</option>
+                <option value="法拉歐">法拉歐</option>
+                <option value="牛奶">牛奶</option>
+                <option value="無盡寒夜">無盡寒夜</option>
+                <option value="埃伊諾">埃伊諾</option>
+                <option value="洛德勒斯">洛德勒斯</option>
+              </select>
+            </label>
+
+            <label class="admin-label">
+              <span>增加金額（GIL）</span>
+              <input id="amountInput" class="admin-input" type="number" min="1" step="1" placeholder="例如 10000" />
+            </label>
+          </div>
+
+          <div class="admin-actions">
+            <button id="addAmountBtn" class="admin-btn" type="button">增加金額</button>
+          </div>
+
+          <p id="adminMessage" class="admin-message">登入後才可修改排行榜。</p>
+        </div>
+
+        <!-- 時間表 -->
+        <div class="admin-card">
+          <div class="schedule-toolbar">
+            <div>
+              <h2 class="admin-title" style="margin-bottom: 6px;">時間表管理</h2>
+              <div class="inline-status">可新增、編輯、刪除 schedule_list</div>
+            </div>
+
+            <div class="admin-actions" style="margin-top: 0;">
+              <button id="reloadScheduleBtn" class="admin-btn ghost" type="button">重新讀取時間表</button>
+            </div>
+          </div>
+
+          <div class="admin-form-grid schedule-create">
+            <label class="admin-label">
+              <span>店員名稱</span>
+              <input id="newScheduleName" class="admin-input" type="text" placeholder="例如 刻耳柏洛斯" />
+            </label>
+
+            <label class="admin-label">
+              <span>日期</span>
+              <input id="newScheduleDate" class="admin-input" type="date" />
+            </label>
+
+            <label class="admin-label">
+              <span>狀態</span>
+              <select id="newScheduleStatus" class="admin-input admin-select">
+                <option value="wait">空閒</option>
+                <option value="busy">已預定</option>
+                <option value="off">請假</option>
+              </select>
+            </label>
+
+            <label class="admin-label">
+              <span>圖片路徑</span>
+              <input id="newScheduleImg" class="admin-input" type="text" placeholder="例如 images/host-01.png" />
+            </label>
+
+            <label class="admin-label">
+              <span>排序</span>
+              <input id="newScheduleSort" class="admin-input" type="number" min="0" step="1" placeholder="0" />
+            </label>
+          </div>
+
+          <div class="admin-actions">
+            <button id="addScheduleBtn" class="admin-btn" type="button">新增排班</button>
+          </div>
+
+          <p id="scheduleMessage" class="admin-message">登入後才可修改時間表。</p>
+
+          <div class="admin-divider"></div>
+
+          <div class="schedule-head">
             <span>店員</span>
-            <select id="hostSelect" class="admin-input admin-select">
-              <option value="刻耳柏洛斯">刻耳柏洛斯</option>
-              <option value="厄耳特洛斯">厄耳特洛斯</option>
-              <option value="龍冽">龍冽</option>
-              <option value="安怛">安怛</option>
-              <option value="Jazper">Jazper</option>
-              <option value="格斯亞德">格斯亞德</option>
-              <option value="蛇魂">蛇魂</option>
-              <option value="餘燼">餘燼</option>
-              <option value="格拉斯莫">格拉斯莫</option>
-              <option value="法拉歐">法拉歐</option>
-              <option value="牛奶">牛奶</option>
-              <option value="無盡寒夜">無盡寒夜</option>
-              <option value="埃伊諾">埃伊諾</option>
-              <option value="洛德勒斯">洛德勒斯</option>
-            </select>
-          </label>
-
-          <label class="admin-label">
-            <span>增加金額（GIL）</span>
-            <input id="amountInput" class="admin-input" type="number" min="1" step="1" placeholder="例如 10000" />
-          </label>
-        </div>
-
-        <div class="admin-actions">
-          <button id="addAmountBtn" class="admin-btn" type="button">增加金額</button>
-        </div>
-
-        <p id="adminMessage" class="admin-message">登入後才可修改排行榜。</p>
-      </div>
-
-      <!-- 時間表 -->
-      <div class="admin-card">
-        <div class="schedule-toolbar">
-          <div>
-            <h2 class="admin-title" style="margin-bottom: 6px;">時間表管理</h2>
-            <div class="inline-status">可新增、編輯、刪除 schedule_list</div>
-          </div>
-
-          <div class="admin-actions" style="margin-top: 0;">
-            <button id="reloadScheduleBtn" class="admin-btn ghost" type="button">重新讀取時間表</button>
-          </div>
-        </div>
-
-        <div class="admin-form-grid schedule-create">
-          <label class="admin-label">
-            <span>店員名稱</span>
-            <input id="newScheduleName" class="admin-input" type="text" placeholder="例如 刻耳柏洛斯" />
-          </label>
-
-          <label class="admin-label">
             <span>日期</span>
-            <input id="newScheduleDate" class="admin-input" type="date" />
-          </label>
-
-          <label class="admin-label">
             <span>狀態</span>
-            <select id="newScheduleStatus" class="admin-input admin-select">
-              <option value="wait">空閒</option>
-              <option value="busy">已預定</option>
-              <option value="off">請假</option>
-            </select>
-          </label>
-
-          <label class="admin-label">
-            <span>圖片路徑</span>
-            <input id="newScheduleImg" class="admin-input" type="text" placeholder="例如 images/host-01.png" />
-          </label>
-
-          <label class="admin-label">
+            <span>圖片</span>
             <span>排序</span>
-            <input id="newScheduleSort" class="admin-input" type="number" min="0" step="1" placeholder="0" />
-          </label>
+            <span>儲存</span>
+            <span>刪除</span>
+          </div>
+
+          <div id="scheduleList" class="schedule-list"></div>
         </div>
 
-        <div class="admin-actions">
-          <button id="addScheduleBtn" class="admin-btn" type="button">新增排班</button>
+        <!-- 預約資料 -->
+        <div class="admin-card">
+          <div class="schedule-toolbar">
+            <div>
+              <h2 class="admin-title" style="margin-bottom: 6px;">預約資料</h2>
+              <div class="inline-status">可查看是誰預約，並可直接完成或取消預約</div>
+            </div>
+
+            <div class="admin-actions" style="margin-top: 0;">
+              <button id="reloadBookingsBtn" class="admin-btn ghost" type="button">重新讀取預約</button>
+            </div>
+          </div>
+
+          <p id="bookingMessage" class="admin-message">登入後才可查看預約資料。</p>
+
+          <div class="admin-divider"></div>
+
+          <div class="booking-head">
+            <span>店員</span>
+            <span>日期</span>
+            <span>客戶</span>
+            <span>聯絡方式</span>
+            <span>備註</span>
+            <span>建立時間</span>
+            <span>狀態</span>
+            <span>完成</span>
+            <span>取消</span>
+          </div>
+
+          <div id="bookingList" class="booking-list"></div>
+
+          <div class="admin-note">
+            完成或取消預約後，若這個時段沒有其他有效預約，系統會自動同步時間表狀態。
+          </div>
         </div>
 
-        <p id="scheduleMessage" class="admin-message">登入後才可修改時間表。</p>
+      </section>
+    </main>
 
-        <div class="admin-divider"></div>
-
-        <div class="schedule-head">
-          <span>店員</span>
-          <span>日期</span>
-          <span>狀態</span>
-          <span>圖片</span>
-          <span>排序</span>
-          <span>儲存</span>
-          <span>刪除</span>
-        </div>
-
-        <div id="scheduleList" class="schedule-list"></div>
-      </div>
-
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <a href="index.html">冥界</a>
-    <a href="#">THREADS</a>
-    <a href="#">DISCORD</a>
-  </footer>
+    <footer class="site-footer">
+      <a href="index.html">冥界</a>
+      <a href="#">THREADS</a>
+      <a href="#">DISCORD</a>
+    </footer>
+  </div>
 
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -500,6 +763,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const SUPABASE_ANON_KEY = "sb_publishable_KFcwagT3Ho1ivjPv3Oq9zw_FNIaBVpX";
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const lockScreen = document.getElementById("lockScreen");
+    const adminProtected = document.getElementById("adminProtected");
+    const lockEmail = document.getElementById("lockEmail");
+    const lockPassword = document.getElementById("lockPassword");
+    const lockLoginBtn = document.getElementById("lockLoginBtn");
+    const lockMessage = document.getElementById("lockMessage");
 
     const adminEmail = document.getElementById("adminEmail");
     const adminPassword = document.getElementById("adminPassword");
@@ -523,10 +793,23 @@ document.addEventListener('DOMContentLoaded', function () {
     const scheduleList = document.getElementById("scheduleList");
     const scheduleMessage = document.getElementById("scheduleMessage");
 
+    const reloadBookingsBtn = document.getElementById("reloadBookingsBtn");
+    const bookingList = document.getElementById("bookingList");
+    const bookingMessage = document.getElementById("bookingMessage");
+
+    let scheduleChannel = null;
+    let bookingChannel = null;
+
     function setMessage(el, text, type = "") {
       el.textContent = text;
       el.classList.remove("error", "success");
       if (type) el.classList.add(type);
+    }
+
+    function setLockMessage(text, type = "") {
+      lockMessage.textContent = text;
+      lockMessage.classList.remove("error");
+      if (type) lockMessage.classList.add(type);
     }
 
     function escapeHtml(value) {
@@ -536,6 +819,39 @@ document.addEventListener('DOMContentLoaded', function () {
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+    }
+
+    function formatDateTime(value) {
+      if (!value) return "";
+      try {
+        return new Date(value).toLocaleString("zh-TW");
+      } catch {
+        return value;
+      }
+    }
+
+    function openProtectedContent(user) {
+      adminProtected.classList.add("unlocked");
+      lockScreen.classList.add("hidden");
+      document.body.classList.remove("modal-locked");
+
+      if (user?.email) {
+        adminEmail.value = user.email;
+        lockEmail.value = user.email;
+      }
+
+      setMessage(authMessage, `已登入：${user.email}`, "success");
+      setMessage(adminMessage, "已通過管理員驗證，可以增加金額。", "success");
+      setMessage(scheduleMessage, "已通過管理員驗證，可以管理時間表。", "success");
+      setMessage(bookingMessage, "已通過管理員驗證，可以查看預約資料。", "success");
+    }
+
+    function closeProtectedContent() {
+      adminProtected.classList.remove("unlocked");
+      lockScreen.classList.remove("hidden");
+      document.body.classList.add("modal-locked");
+      bookingList.innerHTML = "";
+      scheduleList.innerHTML = "";
     }
 
     async function checkSession(showMessage = true) {
@@ -557,12 +873,13 @@ document.addEventListener('DOMContentLoaded', function () {
       return null;
     }
 
-    async function loginAdmin() {
-      const email = adminEmail.value.trim();
-      const password = adminPassword.value;
+    async function loginAdmin(emailOverride = "", passwordOverride = "") {
+      const email = (emailOverride || adminEmail.value || lockEmail.value).trim();
+      const password = passwordOverride || adminPassword.value || lockPassword.value;
 
       if (!email || !password) {
         setMessage(authMessage, "請輸入 Email 與密碼。", "error");
+        setLockMessage("請輸入 Email 與密碼。", "error");
         return;
       }
 
@@ -574,15 +891,18 @@ document.addEventListener('DOMContentLoaded', function () {
       if (error) {
         console.error(error);
         setMessage(authMessage, "登入失敗。", "error");
+        setLockMessage("登入失敗。", "error");
         return;
       }
 
-      setMessage(authMessage, `已登入：${data.user.email}`, "success");
-      setMessage(adminMessage, "已通過管理員驗證，可以增加金額。", "success");
-      setMessage(scheduleMessage, "已通過管理員驗證，可以管理時間表。", "success");
-
+      adminEmail.value = data.user.email;
+      lockEmail.value = data.user.email;
       adminPassword.value = "";
-      await loadSchedule();
+      lockPassword.value = "";
+
+      openProtectedContent(data.user);
+      await loadAll();
+      setupRealtime();
     }
 
     async function logoutAdmin() {
@@ -594,9 +914,23 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
+      if (scheduleChannel) {
+        supabase.removeChannel(scheduleChannel);
+        scheduleChannel = null;
+      }
+
+      if (bookingChannel) {
+        supabase.removeChannel(bookingChannel);
+        bookingChannel = null;
+      }
+
       setMessage(authMessage, "已登出。");
       setMessage(adminMessage, "登入後才可修改排行榜。");
       setMessage(scheduleMessage, "登入後才可修改時間表。");
+      setMessage(bookingMessage, "登入後才可查看預約資料。");
+      setLockMessage("請先登入管理員帳號。");
+
+      closeProtectedContent();
     }
 
     async function addAmount() {
@@ -666,6 +1000,52 @@ document.addEventListener('DOMContentLoaded', function () {
       `;
     }
 
+    function bookingRowTemplate(item) {
+      const statusClass =
+        item.status === "cancelled"
+          ? "cancelled"
+          : item.status === "completed"
+          ? "completed"
+          : "";
+
+      const statusText =
+        item.status === "cancelled"
+          ? "已取消"
+          : item.status === "completed"
+          ? "已完成"
+          : "已預約";
+
+      const actionDisabled = item.status === "cancelled" || item.status === "completed";
+
+      return `
+        <div class="booking-row" data-id="${item.id}">
+          <div class="booking-cell" data-label="店員">${escapeHtml(item.host_name)}</div>
+          <div class="booking-cell" data-label="日期">${escapeHtml(item.schedule_date)}</div>
+          <div class="booking-cell" data-label="客戶">${escapeHtml(item.customer_name)}</div>
+          <div class="booking-cell" data-label="聯絡方式">${escapeHtml(item.customer_contact)}</div>
+          <div class="booking-cell" data-label="備註">${escapeHtml(item.customer_note || "")}</div>
+          <div class="booking-cell" data-label="建立時間">${escapeHtml(formatDateTime(item.created_at))}</div>
+          <div class="booking-cell" data-label="狀態">
+            <span class="booking-status-pill ${statusClass}">${statusText}</span>
+          </div>
+          <div class="booking-cell" data-label="完成">
+            ${
+              actionDisabled
+                ? "-"
+                : `<button class="admin-btn save-btn" type="button" data-booking-action="complete">完成</button>`
+            }
+          </div>
+          <div class="booking-cell" data-label="取消">
+            ${
+              actionDisabled
+                ? "-"
+                : `<button class="admin-btn danger delete-btn" type="button" data-booking-action="cancel">取消</button>`
+            }
+          </div>
+        </div>
+      `;
+    }
+
     async function loadSchedule() {
       scheduleList.innerHTML = `<div class="admin-note">讀取中...</div>`;
 
@@ -687,6 +1067,32 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       scheduleList.innerHTML = data.map(scheduleRowTemplate).join("");
+    }
+
+    async function loadBookings() {
+      bookingList.innerHTML = `<div class="admin-note">讀取中...</div>`;
+
+      const { data, error } = await supabase
+        .from("reservations")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        bookingList.innerHTML = `<div class="admin-note">讀取預約資料失敗。</div>`;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        bookingList.innerHTML = `<div class="admin-note">目前沒有預約資料。</div>`;
+        return;
+      }
+
+      bookingList.innerHTML = data.map(bookingRowTemplate).join("");
+    }
+
+    async function loadAll() {
+      await Promise.all([loadSchedule(), loadBookings()]);
     }
 
     async function addSchedule() {
@@ -781,6 +1187,23 @@ document.addEventListener('DOMContentLoaded', function () {
       const id = Number(rowEl.dataset.id);
       const name = rowEl.querySelector(".row-name").value.trim() || "此筆資料";
 
+      const { data: activeReservations, error: activeCheckError } = await supabase
+        .from("reservations")
+        .select("id")
+        .eq("schedule_id", id)
+        .in("status", ["pending", "confirmed"]);
+
+      if (activeCheckError) {
+        console.error(activeCheckError);
+        setMessage(scheduleMessage, "刪除前檢查預約失敗。", "error");
+        return;
+      }
+
+      if (activeReservations && activeReservations.length > 0) {
+        setMessage(scheduleMessage, `${name} 目前有有效預約，請先在下方取消或完成預約。`, "error");
+        return;
+      }
+
       const ok = confirm(`確定要刪除 ${name} 的排班嗎？`);
       if (!ok) return;
 
@@ -799,12 +1222,96 @@ document.addEventListener('DOMContentLoaded', function () {
       await loadSchedule();
     }
 
-    loginBtn.addEventListener("click", loginAdmin);
+    async function updateBookingStatus(id, status) {
+      const user = await checkSession(false);
+      if (!user) {
+        setMessage(bookingMessage, "請先登入管理員帳號。", "error");
+        return;
+      }
+
+      const text = status === "completed" ? "完成" : "取消";
+      const ok = confirm(`確定要${text}這筆預約嗎？`);
+      if (!ok) return;
+
+      const { error } = await supabase
+        .from("reservations")
+        .update({ status })
+        .eq("id", id);
+
+      if (error) {
+        console.error(error);
+        setMessage(bookingMessage, `${text}預約失敗。`, "error");
+        return;
+      }
+
+      setMessage(bookingMessage, `已${text}預約。`, "success");
+      await loadAll();
+    }
+
+    function setupRealtime() {
+      if (scheduleChannel) {
+        supabase.removeChannel(scheduleChannel);
+      }
+
+      if (bookingChannel) {
+        supabase.removeChannel(bookingChannel);
+      }
+
+      scheduleChannel = supabase
+        .channel("admin_schedule_realtime")
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "schedule_list"
+          },
+          async () => {
+            await loadSchedule();
+          }
+        )
+        .subscribe();
+
+      bookingChannel = supabase
+        .channel("admin_booking_realtime")
+        .on(
+          "postgres_changes",
+          {
+            event: "*",
+            schema: "public",
+            table: "reservations"
+          },
+          async () => {
+            await loadAll();
+          }
+        )
+        .subscribe();
+    }
+
+    lockLoginBtn.addEventListener("click", async () => {
+      await loginAdmin(lockEmail.value, lockPassword.value);
+    });
+
+    lockPassword.addEventListener("keydown", async (e) => {
+      if (e.key === "Enter") {
+        await loginAdmin(lockEmail.value, lockPassword.value);
+      }
+    });
+
+    loginBtn.addEventListener("click", () => loginAdmin());
     logoutBtn.addEventListener("click", logoutAdmin);
-    refreshSessionBtn.addEventListener("click", () => checkSession(true));
+    refreshSessionBtn.addEventListener("click", async () => {
+      const user = await checkSession(true);
+      if (user) {
+        openProtectedContent(user);
+        await loadAll();
+      }
+    });
+
     addAmountBtn.addEventListener("click", addAmount);
     addScheduleBtn.addEventListener("click", addSchedule);
     reloadScheduleBtn.addEventListener("click", loadSchedule);
+    reloadBookingsBtn.addEventListener("click", loadBookings);
 
     scheduleList.addEventListener("click", async (e) => {
       const action = e.target?.dataset?.action;
@@ -822,8 +1329,38 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    checkSession();
-    loadSchedule();
+    bookingList.addEventListener("click", async (e) => {
+      const action = e.target?.dataset?.bookingAction;
+      if (!action) return;
+
+      const rowEl = e.target.closest(".booking-row");
+      if (!rowEl) return;
+
+      const id = Number(rowEl.dataset.id);
+
+      if (action === "complete") {
+        await updateBookingStatus(id, "completed");
+      }
+
+      if (action === "cancel") {
+        await updateBookingStatus(id, "cancelled");
+      }
+    });
+
+    async function boot() {
+      const user = await checkSession(false);
+
+      if (user) {
+        openProtectedContent(user);
+        await loadAll();
+        setupRealtime();
+      } else {
+        closeProtectedContent();
+        setLockMessage("請先登入管理員帳號。");
+      }
+    }
+
+    boot();
   </script>
 </body>
 </html>
