@@ -3601,6 +3601,13 @@ main,
   .main-nav {
     display: none;
   }
+  .logo {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
 
   .menu-toggle {
     display: block;
