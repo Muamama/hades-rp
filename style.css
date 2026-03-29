@@ -69,6 +69,7 @@ a {
 .main-nav {
   max-width: var(--max);
   margin: 0 auto;
+  flex: 1;  
   display: flex;
   justify-content: center;
   gap: 36px;
