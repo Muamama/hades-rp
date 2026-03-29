@@ -40,8 +40,12 @@
       });
 
       function getStatus(status) {
-        if (status === "wait") return ["空閒", "status-wait", "今夜有空，等待你的指名。"];
-        if (status === "busy") return ["已預定", "status-busy", "已被預約，暫不可用。"];
+        if (status === "wait") {
+          return ["空閒", "status-wait", "今夜有空，等待你的指名。"];
+        }
+        if (status === "busy") {
+          return ["已預定", "status-busy", "已被預約，暫不可用。"];
+        }
         return ["請假", "status-off", "今夜不在場。"];
       }
 
