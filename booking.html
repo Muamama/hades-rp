@@ -434,19 +434,28 @@
 
       function getSuccessLine(hostName) {
         const lines = [
-          `${hostName}將與你今夜狂歡。`,
-          `${hostName}將與你共享這場夜色。`,
-          `${hostName}將與你沉入今夜的享樂。`,
-          `${hostName}正等待與你墜入這場冥界之宴。`
+          `${hostName}今夜將與你共享這場狂歡。`,
+          `${hostName}今夜將與你沉溺於冥界的享樂。`,
+          `${hostName}已為你留下今夜的位置，等你一同墜入這場夜色。`,
+          `${hostName}將與你在今夜交纏，共享這場不肯熄滅的餘燼。`,
+          `${hostName}已應下你的召喚，今夜將與你共赴這場盛宴。`,
+          `${hostName}的目光今夜將落在你身上，與你共享這場墮落。`,
+          `${hostName}今夜將為你敞開冥界之門，與你一同狂歡至深處。`,
+          `${hostName}會在今夜等待你的靠近，與你共飲這場危險的歡愉。`
         ];
         return lines[Math.floor(Math.random() * lines.length)];
       }
 
       function getFailureLine(hostName) {
         const lines = [
-          `${hostName}的靈魂已被佔據，請等待下一次邂逅。`,
-          `${hostName}今夜已被帶走，請等待下一次降臨。`,
-          `${hostName}的夜晚已被他人先一步奪去，請靜候下一次召喚。`
+          `${hostName}的靈魂今夜已被佔據，請等待下一次邂逅。`,
+          `${hostName}今夜已屬於他人，請靜候下一次降臨。`,
+          `${hostName}的夜晚已被先一步奪去，請等待下一次召喚。`,
+          `${hostName}今夜已落入別人的懷裡，請等待下一次相遇。`,
+          `${hostName}的名字今夜已被他人低聲喚走，請靜候下一場狂歡。`,
+          `${hostName}今夜的欲望已被帶走，請等待下一次靠近。`,
+          `${hostName}的門扉今夜已為他人開啟，請等待下一次墜落。`,
+          `${hostName}今夜已無法再回應你的渴望，請等待下一次邂逅。`
         ];
         return lines[Math.floor(Math.random() * lines.length)];
       }
@@ -537,7 +546,7 @@
           console.error(error);
           const failText = getFailureLine(hostName);
           setMessage("預約失敗，請稍後再試。", "error");
-          openPopup("error", "預約失敗", failText);
+          openPopup("error", "今夜之門已閉", failText);
           submitBtn.disabled = false;
           submitBtn.textContent = "送 出 預 約";
           return;
@@ -546,7 +555,7 @@
         if (!data?.success) {
           const failText = getFailureLine(hostName);
           setMessage(data?.message || "此時段已不可預約。", "error");
-          openPopup("error", "今夜無法靠近", failText);
+          openPopup("error", "今夜之門已閉", failText);
           submitBtn.disabled = false;
           submitBtn.textContent = "送 出 預 約";
           await loadAvailableSlots();
@@ -555,7 +564,7 @@
 
         const successText = getSuccessLine(hostName);
         setMessage("預約成功，請等待後台確認。", "success");
-        openPopup("success", "預約成功", successText);
+        openPopup("success", "召喚已被回應", successText);
         form.reset();
         await loadAvailableSlots();
 
@@ -680,7 +689,7 @@ document.addEventListener('DOMContentLoaded', function () {
         <a href="index.html">主頁</a>
         <a href="rates.html">指名費用</a>
         <a href="timelist.html">時間表</a>
-        <a class="active" href="booking.html">墜入預約</a>
+        <a class="active" href="booking.html">預約</a>
         <a href="services.html">服務內容</a>
         <a href="leaderboard.html">排行榜</a>
         <a href="host.html">店員</a>
@@ -693,7 +702,7 @@ document.addEventListener('DOMContentLoaded', function () {
       <a href="index.html">主頁</a>
       <a href="rates.html">指名費用</a>
       <a href="timelist.html">時間表</a>
-      <a class="active" href="booking.html">墜入預約</a>
+      <a class="active" href="booking.html">預約</a>
       <a href="services.html">服務內容</a>
       <a href="leaderboard.html">排行榜</a>
       <a href="host.html">店員</a>
@@ -786,7 +795,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="booking-popup-card success" id="bookingPopupCard">
       <button class="booking-popup-close" id="bookingPopupClose">✕</button>
       <div class="booking-popup-kicker">NETHER WHISPER</div>
-      <h3 class="booking-popup-title" id="bookingPopupTitle">預約成功</h3>
+      <h3 class="booking-popup-title" id="bookingPopupTitle">召喚已被回應</h3>
       <p class="booking-popup-text" id="bookingPopupText"></p>
       <button class="booking-popup-btn" id="bookingPopupConfirm">確 認</button>
     </div>
@@ -794,7 +803,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   <footer class="site-footer">
     <a href="index.html">冥界入口</a>
-    <a href="timelist.html">預約時段</a>
     <a href="#">THREADS</a>
     <a href="#">DISCORD</a>
   </footer>
