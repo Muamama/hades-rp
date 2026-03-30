@@ -584,6 +584,11 @@
       const echoList = document.getElementById("echoList");
       const echoCount = document.getElementById("echoCount");
       const statusBox = document.getElementById("statusBox");
+      const echoPagination = document.getElementById("echoPagination");
+
+      const PAGE_SIZE = 50;
+      let currentPage = 1;
+      let allEchoes = [];
 
       const supabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 
