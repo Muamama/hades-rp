@@ -3613,3 +3613,40 @@ main,
     display: block;
   }
 }
+
+    .echo-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0 22px 22px;
+    }
+
+    .page-btn {
+      min-width: 42px;
+      height: 42px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      background: rgba(10, 10, 10, 0.92);
+      color: var(--text);
+      border-radius: 12px;
+      font-family: "Noto Serif TC", serif;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .page-btn:hover {
+      border-color: rgba(212, 175, 55, 0.4);
+      color: var(--gold);
+      box-shadow: 0 0 12px rgba(212, 175, 55, 0.08);
+    }
+
+    .page-btn.active {
+      background: linear-gradient(135deg, #f0d77d 0%, #d4af37 55%, #b78a18 100%);
+      color: #111;
+      border-color: transparent;
+      box-shadow:
+        0 0 16px rgba(212, 175, 55, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    }
