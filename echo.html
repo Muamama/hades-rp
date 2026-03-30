@@ -652,10 +652,37 @@
         return `${year}-${month}-${day} ${hours}:${minutes}`;
       }
 
-      function renderEchoes(items) {
-        echoList.innerHTML = "";
+      function renderPagination(totalItems) {
+        echoPagination.innerHTML = "";
 
-        if (!items || items.length === 0) {
+        const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+
+        if (totalPages <= 1) return;
+
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement("button");
+          btn.className = "page-btn" + (i === currentPage ? " active" : "");
+          btn.textContent = i;
+
+          btn.addEventListener("click", function () {
+            currentPage = i;
+            renderEchoes(allEchoes);
+            window.scrollTo({
+              top: echoList.closest(".echo-panel").offsetTop - 100,
+              behavior: "smooth"
+            });
+          });
+
+          echoPagination.appendChild(btn);
+        }
+      }
+
+      function renderEchoes(items) {
+        allEchoes = items || [];
+        echoList.innerHTML = "";
+        echoPagination.innerHTML = "";
+
+        if (!allEchoes || allEchoes.length === 0) {
           echoCount.textContent = "目前 0 則回聲";
           echoList.innerHTML = `
             <div class="empty-state">
@@ -666,9 +693,18 @@
           return;
         }
 
-        echoCount.textContent = `目前 ${items.length} 則回聲`;
+        echoCount.textContent = `目前 ${allEchoes.length} 則回聲`;
 
-        items.forEach(function (item) {
+        const totalPages = Math.ceil(allEchoes.length / PAGE_SIZE);
+        if (currentPage > totalPages) {
+          currentPage = 1;
+        }
+
+        const startIndex = (currentPage - 1) * PAGE_SIZE;
+        const endIndex = startIndex + PAGE_SIZE;
+        const pageItems = allEchoes.slice(startIndex, endIndex);
+
+        pageItems.forEach(function (item) {
           const card = document.createElement("article");
           card.className = "echo-card";
           card.innerHTML = `
@@ -680,6 +716,8 @@
           `;
           echoList.appendChild(card);
         });
+
+        renderPagination(allEchoes.length);
       }
 
       async function loadEchoes() {
