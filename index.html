@@ -43,374 +43,312 @@
       top: 0;
     }
 
-  /* ================================
-     HADES NOTICE｜黑紅金漸變版
-  ================================ */
-  
-  .hades-notice {
-    box-shadow: none;
-  }
-  
-  .notice-frame {
-    position: relative;
-    padding: 34px 28px 30px;
-    text-align: center;
-    border-radius: 22px;
-    overflow: hidden;
-  
-    /* 關鍵：完全無框 */
-    border: none;
-    outline: none;
-  
-    /* 更暗的黑紅底色，不要明顯金框 */
-    background:
-      radial-gradient(circle at 50% 50%, rgba(70, 8, 8, 0.22), transparent 42%),
-      radial-gradient(circle at 18% 18%, rgba(120, 0, 0, 0.10), transparent 26%),
-      radial-gradient(circle at 82% 24%, rgba(40, 0, 0, 0.12), transparent 24%),
-      linear-gradient(
-        90deg,
-        rgba(2, 2, 3, 0.985) 0%,
-        rgba(8, 4, 5, 0.975) 18%,
-        rgba(20, 5, 5, 0.95) 50%,
-        rgba(8, 4, 5, 0.975) 82%,
-        rgba(2, 2, 3, 0.985) 100%
-      );
-  
-    box-shadow:
-      0 0 18px rgba(80, 0, 0, 0.14),
-      0 0 34px rgba(40, 0, 0, 0.16),
-      inset 0 0 24px rgba(90, 0, 0, 0.08);
-  }
-    
-  .notice-frame::before {
-    /* 關鍵：拿掉原本內框線 */
-    content: none;
-  }
-  
-  .notice-frame::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(circle at 50% 0%, rgba(90, 0, 0, 0.08), transparent 32%),
-      radial-gradient(circle at 50% 100%, rgba(60, 0, 0, 0.06), transparent 34%);
-    opacity: 0.65;
-  }
-      
-  .notice-overline {
-    position: relative;
-    z-index: 1;
-    margin: 0 0 20px;
-    color: rgba(212, 175, 55, 0.82);
-    font-size: 0.78rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    text-shadow: 0 0 12px rgba(212, 175, 55, 0.26);
-  }
-  
-  .notice-service {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px 12px;
-    margin-bottom: 24px;
-  }
-  
-  .notice-service-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 104px;
-    padding: 8px 16px;
-  
-    color: #ead9a6;
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-  
-    cursor: pointer;
-    border-radius: 999px;
-    border: 1px solid transparent;
-  
-    background:
-      linear-gradient(rgba(8, 6, 6, 0.92), rgba(8, 6, 6, 0.92)) padding-box,
-      linear-gradient(
-        120deg,
-        rgba(160, 128, 40, 0.38),
-        rgba(85, 0, 0, 0.52),
-        rgba(160, 128, 40, 0.12)
-      ) border-box;
-  
-    box-shadow:
-      inset 0 0 8px rgba(100, 0, 0, 0.12),
-      0 0 6px rgba(80, 0, 0, 0.12);
-  
-    transition:
-      transform 0.28s ease,
-      color 0.28s ease,
-      box-shadow 0.28s ease,
-      filter 0.28s ease;
-  }
-  
-  .notice-service-btn:hover {
-    color: #f3df98;
-    transform: translateY(-2px);
-    filter: brightness(1.04);
-    box-shadow:
-      inset 0 0 10px rgba(100, 0, 0, 0.18),
-      0 0 10px rgba(212, 175, 55, 0.08),
-      0 0 14px rgba(100, 0, 0, 0.18);
-  }
-  
-  .notice-service-btn:active {
-    transform: translateY(0) scale(0.98);
-  }
-  
-  /* 這裡把你不要的線拿掉 */
-  .notice-time {
-    position: relative;
-    z-index: 1;
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-    padding: 8px 18px;
-    margin-bottom: 18px;
-  
-    border: none;           /* 關鍵：移除線 */
-    background: transparent;/* 關鍵：不要再有區塊線感 */
-  
-    color: #f7ead0;
-    letter-spacing: 0.12em;
-  }
-  
-  .notice-time strong {
-    color: #d4af37;
-    font-weight: 600;
-  }
-  
-  .notice-time span {
-    color: rgba(255, 245, 220, 0.92);
-  }
-  
-  .notice-desc {
-    position: relative;
-    z-index: 1;
-    margin: 0 0 10px;
-    color: rgba(245, 232, 204, 0.74);
-    font-size: 0.92rem;
-    letter-spacing: 0.12em;
-  }
-  
-  .notice-tag {
-    position: relative;
-    z-index: 1;
-    margin: 0;
-    color: rgba(190, 36, 36, 0.95);
-    font-size: 0.92rem;
-    letter-spacing: 0.16em;
-    text-shadow: 0 0 10px rgba(160, 0, 0, 0.34);
-  }
-  
-  /* ================================
-     HADES NOTICE｜Popup
-  ================================ */
-  
-  .notice-popup-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    background:
-      radial-gradient(circle at center, rgba(85, 0, 0, 0.16), transparent 40%),
-      rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-  
-  .notice-popup-overlay.show {
-    display: flex;
-  }
-  
-  .notice-popup-card {
-    position: relative;
-    width: min(540px, 92vw);
-    padding: 42px 38px 36px;
-    border-radius: 22px;
-    border: 1px solid rgba(212, 175, 55, 0.10);
-  
-    /* 磨砂透明玻璃感 + 暗紅金 */
-    background:
-      linear-gradient(
-        135deg,
-        rgba(90, 8, 8, 0.22),
-        rgba(212, 175, 55, 0.06),
-        rgba(50, 5, 5, 0.26)
-      ),
-      linear-gradient(
-        180deg,
-        rgba(8, 5, 6, 0.68),
-        rgba(24, 7, 8, 0.58),
-        rgba(6, 4, 5, 0.72)
-      );
-  
-    backdrop-filter: blur(16px) saturate(110%);
-    -webkit-backdrop-filter: blur(16px) saturate(110%);
-  
-    box-shadow:
-      0 0 24px rgba(100, 0, 0, 0.20),
-      0 8px 30px rgba(0, 0, 0, 0.35),
-      inset 0 1px 0 rgba(255, 240, 210, 0.05),
-      inset 0 0 18px rgba(212, 175, 55, 0.03);
-  
-    animation: noticePopupIn 0.32s ease both;
-  }
-  
-  .notice-popup-card::before {
-    content: "";
-    position: absolute;
-    inset: 10px;
-    border-radius: 16px;
-    pointer-events: none;
-    border: 1px solid rgba(212, 175, 55, 0.08);
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.02),
-        rgba(255, 255, 255, 0.005)
-      );
-  }
-    
-  .notice-popup-close {
-    position: absolute;
-    top: 16px;
-    right: 18px;
-    z-index: 2;
-    border: 0;
-    background: transparent;
-    color: rgba(212, 175, 55, 0.62);
-    font-size: 1.05rem;
-    cursor: pointer;
-    transition: 0.25s ease;
-  }
-    
-  .notice-popup-close:hover {
-    color: #e7c96e;
-    transform: rotate(90deg);
-    text-shadow: 0 0 8px rgba(212, 175, 55, 0.24);
-  }
-  
-  .notice-popup-info {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-  }
-  
-  .notice-popup-overline {
-    margin: 0 0 14px;
-    color: rgba(212, 175, 55, 0.52);
-    font-size: 0.72rem;
-    letter-spacing: 0.28em;
-  }
-    
-  .notice-popup-info h3 {
-    margin: 0 0 22px;
-    color: #d0ae4c;
-    font-size: 2rem;
-    letter-spacing: 0.16em;
-    text-shadow:
-      0 0 10px rgba(212, 175, 55, 0.18),
-      0 0 18px rgba(100, 0, 0, 0.18);
-  }
+    /* ================================
+       HADES NOTICE｜無框暗紅霧版本
+    ================================ */
 
-  
-  .notice-popup-info p {
-    margin: 0;
-    color: rgba(255, 239, 205, 0.82);
-    font-size: 1rem;
-    line-height: 2;
-    letter-spacing: 0.08em;
-    text-align: left;
-  }
-  
-  body.popup-open {
-    overflow: hidden;
-  }
-  
-  @keyframes noticePopupIn {
-    from {
-      opacity: 0;
-      transform: translateY(16px) scale(0.96);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
-  
-  /* ================================
-     手機版
-  ================================ */
-  
-  @media (max-width: 640px) {
     .hades-notice {
-      box-shadow: none;
+      width: min(860px, calc(100% - 32px));
+      margin: 54px auto 46px;
+      position: relative;
+      z-index: 2;
+
+      border: none !important;
+      outline: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
     }
-  
+
     .notice-frame {
-      padding: 28px 18px 26px;
-      border-radius: 18px;
+      position: relative;
+      padding: 34px 28px 30px;
+      text-align: center;
+      overflow: visible;
+
+      /* 完全不要四邊形外框 */
+      border: none !important;
+      outline: none !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
     }
-  
-    .notice-overline {
-      font-size: 0.68rem;
-      letter-spacing: 0.22em;
-      margin-bottom: 17px;
+
+    .notice-frame::before {
+      content: none !important;
+      display: none !important;
     }
-  
-    .notice-service {
-      gap: 9px;
-      margin-bottom: 22px;
+
+    .notice-frame::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 680px;
+      height: 230px;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+
+      background:
+        radial-gradient(
+          ellipse at center,
+          rgba(80, 0, 0, 0.22) 0%,
+          rgba(45, 0, 0, 0.14) 32%,
+          rgba(12, 0, 0, 0.08) 52%,
+          rgba(0, 0, 0, 0) 76%
+        );
+
+      filter: blur(24px);
+      opacity: 0.92;
     }
-  
-    .notice-service-btn {
-      min-width: calc(50% - 8px);
-      padding: 8px 10px;
-      font-size: 0.86rem;
-    }
-  
-    .notice-time {
-      flex-direction: column;
-      gap: 6px;
-      width: 100%;
-      padding: 8px 10px;
-      font-size: 0.9rem;
-    }
-  
+
+    .notice-overline,
+    .notice-service,
+    .notice-time,
     .notice-desc,
     .notice-tag {
-      font-size: 0.82rem;
+      position: relative;
+      z-index: 1;
     }
-  
-    .notice-popup-card {
-      padding: 38px 24px 30px;
+
+    .notice-overline {
+      margin: 0 0 20px;
+      color: rgba(182, 145, 52, 0.76);
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      text-shadow: 0 0 8px rgba(182, 145, 52, 0.14);
     }
-  
-    .notice-popup-info h3 {
-      font-size: 1.55rem;
+
+    .notice-service {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      margin-bottom: 24px;
     }
-  
-    .notice-popup-info p {
+
+    .notice-service-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 104px;
+      padding: 8px 16px;
+
+      color: #e5d3a0;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+
+      cursor: pointer;
+      border-radius: 999px;
+      border: none !important;
+
+      background:
+        radial-gradient(circle at center, rgba(70, 0, 0, 0.42), rgba(8, 4, 5, 0.92)) !important;
+
+      box-shadow:
+        inset 0 0 10px rgba(80, 0, 0, 0.18),
+        0 0 10px rgba(80, 0, 0, 0.12) !important;
+
+      transition:
+        transform 0.28s ease,
+        color 0.28s ease,
+        box-shadow 0.28s ease,
+        filter 0.28s ease;
+    }
+
+    .notice-service-btn:hover {
+      color: #f0dc98;
+      transform: translateY(-2px);
+      filter: brightness(1.04);
+      box-shadow:
+        inset 0 0 12px rgba(100, 0, 0, 0.22),
+        0 0 12px rgba(100, 0, 0, 0.18) !important;
+    }
+
+    .notice-service-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .notice-time {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 18px;
+      margin-bottom: 18px;
+
+      border: none !important;
+      outline: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+
+      color: #f7ead0;
+      letter-spacing: 0.12em;
+    }
+
+    .notice-time strong {
+      color: rgba(190, 150, 56, 0.82);
+      font-weight: 600;
+    }
+
+    .notice-time span {
+      color: rgba(242, 228, 196, 0.86);
+    }
+
+    .notice-desc {
+      margin: 0 0 10px;
+      color: rgba(245, 232, 204, 0.70);
       font-size: 0.92rem;
-      line-height: 1.9;
+      letter-spacing: 0.12em;
     }
-  }
+
+    .notice-tag {
+      margin: 0;
+      color: rgba(190, 36, 36, 0.88);
+      font-size: 0.92rem;
+      letter-spacing: 0.16em;
+      text-shadow: 0 0 8px rgba(120, 0, 0, 0.28);
+    }
+
+    /* ================================
+       HADES NOTICE｜Popup 磨砂暗紅玻璃
+    ================================ */
+
+    .notice-popup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at center, rgba(85, 0, 0, 0.16), transparent 40%),
+        rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .notice-popup-overlay.show {
+      display: flex;
+    }
+
+    .notice-popup-card {
+      position: relative;
+      width: min(540px, 92vw);
+      padding: 42px 38px 36px;
+      border-radius: 22px;
+      border: 1px solid rgba(212, 175, 55, 0.10);
+
+      background:
+        linear-gradient(
+          135deg,
+          rgba(90, 8, 8, 0.22),
+          rgba(212, 175, 55, 0.06),
+          rgba(50, 5, 5, 0.26)
+        ),
+        linear-gradient(
+          180deg,
+          rgba(8, 5, 6, 0.68),
+          rgba(24, 7, 8, 0.58),
+          rgba(6, 4, 5, 0.72)
+        );
+
+      backdrop-filter: blur(16px) saturate(110%);
+      -webkit-backdrop-filter: blur(16px) saturate(110%);
+
+      box-shadow:
+        0 0 24px rgba(100, 0, 0, 0.20),
+        0 8px 30px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 240, 210, 0.05),
+        inset 0 0 18px rgba(212, 175, 55, 0.03);
+
+      animation: noticePopupIn 0.32s ease both;
+    }
+
+    .notice-popup-card::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 16px;
+      pointer-events: none;
+      border: 1px solid rgba(212, 175, 55, 0.08);
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.005)
+        );
+    }
+
+    .notice-popup-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      z-index: 2;
+      border: 0;
+      background: transparent;
+      color: rgba(212, 175, 55, 0.62);
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .notice-popup-close:hover {
+      color: #e7c96e;
+      transform: rotate(90deg);
+      text-shadow: 0 0 8px rgba(212, 175, 55, 0.24);
+    }
+
+    .notice-popup-info {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .notice-popup-overline {
+      margin: 0 0 14px;
+      color: rgba(212, 175, 55, 0.52);
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+    }
+
+    .notice-popup-info h3 {
+      margin: 0 0 22px;
+      color: #d0ae4c;
+      font-size: 2rem;
+      letter-spacing: 0.16em;
+      text-shadow:
+        0 0 10px rgba(212, 175, 55, 0.18),
+        0 0 18px rgba(100, 0, 0, 0.18);
+    }
+
+    .notice-popup-info p {
+      margin: 0;
+      color: rgba(255, 239, 205, 0.82);
+      font-size: 1rem;
+      line-height: 2;
+      letter-spacing: 0.08em;
+      text-align: left;
+    }
+
+    body.popup-open {
+      overflow: hidden;
+    }
+
+    @keyframes noticePopupIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
 
     /* ================================
        首頁故事區塊間距修正
@@ -432,6 +370,79 @@
     .rift-story p:last-child {
       margin-bottom: 0;
     }
+
+    /* ================================
+       手機版
+    ================================ */
+
+    @media (max-width: 640px) {
+      .hades-notice {
+        width: calc(100% - 26px);
+        margin: 38px auto 34px;
+        border: none !important;
+        outline: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+
+      .notice-frame {
+        padding: 28px 18px 26px;
+        border-radius: 0 !important;
+        border: none !important;
+        outline: none !important;
+        background: transparent !important;
+        box-shadow: none !important;
+      }
+
+      .notice-frame::after {
+        width: 100%;
+        max-width: 520px;
+        height: 230px;
+        filter: blur(22px);
+      }
+
+      .notice-overline {
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        margin-bottom: 17px;
+      }
+
+      .notice-service {
+        gap: 9px;
+        margin-bottom: 22px;
+      }
+
+      .notice-service-btn {
+        min-width: calc(50% - 8px);
+        padding: 8px 10px;
+        font-size: 0.86rem;
+      }
+
+      .notice-time {
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+        padding: 8px 10px;
+        font-size: 0.9rem;
+      }
+
+      .notice-desc,
+      .notice-tag {
+        font-size: 0.82rem;
+      }
+
+      .notice-popup-card {
+        padding: 38px 24px 30px;
+      }
+
+      .notice-popup-info h3 {
+        font-size: 1.55rem;
+      }
+
+      .notice-popup-info p {
+        font-size: 0.92rem;
+        line-height: 1.9;
+      }
     }
   </style>
 </head>
