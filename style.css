@@ -3820,3 +3820,20 @@ main,
     font-size: 0.82rem;
   }
 }
+
+.rift-story {
+  margin-top: 34px;
+  text-align: center;
+}
+
+.rift-story p {
+  margin: 0 0 28px;
+  color: #f3e4b5;
+  font-size: 1rem;
+  line-height: 2.1;
+  letter-spacing: 0.08em;
+}
+
+.rift-story p:last-child {
+  margin-bottom: 0;
+}
