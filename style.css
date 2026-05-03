@@ -4295,23 +4295,65 @@ body.popup-open {
    圖片建議尺寸：32x32
 ================================ */
 
+/* ================================
+   冥界全站金幣滑鼠游標 CSS版
+   gil-cursor.png：一般金幣
+   gil-cursor-glow.png：發亮金幣
+   建議圖片尺寸：32x32 px
+================================ */
+
+/* 全站一般狀態 */
 html,
 body,
 * {
-  cursor: url("images/Gil_Icon.png") 16 16, auto;
+  cursor: url("images/Gil_Icon.png") 16 16, auto !important;
 }
-
+/* 可點擊元素：發亮金幣 */
 a,
 button,
 input,
 textarea,
 select,
 label,
+summary,
+[onclick],
+[role="button"],
+.nav a,
+.mobile-menu-btn,
 .host-card,
 .service-card,
 .rate-card,
 .schedule-card,
-.nav a,
-.mobile-menu-btn {
-  cursor: url("images/Gil_Icon.png") 16 16, pointer;
+.booking-card,
+.echo-card,
+.leaderboard-card,
+.time-card,
+.footer a,
+.site-footer a {
+  cursor: url("images/gil-cursor-glow.png") 16 16, pointer !important;
+}
+
+/* 輸入文字時也不要變回系統游標 */
+input,
+textarea,
+select {
+  cursor: url("images/gil-cursor-glow.png") 16 16, text !important;
+}
+
+/* 禁用狀態 */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled,
+[aria-disabled="true"] {
+  cursor: url("images/gil-cursor.png") 16 16, not-allowed !important;
+}
+
+/* 手機和平板不套用自訂游標 */
+@media (hover: none), (pointer: coarse) {
+  html,
+  body,
+  * {
+    cursor: auto !important;
+  }
 }
