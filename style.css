@@ -4033,3 +4033,255 @@ main,
     line-height: 1.9;
   }
 }
+
+/* ================================
+   HADES NOTICE｜漸變邊框版本
+================================ */
+
+.notice-frame {
+  position: relative;
+  border: none !important;
+  background:
+    linear-gradient(#080404, #080404) padding-box,
+    linear-gradient(
+      135deg,
+      rgba(120, 0, 0, 0.95),
+      rgba(212, 175, 55, 0.72),
+      rgba(80, 0, 0, 0.88),
+      rgba(212, 175, 55, 0.42)
+    ) border-box !important;
+  border: 1px solid transparent !important;
+}
+
+.notice-frame::before {
+  border: none !important;
+  background:
+    linear-gradient(rgba(8, 4, 4, 0.18), rgba(8, 4, 4, 0.18)) padding-box,
+    linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.35),
+      rgba(120, 0, 0, 0.5),
+      rgba(212, 175, 55, 0.18)
+    ) border-box;
+  border: 1px solid transparent;
+}
+
+.notice-service {
+  position: relative;
+  z-index: 2;
+}
+
+.notice-service-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 104px;
+  padding: 8px 16px;
+
+  color: #f3e4b5;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+
+  cursor: pointer;
+  border-radius: 999px;
+  border: 1px solid transparent;
+
+  background:
+    linear-gradient(rgba(12, 4, 5, 0.92), rgba(12, 4, 5, 0.92)) padding-box,
+    linear-gradient(
+      120deg,
+      rgba(212, 175, 55, 0.65),
+      rgba(120, 0, 0, 0.82),
+      rgba(212, 175, 55, 0.42)
+    ) border-box;
+
+  box-shadow:
+    inset 0 0 12px rgba(120, 0, 0, 0.22),
+    0 0 10px rgba(80, 0, 0, 0.22);
+
+  transition:
+    transform 0.28s ease,
+    color 0.28s ease,
+    box-shadow 0.28s ease,
+    filter 0.28s ease;
+}
+
+.notice-service-btn:hover {
+  color: #ffd978;
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow:
+    inset 0 0 14px rgba(120, 0, 0, 0.35),
+    0 0 14px rgba(212, 175, 55, 0.24),
+    0 0 22px rgba(120, 0, 0, 0.32);
+}
+
+.notice-service-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* 移除舊 span 樣式影響 */
+.notice-service span {
+  display: none;
+}
+
+/* ================================
+   HADES NOTICE｜Popup
+================================ */
+
+.notice-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+  background:
+    radial-gradient(circle at center, rgba(130, 0, 0, 0.28), transparent 42%),
+    rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.notice-popup-overlay.show {
+  display: flex;
+}
+
+.notice-popup-card {
+  position: relative;
+  width: min(540px, 92vw);
+  padding: 42px 38px 36px;
+
+  border-radius: 22px;
+  border: 1px solid transparent;
+
+  background:
+    linear-gradient(rgba(15, 5, 7, 0.98), rgba(4, 2, 3, 0.97)) padding-box,
+    linear-gradient(
+      135deg,
+      rgba(120, 0, 0, 0.95),
+      rgba(212, 175, 55, 0.72),
+      rgba(80, 0, 0, 0.88),
+      rgba(212, 175, 55, 0.42)
+    ) border-box;
+
+  box-shadow:
+    0 0 36px rgba(120, 0, 0, 0.42),
+    inset 0 0 24px rgba(212, 175, 55, 0.06);
+
+  animation: noticePopupIn 0.32s ease both;
+}
+
+.notice-popup-card::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border-radius: 16px;
+  border: 1px solid transparent;
+
+  background:
+    linear-gradient(rgba(15, 5, 7, 0.08), rgba(15, 5, 7, 0.08)) padding-box,
+    linear-gradient(
+      135deg,
+      rgba(212, 175, 55, 0.28),
+      rgba(120, 0, 0, 0.42),
+      rgba(212, 175, 55, 0.14)
+    ) border-box;
+
+  pointer-events: none;
+}
+
+.notice-popup-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  z-index: 2;
+
+  border: 0;
+  background: transparent;
+  color: rgba(212, 175, 55, 0.76);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.notice-popup-close:hover {
+  color: #ffd978;
+  transform: rotate(90deg);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.65);
+}
+
+.notice-popup-info {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.notice-popup-overline {
+  margin: 0 0 14px;
+  color: rgba(212, 175, 55, 0.62);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+}
+
+.notice-popup-info h3 {
+  margin: 0 0 22px;
+  color: #d4af37;
+  font-size: 2rem;
+  letter-spacing: 0.16em;
+  text-shadow:
+    0 0 12px rgba(212, 175, 55, 0.55),
+    0 0 28px rgba(120, 0, 0, 0.38);
+}
+
+.notice-popup-info p {
+  margin: 0;
+  color: rgba(255, 239, 205, 0.86);
+  font-size: 1rem;
+  line-height: 2;
+  letter-spacing: 0.08em;
+  text-align: left;
+}
+
+body.popup-open {
+  overflow: hidden;
+}
+
+@keyframes noticePopupIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* 手機版 */
+@media (max-width: 640px) {
+  .notice-service-btn {
+    min-width: calc(50% - 8px);
+    padding: 8px 10px;
+    font-size: 0.86rem;
+  }
+
+  .notice-popup-card {
+    padding: 38px 24px 30px;
+  }
+
+  .notice-popup-info h3 {
+    font-size: 1.55rem;
+  }
+
+  .notice-popup-info p {
+    font-size: 0.92rem;
+    line-height: 1.9;
+  }
+}
