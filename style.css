@@ -4379,7 +4379,7 @@ textarea:disabled,
     height: 26px;
     pointer-events: none;
     z-index: 999999;
-    background-image: url("./images/Gil_Icon mouse.png");
+    background-image: url("./images/gil-icon-mouse.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
