@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -6,7 +8,7 @@
   <title>冥界 - 指名 - FFXIV 繁中龍男夜店</title>
   <meta name="description" content="查看冥界指名費用與供奉方式。從普通指名到冥界供奉，選擇今夜屬於你的方式，與龍男共度一場沉淪狂宴。" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://xn--ffxiv-9n1hg1s2uq1tl288cuga123hf59g.club/rate.html" />
+  <link rel="canonical" href="https://xn--ffxiv-9n1hg1s2uq1tl288cuga123hf59g.club/rates.html" />
 
   <!-- Icon -->
   <link rel="icon" href="images/logo.png" type="image/png" />
@@ -16,7 +18,7 @@
   <meta property="og:title" content="冥界 - 指名" />
   <meta property="og:description" content="選擇今夜的代價，踏入屬於你的冥界狂宴。" />
   <meta property="og:image" content="https://xn--ffxiv-9n1hg1s2uq1tl288cuga123hf59g.club/images/logo.png" />
-  <meta property="og:url" content="https://xn--ffxiv-9n1hg1s2uq1tl288cuga123hf59g.club/rate.html" />
+  <meta property="og:url" content="https://xn--ffxiv-9n1hg1s2uq1tl288cuga123hf59g.club/rates.html" />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="zh_TW" />
   <meta property="og:site_name" content="冥界" />
@@ -34,6 +36,10 @@
   <link rel="stylesheet" href="style.css" />
 
   <style>
+    /* ================================
+       Gil 金幣樣式
+    ================================ */
+
     .gil-price {
       display: inline-flex;
       align-items: center;
@@ -57,26 +63,19 @@
     }
 
     @keyframes gilFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-2px); }
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-2px);
+      }
     }
 
-    /* popup 裡的金幣 */
-    .reward-popup-amount {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin: 10px 0 6px;
-    }
+    /* ================================
+       rates 對齊修正
+    ================================ */
 
-    .reward-popup-amount img {
-      width: 20px;
-      height: 20px;
-      filter: drop-shadow(0 0 6px rgba(212,175,55,0.6));
-      animation: gilFloat 2.3s ease-in-out infinite;
-    }
-
-    /* ===== rates 對齊修正 ===== */
     .rates-table {
       width: min(740px, 92%);
       margin: 0 auto;
@@ -113,6 +112,269 @@
       cursor: pointer;
       text-align: left;
       padding: 14px 0;
+    }
+
+    .reward-btn:hover {
+      color: #f3d36a;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.45);
+    }
+
+    /* ================================
+       每個 section 右下角詳情解釋
+    ================================ */
+
+    .rates-block {
+      position: relative;
+      padding-bottom: 58px;
+    }
+
+    .section-detail-btn {
+      position: absolute;
+      right: 28px;
+      bottom: 22px;
+      z-index: 3;
+
+      border: 0;
+      background: transparent;
+      color: rgba(212, 175, 55, 0.72);
+      font-family: inherit;
+      font-size: 0.88rem;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+
+      padding: 4px 2px;
+      transition: 0.3s ease;
+    }
+
+    .section-detail-btn::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(212, 175, 55, 0.8),
+        transparent
+      );
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: 0.3s ease;
+    }
+
+    .section-detail-btn:hover {
+      color: #f3d36a;
+      text-shadow:
+        0 0 8px rgba(212, 175, 55, 0.55),
+        0 0 16px rgba(130, 0, 0, 0.45);
+    }
+
+    .section-detail-btn:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ================================
+       供奉 popup 裡的金幣
+    ================================ */
+
+    .reward-popup-amount {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin: 10px 0 6px;
+      color: #f3d36a;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+    }
+
+    .reward-popup-amount img {
+      width: 20px;
+      height: 20px;
+      filter: drop-shadow(0 0 6px rgba(212,175,55,0.6));
+      animation: gilFloat 2.3s ease-in-out infinite;
+    }
+
+    /* ================================
+       共用 popup 防止背景滾動
+    ================================ */
+
+    body.popup-open {
+      overflow: hidden;
+    }
+
+    /* ================================
+       section 說明 popup
+    ================================ */
+
+    .section-popup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+      background:
+        radial-gradient(circle at center, rgba(120, 0, 0, 0.28), transparent 42%),
+        rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(8px);
+    }
+
+    .section-popup-overlay.show {
+      display: flex;
+    }
+
+    .section-popup-card {
+      position: relative;
+      width: min(540px, 92vw);
+      padding: 42px 38px 36px;
+
+      border: 1px solid rgba(212, 175, 55, 0.38);
+      border-radius: 22px;
+
+      background:
+        radial-gradient(circle at top, rgba(120, 0, 0, 0.28), transparent 48%),
+        linear-gradient(180deg, rgba(20, 6, 8, 0.98), rgba(4, 2, 3, 0.96));
+
+      box-shadow:
+        0 0 36px rgba(120, 0, 0, 0.42),
+        inset 0 0 24px rgba(212, 175, 55, 0.06);
+
+      animation: sectionPopupIn 0.32s ease both;
+    }
+
+    .section-popup-card::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      border-radius: 16px;
+      pointer-events: none;
+    }
+
+    .section-popup-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      z-index: 2;
+
+      border: 0;
+      background: transparent;
+      color: rgba(212, 175, 55, 0.75);
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .section-popup-close:hover {
+      color: #f3d36a;
+      transform: rotate(90deg);
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.65);
+    }
+
+    .section-popup-info {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .section-popup-overline {
+      margin: 0 0 14px;
+      color: rgba(212, 175, 55, 0.62);
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+    }
+
+    .section-popup-info h3 {
+      margin: 0 0 22px;
+      color: #d4af37;
+      font-size: 2rem;
+      letter-spacing: 0.16em;
+      text-shadow:
+        0 0 12px rgba(212, 175, 55, 0.55),
+        0 0 28px rgba(120, 0, 0, 0.38);
+    }
+
+    .section-popup-info p {
+      margin: 0;
+      color: rgba(255, 239, 205, 0.86);
+      font-size: 1rem;
+      line-height: 2;
+      letter-spacing: 0.08em;
+      text-align: left;
+    }
+
+    @keyframes sectionPopupIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ================================
+       reward note 修正
+    ================================ */
+
+    .reward-note-section {
+      text-align: center;
+      margin: 20px auto 72px;
+      padding: 0 20px;
+    }
+
+    .reward-note {
+      margin: 0 auto 12px;
+      color: rgba(245, 232, 204, 0.72);
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      line-height: 1.9;
+    }
+
+    /* ================================
+       手機版
+    ================================ */
+
+    @media (max-width: 640px) {
+      .rates-table {
+        width: 92%;
+      }
+
+      .rates-head,
+      .rates-item {
+        column-gap: 14px;
+      }
+
+      .rates-block {
+        padding-bottom: 62px;
+      }
+
+      .section-detail-btn {
+        right: 22px;
+        bottom: 20px;
+        font-size: 0.8rem;
+      }
+
+      .section-popup-card {
+        padding: 38px 24px 30px;
+      }
+
+      .section-popup-info h3 {
+        font-size: 1.55rem;
+      }
+
+      .section-popup-info p {
+        font-size: 0.92rem;
+        line-height: 1.9;
+      }
     }
   </style>
 </head>
@@ -172,14 +434,15 @@
     </section>
 
     <section class="rates-section">
-
       <div class="rates-block">
-       <h2 class="rates-section-title">普通指名</h2>
+        <h2 class="rates-section-title">普通指名</h2>
+
         <div class="rates-table">
           <div class="rates-head">
             <span>時間</span>
             <span>價格</span>
           </div>
+
           <div class="rates-item">
             <span>30 MIN</span>
             <span class="gil-price">
@@ -188,15 +451,26 @@
             </span>
           </div>
         </div>
+
+        <button
+          class="section-detail-btn"
+          type="button"
+          data-title="普通指名"
+          data-desc="普通指名為一對一陪伴服務。迷途者可指名心儀的龍，於指定時間內進行互動、聊天、陪伴與沉浸式 RP 體驗。若需延長時間，請依現場狀況與店員安排為準。"
+        >
+          詳情解釋
+        </button>
       </div>
 
       <div class="rates-block">
         <h2 class="rates-section-title">包廂指名</h2>
+
         <div class="rates-table">
           <div class="rates-head">
             <span>時間</span>
             <span>價格</span>
           </div>
+
           <div class="rates-item">
             <span>30 MIN</span>
             <span class="gil-price">
@@ -205,10 +479,20 @@
             </span>
           </div>
         </div>
+
+        <button
+          class="section-detail-btn"
+          type="button"
+          data-title="包廂指名"
+          data-desc="包廂指名為較私密的專屬互動服務，適合希望避開人群、獲得更完整陪伴體驗的迷途者。目前此項服務暫不開放，實際開放時間、價格與規則將依冥界公告為準。"
+        >
+          詳情解釋
+        </button>
       </div>
 
       <div class="rates-block">
         <h2 class="rates-section-title">冥界供奉</h2>
+
         <div class="rates-table reward-table">
           <div class="rates-head">
             <span>階級</span>
@@ -219,7 +503,7 @@
             class="rates-item reward-btn"
             data-tier="餘燼供奉"
             data-amount="10000"
-            data-desc="微弱卻溫熱的火……"
+            data-desc="微弱卻溫熱的火，像是指尖悄悄留下的痕跡。餘燼供奉代表初次獻上的偏愛，也是一場沉淪開始前的低語。"
             type="button"
           >
             <span>餘燼供奉</span>
@@ -233,7 +517,7 @@
             class="rates-item reward-btn"
             data-tier="狂火獻祭"
             data-amount="30000"
-            data-desc="火勢蔓延……"
+            data-desc="火勢蔓延，已不只是短暫的注視，而是明目張膽的偏心。狂火獻祭象徵更深的支持，讓你的名字與他的夜晚一同發燙。"
             type="button"
           >
             <span>狂火獻祭</span>
@@ -247,7 +531,7 @@
             class="rates-item reward-btn"
             data-tier="深淵降臨"
             data-amount="50000"
-            data-desc="最沉重的一次墜落……"
+            data-desc="最沉重的一次墜落，也是最鮮明的佔有與宣告。深淵降臨代表高額供奉，將你的偏愛直接推向排行榜的深處。"
             type="button"
           >
             <span>深淵降臨</span>
@@ -257,7 +541,7 @@
             </span>
           </button>
         </div>
-      </div>
+
         <button
           class="section-detail-btn"
           type="button"
@@ -265,75 +549,85 @@
           data-desc="冥界供奉為贈與心儀龍男的供奉信物。供奉金額可協助店員累積排行榜名次，也能作為迷途者對該名龍男的支持與偏愛。不同階級象徵不同重量的獻祭，點擊各階級可查看個別說明。"
         >
           詳情解釋
-      </button>
+        </button>
+      </div>
     </section>
 
     <section class="reward-note-section">
-      <p class="reward-note" id="rewardMessage">
+      <p class="reward-note">
         點擊供奉階級，可查看對應的供奉介紹。
       </p>
-    <section class="reward-note-section">
-      <p class="reward-note" id="rewardMessage">
+      <p class="reward-note">
         供奉信物贈與您心儀的龍，替他們在排行榜上爭取席位。
       </p>
     </section>
-      
   </main>
 
+  <!-- 供奉階級 Popup -->
   <div class="host-popup-overlay" id="rewardPopupOverlay">
     <div class="host-popup-card reward-popup-card">
-      <button class="host-popup-close" id="rewardPopupClose">✕</button>
+      <button class="host-popup-close" id="rewardPopupClose" type="button">✕</button>
 
       <div class="host-popup-info reward-popup-info">
         <h3 id="rewardPopupName"></h3>
         <div id="rewardPopupAmount"></div>
         <p id="rewardPopupText"></p>
-    <div class="section-popup-overlay" id="sectionPopupOverlay">
-      <div class="section-popup-card">
-        <button class="section-popup-close" id="sectionPopupClose" type="button">✕</button>
-    
-        <div class="section-popup-info">
-          <p class="section-popup-overline">SECTION DETAILS</p>
-          <h3 id="sectionPopupTitle"></h3>
-          <p id="sectionPopupDesc"></p>
-        </div>
       </div>
     </div>
+  </div>
+
+  <!-- Section 詳情 Popup -->
+  <div class="section-popup-overlay" id="sectionPopupOverlay">
+    <div class="section-popup-card">
+      <button class="section-popup-close" id="sectionPopupClose" type="button">✕</button>
+
+      <div class="section-popup-info">
+        <p class="section-popup-overline">SECTION DETAILS</p>
+        <h3 id="sectionPopupTitle"></h3>
+        <p id="sectionPopupDesc"></p>
+      </div>
+    </div>
+  </div>
 
   <footer class="site-footer">
     <a href="/">冥界入口</a>
     <a href="timelist.html">預約時段</a>
-  
-    <a href="https://discord.gg/eNnUNm2qda" 
-       target="_blank" 
+
+    <a href="https://discord.gg/eNnUNm2qda"
+       target="_blank"
        rel="noopener noreferrer">
       DISCORD
     </a>
   </footer>
 
   <script>
-    const siteHeader = document.querySelector('.site-header');
-
-    if (siteHeader) {
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 20) {
-          siteHeader.classList.add('scrolled');
-        } else {
-          siteHeader.classList.remove('scrolled');
-        }
-      });
-    }
-  </script>
-
-  <script>
     document.addEventListener('DOMContentLoaded', function () {
+      const siteHeader = document.querySelector('.site-header');
       const menuToggle = document.getElementById('menuToggle');
       const mobileMenu = document.getElementById('mobileMenu');
-      const siteHeader = document.querySelector('.site-header');
+
+      /* ================================
+         Header scroll
+      ================================ */
+
+      if (siteHeader) {
+        window.addEventListener('scroll', function () {
+          if (window.scrollY > 10) {
+            siteHeader.classList.add('scrolled');
+          } else {
+            siteHeader.classList.remove('scrolled');
+          }
+        });
+      }
+
+      /* ================================
+         Mobile menu
+      ================================ */
 
       if (menuToggle && mobileMenu) {
         menuToggle.addEventListener('click', function (e) {
           e.stopPropagation();
+
           menuToggle.classList.toggle('active');
           mobileMenu.classList.toggle('open');
 
@@ -352,92 +646,52 @@
         });
       }
 
-      if (siteHeader) {
-        window.addEventListener('scroll', function () {
-          if (window.scrollY > 10) {
-            siteHeader.classList.add('scrolled');
-          } else {
-            siteHeader.classList.remove('scrolled');
-          }
-        });
-      }
+      /* ================================
+         冥界供奉階級 Popup
+      ================================ */
 
-      const sectionDetailButtons = document.querySelectorAll(".section-detail-btn");
-      const sectionPopupOverlay = document.getElementById("sectionPopupOverlay");
-      const sectionPopupClose = document.getElementById("sectionPopupClose");
-      const sectionPopupTitle = document.getElementById("sectionPopupTitle");
-      const sectionPopupDesc = document.getElementById("sectionPopupDesc");
-      
-      function openSectionPopup(title, desc) {
-        if (!sectionPopupOverlay || !sectionPopupTitle || !sectionPopupDesc) return;
-      
-        sectionPopupTitle.textContent = title;
-        sectionPopupDesc.textContent = desc;
-      
-        sectionPopupOverlay.classList.add("show");
-        document.body.classList.add("popup-open");
-      }
-      
-      function closeSectionPopup() {
-        if (!sectionPopupOverlay) return;
-      
-        sectionPopupOverlay.classList.remove("show");
-        document.body.classList.remove("popup-open");
-      }
-      
-      sectionDetailButtons.forEach((btn) => {
-        btn.addEventListener("click", function () {
-          openSectionPopup(
-            btn.dataset.title || "詳情解釋",
-            btn.dataset.desc || "此區塊目前尚未補充詳細說明。"
-          );
-        });
-      });
-      
-      if (sectionPopupClose) {
-        sectionPopupClose.addEventListener("click", closeSectionPopup);
-      }
-      
-      if (sectionPopupOverlay) {
-        sectionPopupOverlay.addEventListener("click", function (e) {
-          if (e.target === sectionPopupOverlay) {
-            closeSectionPopup();
-          }
-        });
-      }
-      const rewardButtons = document.querySelectorAll(".reward-btn");
-      const rewardPopupOverlay = document.getElementById("rewardPopupOverlay");
-      const rewardPopupClose = document.getElementById("rewardPopupClose");
+      const rewardButtons = document.querySelectorAll('.reward-btn');
+      const rewardPopupOverlay = document.getElementById('rewardPopupOverlay');
+      const rewardPopupClose = document.getElementById('rewardPopupClose');
 
-      const rewardPopupName = document.getElementById("rewardPopupName");
-      const rewardPopupAmount = document.getElementById("rewardPopupAmount");
-      const rewardPopupText = document.getElementById("rewardPopupText");
+      const rewardPopupName = document.getElementById('rewardPopupName');
+      const rewardPopupAmount = document.getElementById('rewardPopupAmount');
+      const rewardPopupText = document.getElementById('rewardPopupText');
 
       function gilHTML(amount) {
+        const safeAmount = Number(amount || 0).toLocaleString();
+
         return `
           <span class="reward-popup-amount">
-            ${Number(amount).toLocaleString()}
+            ${safeAmount}
             <img src="images/Gil_Icon.png" alt="Gil">
           </span>
         `;
       }
 
       function openRewardPopup(tier, amount, desc) {
-        rewardPopupName.textContent = tier;
-        rewardPopupAmount.innerHTML = gilHTML(amount);
-        rewardPopupText.textContent = desc;
+        if (!rewardPopupOverlay || !rewardPopupName || !rewardPopupAmount || !rewardPopupText) return;
 
-        rewardPopupOverlay.classList.add("show");
-        document.body.classList.add("popup-open");
+        rewardPopupName.textContent = tier || '冥界供奉';
+        rewardPopupAmount.innerHTML = gilHTML(amount);
+        rewardPopupText.textContent = desc || '此供奉階級尚未補充說明。';
+
+        rewardPopupOverlay.classList.add('show');
+        document.body.classList.add('popup-open');
       }
 
       function closeRewardPopup() {
-        rewardPopupOverlay.classList.remove("show");
-        document.body.classList.remove("popup-open");
+        if (!rewardPopupOverlay) return;
+
+        rewardPopupOverlay.classList.remove('show');
+
+        if (!sectionPopupOverlay || !sectionPopupOverlay.classList.contains('show')) {
+          document.body.classList.remove('popup-open');
+        }
       }
 
-      rewardButtons.forEach((btn) => {
-        btn.addEventListener("click", () => {
+      rewardButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
           openRewardPopup(
             btn.dataset.tier,
             btn.dataset.amount,
@@ -447,20 +701,78 @@
       });
 
       if (rewardPopupClose) {
-        rewardPopupClose.addEventListener("click", closeRewardPopup);
+        rewardPopupClose.addEventListener('click', closeRewardPopup);
       }
 
       if (rewardPopupOverlay) {
-        rewardPopupOverlay.addEventListener("click", (e) => {
-          if (e.target === rewardPopupOverlay) closeRewardPopup();
+        rewardPopupOverlay.addEventListener('click', function (e) {
+          if (e.target === rewardPopupOverlay) {
+            closeRewardPopup();
+          }
         });
       }
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        closeRewardPopup();
-        closeSectionPopup();
+      /* ================================
+         Section 詳情 Popup
+      ================================ */
+
+      const sectionDetailButtons = document.querySelectorAll('.section-detail-btn');
+      const sectionPopupOverlay = document.getElementById('sectionPopupOverlay');
+      const sectionPopupClose = document.getElementById('sectionPopupClose');
+      const sectionPopupTitle = document.getElementById('sectionPopupTitle');
+      const sectionPopupDesc = document.getElementById('sectionPopupDesc');
+
+      function openSectionPopup(title, desc) {
+        if (!sectionPopupOverlay || !sectionPopupTitle || !sectionPopupDesc) return;
+
+        sectionPopupTitle.textContent = title || '詳情解釋';
+        sectionPopupDesc.textContent = desc || '此區塊目前尚未補充詳細說明。';
+
+        sectionPopupOverlay.classList.add('show');
+        document.body.classList.add('popup-open');
       }
+
+      function closeSectionPopup() {
+        if (!sectionPopupOverlay) return;
+
+        sectionPopupOverlay.classList.remove('show');
+
+        if (!rewardPopupOverlay || !rewardPopupOverlay.classList.contains('show')) {
+          document.body.classList.remove('popup-open');
+        }
+      }
+
+      sectionDetailButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          openSectionPopup(
+            btn.dataset.title,
+            btn.dataset.desc
+          );
+        });
+      });
+
+      if (sectionPopupClose) {
+        sectionPopupClose.addEventListener('click', closeSectionPopup);
+      }
+
+      if (sectionPopupOverlay) {
+        sectionPopupOverlay.addEventListener('click', function (e) {
+          if (e.target === sectionPopupOverlay) {
+            closeSectionPopup();
+          }
+        });
+      }
+
+      /* ================================
+         ESC 關閉所有 Popup
+      ================================ */
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          closeRewardPopup();
+          closeSectionPopup();
+        }
+      });
     });
   </script>
 </body>
