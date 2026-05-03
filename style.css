@@ -4306,7 +4306,7 @@ body.popup-open {
 html,
 body,
 * {
-  cursor: url("images/Gil_Icon.png") 16 16, auto !important;
+  cursor: url("images/Gil_Icon mouse.png") 16 16, auto !important;
 }
 /* 可點擊元素：發亮金幣 */
 a,
@@ -4330,14 +4330,14 @@ summary,
 .time-card,
 .footer a,
 .site-footer a {
-  cursor: url("images/Gil_Icon.png") 16 16, pointer !important;
+  cursor: url("images/Gil_Icon mouse.png") 16 16, pointer !important;
 }
 
 /* 輸入文字時也不要變回系統游標 */
 input,
 textarea,
 select {
-  cursor: url("images/Gil_Icon.png") 16 16, text !important;
+  cursor: url("images/Gil_Icon mouse.png") 16 16, text !important;
 }
 
 /* 禁用狀態 */
@@ -4346,7 +4346,7 @@ input:disabled,
 select:disabled,
 textarea:disabled,
 [aria-disabled="true"] {
-  cursor: url("images/Gil_Icon.png") 16 16, not-allowed !important;
+  cursor: url("images/Gil_Icon mouse.png") 16 16, not-allowed !important;
 }
 
 /* 手機和平板不套用自訂游標 */
