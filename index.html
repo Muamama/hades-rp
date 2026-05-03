@@ -35,60 +35,415 @@
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <style> .seo-block { position: absolute; left: -9999px; top: 0; } </style>
-</head>
-  
-<script>
-  const siteHeader = document.querySelector('.site-header');
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      siteHeader.classList.add('scrolled');
-    } else {
-      siteHeader.classList.remove('scrolled');
+  <style>
+    .seo-block {
+      position: absolute;
+      left: -9999px;
+      top: 0;
     }
-  });
-</script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const menuToggle = document.getElementById('menuToggle');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const siteHeader = document.querySelector('.site-header');
+    /* ================================
+       HADES NOTICE｜漸變邊框版本
+    ================================ */
 
-  if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener('click', function (e) {
-      e.stopPropagation();
-      menuToggle.classList.toggle('active');
-      mobileMenu.classList.toggle('open');
+    .hades-notice {
+      width: min(860px, calc(100% - 32px));
+      margin: 54px auto 46px;
+      position: relative;
+      z-index: 2;
+    }
 
-      const isOpen = mobileMenu.classList.contains('open');
-      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
+    .notice-frame {
+      position: relative;
+      padding: 34px 28px 30px;
+      text-align: center;
+      border-radius: 22px;
+      overflow: hidden;
 
-    mobileMenu.addEventListener('click', function (e) {
-      e.stopPropagation();
-    });
+      border: 1px solid transparent !important;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(132, 0, 0, 0.22), transparent 46%) padding-box,
+        linear-gradient(180deg, rgba(18, 6, 8, 0.96), rgba(5, 2, 3, 0.92)) padding-box,
+        linear-gradient(
+          135deg,
+          rgba(120, 0, 0, 0.95),
+          rgba(212, 175, 55, 0.72),
+          rgba(80, 0, 0, 0.88),
+          rgba(212, 175, 55, 0.42)
+        ) border-box !important;
 
-    document.addEventListener('click', function () {
-      menuToggle.classList.remove('active');
-      mobileMenu.classList.remove('open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    });
-  }
+      box-shadow:
+        0 0 28px rgba(120, 0, 0, 0.35),
+        inset 0 0 24px rgba(212, 175, 55, 0.06);
+    }
 
-  if (siteHeader) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 10) {
-        siteHeader.classList.add('scrolled');
-      } else {
-        siteHeader.classList.remove('scrolled');
+    .notice-frame::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: 17px;
+      border: 1px solid transparent;
+
+      background:
+        linear-gradient(rgba(8, 4, 4, 0.06), rgba(8, 4, 4, 0.06)) padding-box,
+        linear-gradient(
+          135deg,
+          rgba(212, 175, 55, 0.32),
+          rgba(120, 0, 0, 0.5),
+          rgba(212, 175, 55, 0.14)
+        ) border-box;
+
+      pointer-events: none;
+    }
+
+    .notice-frame::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: -80px;
+      width: 280px;
+      height: 160px;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(170, 0, 0, 0.32), transparent 68%);
+      filter: blur(8px);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .notice-overline {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 20px;
+      color: rgba(212, 175, 55, 0.82);
+      font-size: 0.78rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(212, 175, 55, 0.32);
+    }
+
+    .notice-service {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px 12px;
+      margin-bottom: 24px;
+    }
+
+    .notice-service-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      min-width: 104px;
+      padding: 8px 16px;
+
+      color: #f3e4b5;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+
+      cursor: pointer;
+      border-radius: 999px;
+      border: 1px solid transparent;
+
+      background:
+        linear-gradient(rgba(12, 4, 5, 0.92), rgba(12, 4, 5, 0.92)) padding-box,
+        linear-gradient(
+          120deg,
+          rgba(212, 175, 55, 0.65),
+          rgba(120, 0, 0, 0.82),
+          rgba(212, 175, 55, 0.42)
+        ) border-box;
+
+      box-shadow:
+        inset 0 0 12px rgba(120, 0, 0, 0.22),
+        0 0 10px rgba(80, 0, 0, 0.22);
+
+      transition:
+        transform 0.28s ease,
+        color 0.28s ease,
+        box-shadow 0.28s ease,
+        filter 0.28s ease;
+    }
+
+    .notice-service-btn:hover {
+      color: #ffd978;
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow:
+        inset 0 0 14px rgba(120, 0, 0, 0.35),
+        0 0 14px rgba(212, 175, 55, 0.24),
+        0 0 22px rgba(120, 0, 0, 0.32);
+    }
+
+    .notice-service-btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+
+    .notice-time {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 13px 24px;
+      margin-bottom: 18px;
+      border-top: 1px solid rgba(212, 175, 55, 0.24);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.24);
+      color: #f7ead0;
+      letter-spacing: 0.12em;
+    }
+
+    .notice-time strong {
+      color: #d4af37;
+      font-weight: 600;
+    }
+
+    .notice-time span {
+      color: rgba(255, 245, 220, 0.92);
+    }
+
+    .notice-desc {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      color: rgba(245, 232, 204, 0.74);
+      font-size: 0.92rem;
+      letter-spacing: 0.12em;
+    }
+
+    .notice-tag {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      color: rgba(190, 36, 36, 0.95);
+      font-size: 0.92rem;
+      letter-spacing: 0.16em;
+      text-shadow: 0 0 10px rgba(160, 0, 0, 0.48);
+    }
+
+    /* ================================
+       HADES NOTICE｜Popup
+    ================================ */
+
+    .notice-popup-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      padding: 24px;
+      background:
+        radial-gradient(circle at center, rgba(130, 0, 0, 0.28), transparent 42%),
+        rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(8px);
+    }
+
+    .notice-popup-overlay.show {
+      display: flex;
+    }
+
+    .notice-popup-card {
+      position: relative;
+      width: min(540px, 92vw);
+      padding: 42px 38px 36px;
+
+      border-radius: 22px;
+      border: 1px solid transparent;
+
+      background:
+        linear-gradient(rgba(15, 5, 7, 0.98), rgba(4, 2, 3, 0.97)) padding-box,
+        linear-gradient(
+          135deg,
+          rgba(120, 0, 0, 0.95),
+          rgba(212, 175, 55, 0.72),
+          rgba(80, 0, 0, 0.88),
+          rgba(212, 175, 55, 0.42)
+        ) border-box;
+
+      box-shadow:
+        0 0 36px rgba(120, 0, 0, 0.42),
+        inset 0 0 24px rgba(212, 175, 55, 0.06);
+
+      animation: noticePopupIn 0.32s ease both;
+    }
+
+    .notice-popup-card::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border-radius: 16px;
+      border: 1px solid transparent;
+
+      background:
+        linear-gradient(rgba(15, 5, 7, 0.08), rgba(15, 5, 7, 0.08)) padding-box,
+        linear-gradient(
+          135deg,
+          rgba(212, 175, 55, 0.28),
+          rgba(120, 0, 0, 0.42),
+          rgba(212, 175, 55, 0.14)
+        ) border-box;
+
+      pointer-events: none;
+    }
+
+    .notice-popup-close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      z-index: 2;
+
+      border: 0;
+      background: transparent;
+      color: rgba(212, 175, 55, 0.76);
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .notice-popup-close:hover {
+      color: #ffd978;
+      transform: rotate(90deg);
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.65);
+    }
+
+    .notice-popup-info {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+    }
+
+    .notice-popup-overline {
+      margin: 0 0 14px;
+      color: rgba(212, 175, 55, 0.62);
+      font-size: 0.72rem;
+      letter-spacing: 0.28em;
+    }
+
+    .notice-popup-info h3 {
+      margin: 0 0 22px;
+      color: #d4af37;
+      font-size: 2rem;
+      letter-spacing: 0.16em;
+      text-shadow:
+        0 0 12px rgba(212, 175, 55, 0.55),
+        0 0 28px rgba(120, 0, 0, 0.38);
+    }
+
+    .notice-popup-info p {
+      margin: 0;
+      color: rgba(255, 239, 205, 0.86);
+      font-size: 1rem;
+      line-height: 2;
+      letter-spacing: 0.08em;
+      text-align: left;
+    }
+
+    body.popup-open {
+      overflow: hidden;
+    }
+
+    @keyframes noticePopupIn {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.96);
       }
-    });
-  }
-});
-</script>
-  
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ================================
+       首頁故事區塊間距修正
+    ================================ */
+
+    .rift-story {
+      margin-top: 34px;
+      text-align: center;
+    }
+
+    .rift-story p {
+      margin: 0 0 28px;
+      color: #f3e4b5;
+      font-size: 1rem;
+      line-height: 2.1;
+      letter-spacing: 0.08em;
+    }
+
+    .rift-story p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ================================
+       手機版
+    ================================ */
+
+    @media (max-width: 640px) {
+      .hades-notice {
+        width: calc(100% - 26px);
+        margin: 38px auto 34px;
+      }
+
+      .notice-frame {
+        padding: 28px 18px 26px;
+        border-radius: 18px;
+      }
+
+      .notice-overline {
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        margin-bottom: 17px;
+      }
+
+      .notice-service {
+        gap: 9px;
+        margin-bottom: 22px;
+      }
+
+      .notice-service-btn {
+        min-width: calc(50% - 8px);
+        padding: 8px 10px;
+        font-size: 0.86rem;
+      }
+
+      .notice-time {
+        flex-direction: column;
+        gap: 6px;
+        width: 100%;
+        padding: 12px 10px;
+        font-size: 0.9rem;
+      }
+
+      .notice-desc,
+      .notice-tag {
+        font-size: 0.82rem;
+      }
+
+      .notice-popup-card {
+        padding: 38px 24px 30px;
+      }
+
+      .notice-popup-info h3 {
+        font-size: 1.55rem;
+      }
+
+      .notice-popup-info p {
+        font-size: 0.92rem;
+        line-height: 1.9;
+      }
+    }
+  </style>
+</head>
+
 <body>
   <section class="seo-block">
     <h1>冥界｜FFXIV 繁中龍男夜店</h1>
@@ -98,33 +453,46 @@ document.addEventListener('DOMContentLoaded', function () {
       提供指名1V1,龍男熱舞與專屬服務內容，
       是FFXIV玩家交流、娛樂與夜間聚集的場所。
     </p>
-  
+
     <p>
       這裡是瘋子的領地，是慾望與狂歡交織的冥界。
       FF14 RP夜店、龍男互動或繁中夜店據點，
       冥界將是你唯一的入口。
     </p>
   </section>
-  
-  <div class="page-wrapper">
-  <div class="top-line"></div>
 
-  <header class="site-header">
-    <div class="header-inner">
-  
-      <a href="index.html" class="logo">
-        <img src="images/logo.png" alt="冥界 LOGO">
-      </a>
-  
-      <div class="header-title">冥界</div>
-  
-      <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-  
-      <nav class="main-nav">
+  <div class="page-wrapper">
+    <div class="top-line"></div>
+
+    <header class="site-header">
+      <div class="header-inner">
+
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="冥界 LOGO">
+        </a>
+
+        <div class="header-title">冥界</div>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="開啟選單" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="main-nav">
+          <a class="active" href="index.html">主頁</a>
+          <a href="rates.html">指名費用</a>
+          <a href="timelist.html">時間表</a>
+          <a href="booking.html">墜入預約</a>
+          <a href="services.html">服務內容</a>
+          <a href="leaderboard.html">排行榜</a>
+          <a href="host.html">店員</a>
+          <a href="rules.html">規則條例</a>
+          <a href="echo.html">冥界回聲</a>
+        </nav>
+      </div>
+
+      <div class="mobile-menu" id="mobileMenu">
         <a class="active" href="index.html">主頁</a>
         <a href="rates.html">指名費用</a>
         <a href="timelist.html">時間表</a>
@@ -134,110 +502,233 @@ document.addEventListener('DOMContentLoaded', function () {
         <a href="host.html">店員</a>
         <a href="rules.html">規則條例</a>
         <a href="echo.html">冥界回聲</a>
-      </nav>
-    </div>
-  
-    <div class="mobile-menu" id="mobileMenu">
-      <a class="active" href="index.html">主頁</a>
-      <a href="rates.html">指名費用</a>
-      <a href="timelist.html">時間表</a>
-      <a href="booking.html">墜入預約</a>
-      <a href="services.html">服務內容</a>
-      <a href="leaderboard.html">排行榜</a>
-      <a href="host.html">店員</a>
-      <a href="rules.html">規則條例</a>
-      <a href="echo.html">冥界回聲</a>
-    </div>
-  </header>
-
-  <main class="page home-page mingjie-home">
-    <section class="rift-hero">
-      <div class="rift-glow"></div>
-      <p class="rift-overline">HADES</p>
-      <h1 class="rift-title">冥界</h1>
-      <p class="rift-hook">
-        站在門口這麼久——<br />
-        是在猶豫，還是在期待？
-      </p>
-      <p class="rift-subhook">
-        歡迎來到瘋狗的樂園。
-      </p>
-    </section>
-    <div class="hero-logo">
-      <img src="images/logo.png" alt="冥界LOGO">
-    </div>
-    
-    <section class="hades-notice">
-      <div class="notice-frame">
-        <p class="notice-overline">HADES NIGHT SERVICE</p>
-    
-        <div class="notice-service">
-          <span>1v1 指名</span>
-          <span>香檳塔</span>
-          <span>龍男舞團</span>
-          <span>特殊業務</span>
-        </div>
-    
-        <div class="notice-time">
-          <strong>不定時之週六</strong>
-          <span>22:00 - 24:00</span>
-        </div>
-    
-        <p class="notice-desc">實際營業日期請關注公告</p>
-        <p class="notice-tag">#Hades_FFXIVTC</p>
       </div>
-    </section>
-    
-    <section class="rift-intro">
+    </header>
 
-    <section class="rift-story">
-      <p>
-        在夢與現實的縫隙之間，有一道裂縫只在疲憊、恍神與入睡的片刻張開
-      </p>
-    
-      <p>
-        《冥界》從來不是一個溫良的巢穴，而是一場被精心豢養的沉淪
-      </p>
-    
-      <p>
-        這裡沒有白晝，沒有規則，只有纏綿旖旎，與在低語中緩慢地喘息
-      </p>
-    
-      <p>
-        據說有些人只是短暫地被拖進來，也有人在幾次出入之後，開始主動等待那扇門再次出現
-      </p>
-    </section>
+    <main class="page home-page mingjie-home">
+      <section class="rift-hero">
+        <div class="rift-glow"></div>
+        <p class="rift-overline">HADES</p>
+        <h1 class="rift-title">冥界</h1>
+        <p class="rift-hook">
+          站在門口這麼久——<br />
+          是在猶豫，還是在期待？
+        </p>
+        <p class="rift-subhook">
+          歡迎來到瘋狗的樂園。
+        </p>
+      </section>
 
-    <section class="rift-location banner-location">
-      <div class="location-overlay">
-        <h2>敖龍男性 ONLY 夜店</h2>
-        <p>鳳凰｜伊修加爾德｜穹頂皓天11區 30號</p>
+      <div class="hero-logo">
+        <img src="images/logo.png" alt="冥界LOGO">
       </div>
-    </section>
 
-      <p class="rift-quote">
-        閉上眼<br />
-        若聽見不屬於你的心跳 ——<br />
-        那只是我們，正在門後等你
-      </p>
-    </section>
+      <section class="hades-notice">
+        <div class="notice-frame">
+          <p class="notice-overline">HADES NIGHT SERVICE</p>
 
-      
-    <section class="rift-sign">
-      <p>別站那麼遠，我看得很清楚</p>
-      <p>你的呼吸，已經亂了</p>
-    </section>
-  </main>
+          <div class="notice-service">
+            <button
+              class="notice-service-btn"
+              type="button"
+              data-title="1v1 指名"
+              data-desc="由迷途者指名心儀的龍男，進行一對一陪伴、聊天、互動與沉浸式 RP 體驗。這不是匆匆擦肩，而是只屬於你與他的短暫墜落。"
+            >
+              1v1 指名
+            </button>
 
-  <footer class="site-footer">
-    <a href="/">冥界入口</a>
-    <a href="timelist.html">預約時段</a>
+            <button
+              class="notice-service-btn"
+              type="button"
+              data-title="香檳塔"
+              data-desc="以香檳塔作為今夜獻上的儀式，適合慶祝、應援、偏愛宣告或讓全場目光一同聚向你所選擇的龍。實際內容與價格請依當日公告或現場安排為準。"
+            >
+              香檳塔
+            </button>
 
-    <a href="https://discord.gg/eNnUNm2qda" 
-       target="_blank" 
-       rel="noopener noreferrer">
-      DISCORD
-    </a>
-  </footer>
+            <button
+              class="notice-service-btn"
+              type="button"
+              data-title="龍男舞團"
+              data-desc="由冥界龍男帶來熱舞演出，讓視線、鼓點與呼吸一同失控。演出場次將依營業日安排，不定時登場，實際內容請關注公告。"
+            >
+              龍男舞團
+            </button>
+
+            <button
+              class="notice-service-btn"
+              type="button"
+              data-title="特殊業務"
+              data-desc="特殊業務為依照活動、店員狀態與現場規則開放的額外互動內容。若有指定需求，請先確認公告、規則與當日可提供項目。"
+            >
+              特殊業務
+            </button>
+          </div>
+
+          <div class="notice-time">
+            <strong>不定時之週六</strong>
+            <span>22:00 - 24:00</span>
+          </div>
+
+          <p class="notice-desc">實際營業日期請關注公告</p>
+          <p class="notice-tag">#Hades_FFXIVTC</p>
+        </div>
+      </section>
+
+      <div class="notice-popup-overlay" id="noticePopupOverlay">
+        <div class="notice-popup-card">
+          <button class="notice-popup-close" id="noticePopupClose" type="button">✕</button>
+
+          <div class="notice-popup-info">
+            <p class="notice-popup-overline">HADES SERVICE</p>
+            <h3 id="noticePopupTitle"></h3>
+            <p id="noticePopupDesc"></p>
+          </div>
+        </div>
+      </div>
+
+      <section class="rift-story">
+        <p>
+          在夢與現實的縫隙之間，有一道裂縫只在疲憊、恍神與入睡的片刻張開
+        </p>
+
+        <p>
+          《冥界》從來不是一個溫良的巢穴，而是一場被精心豢養的沉淪
+        </p>
+
+        <p>
+          這裡沒有白晝，沒有規則，只有纏綿旖旎，與在低語中緩慢地喘息
+        </p>
+
+        <p>
+          據說有些人只是短暫地被拖進來，也有人在幾次出入之後，開始主動等待那扇門再次出現
+        </p>
+      </section>
+
+      <section class="rift-location banner-location">
+        <div class="location-overlay">
+          <h2>敖龍男性 ONLY 夜店</h2>
+          <p>鳳凰｜伊修加爾德｜穹頂皓天11區 30號</p>
+        </div>
+      </section>
+
+      <section class="rift-intro">
+        <p class="rift-quote">
+          閉上眼<br />
+          若聽見不屬於你的心跳 ——<br />
+          那只是我們，正在門後等你
+        </p>
+      </section>
+
+      <section class="rift-sign">
+        <p>別站那麼遠，我看得很清楚</p>
+        <p>你的呼吸，已經亂了</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="/">冥界入口</a>
+      <a href="timelist.html">預約時段</a>
+
+      <a href="https://discord.gg/eNnUNm2qda"
+         target="_blank"
+         rel="noopener noreferrer">
+        DISCORD
+      </a>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const siteHeader = document.querySelector('.site-header');
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      /* Header scroll */
+      if (siteHeader) {
+        window.addEventListener('scroll', function () {
+          if (window.scrollY > 10) {
+            siteHeader.classList.add('scrolled');
+          } else {
+            siteHeader.classList.remove('scrolled');
+          }
+        });
+      }
+
+      /* Mobile menu */
+      if (menuToggle && mobileMenu) {
+        menuToggle.addEventListener('click', function (e) {
+          e.stopPropagation();
+
+          menuToggle.classList.toggle('active');
+          mobileMenu.classList.toggle('open');
+
+          const isOpen = mobileMenu.classList.contains('open');
+          menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        mobileMenu.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
+
+        document.addEventListener('click', function () {
+          menuToggle.classList.remove('active');
+          mobileMenu.classList.remove('open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      /* Hades notice popup */
+      const noticeButtons = document.querySelectorAll('.notice-service-btn');
+      const noticePopupOverlay = document.getElementById('noticePopupOverlay');
+      const noticePopupClose = document.getElementById('noticePopupClose');
+      const noticePopupTitle = document.getElementById('noticePopupTitle');
+      const noticePopupDesc = document.getElementById('noticePopupDesc');
+
+      function openNoticePopup(title, desc) {
+        if (!noticePopupOverlay || !noticePopupTitle || !noticePopupDesc) return;
+
+        noticePopupTitle.textContent = title || '服務說明';
+        noticePopupDesc.textContent = desc || '此服務目前尚未補充詳細說明。';
+
+        noticePopupOverlay.classList.add('show');
+        document.body.classList.add('popup-open');
+      }
+
+      function closeNoticePopup() {
+        if (!noticePopupOverlay) return;
+
+        noticePopupOverlay.classList.remove('show');
+        document.body.classList.remove('popup-open');
+      }
+
+      noticeButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          openNoticePopup(
+            btn.dataset.title,
+            btn.dataset.desc
+          );
+        });
+      });
+
+      if (noticePopupClose) {
+        noticePopupClose.addEventListener('click', closeNoticePopup);
+      }
+
+      if (noticePopupOverlay) {
+        noticePopupOverlay.addEventListener('click', function (e) {
+          if (e.target === noticePopupOverlay) {
+            closeNoticePopup();
+          }
+        });
+      }
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          closeNoticePopup();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
