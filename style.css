@@ -4303,51 +4303,10 @@ body.popup-open {
 ================================ */
 
 /* 全站一般狀態 */
-html,
-body,
-* {
-  cursor: url("images/gil-icon-mouse.png") 32 32, auto !important;
-}
-/* 可點擊元素：發亮金幣 */
-a,
-button,
-input,
-textarea,
-select,
-label,
-summary,
-[onclick],
-[role="button"],
-.nav a,
-.mobile-menu-btn,
-.host-card,
-.service-card,
-.rate-card,
-.schedule-card,
-.booking-card,
-.echo-card,
-.leaderboard-card,
-.time-card,
-.footer a,
-.site-footer a {
-  cursor: url("images/gil-icon-mouse.png") 32 32, pointer !important;
-}
 
-/* 輸入文字時也不要變回系統游標 */
-input,
-textarea,
-select {
-  cursor: url("images/gil-icon-mouse.png") 32 32, text !important;
-}
+
 
 /* 禁用狀態 */
-button:disabled,
-input:disabled,
-select:disabled,
-textarea:disabled,
-[aria-disabled="true"] {
-  cursor: url("images/gil-icon-mouse.png") 32 32, not-allowed !important;
-}
 
 /* 手機和平板不套用自訂游標 */
 @media (hover: none), (pointer: coarse) {
