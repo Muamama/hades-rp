@@ -3650,3 +3650,173 @@ main,
         0 0 16px rgba(212, 175, 55, 0.18),
         inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
+
+/* ================================
+   冥界首頁｜營業告示牌
+================================ */
+
+.hades-notice {
+  width: min(860px, calc(100% - 32px));
+  margin: 54px auto 46px;
+  position: relative;
+  z-index: 2;
+}
+
+.notice-frame {
+  position: relative;
+  padding: 34px 28px 30px;
+  text-align: center;
+  border: 1px solid rgba(212, 175, 55, 0.38);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(132, 0, 0, 0.28), transparent 46%),
+    linear-gradient(180deg, rgba(18, 6, 8, 0.92), rgba(5, 2, 3, 0.88));
+  box-shadow:
+    0 0 28px rgba(120, 0, 0, 0.35),
+    inset 0 0 24px rgba(212, 175, 55, 0.06);
+  overflow: hidden;
+}
+
+.notice-frame::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  border-radius: 17px;
+  pointer-events: none;
+}
+
+.notice-frame::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -80px;
+  width: 280px;
+  height: 160px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(170, 0, 0, 0.32), transparent 68%);
+  filter: blur(8px);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.notice-overline {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 20px;
+  color: rgba(212, 175, 55, 0.82);
+  font-size: 0.78rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.32);
+}
+
+.notice-service {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  margin-bottom: 24px;
+}
+
+.notice-service span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 104px;
+  padding: 8px 14px;
+  color: #f3e4b5;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(212, 175, 55, 0.32);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+  box-shadow: inset 0 0 12px rgba(120, 0, 0, 0.18);
+}
+
+.notice-time {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  padding: 13px 24px;
+  margin-bottom: 18px;
+  border-top: 1px solid rgba(212, 175, 55, 0.24);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.24);
+  color: #f7ead0;
+  letter-spacing: 0.12em;
+}
+
+.notice-time strong {
+  color: #d4af37;
+  font-weight: 600;
+}
+
+.notice-time span {
+  color: rgba(255, 245, 220, 0.92);
+}
+
+.notice-desc {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 10px;
+  color: rgba(245, 232, 204, 0.74);
+  font-size: 0.92rem;
+  letter-spacing: 0.12em;
+}
+
+.notice-tag {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: rgba(190, 36, 36, 0.95);
+  font-size: 0.92rem;
+  letter-spacing: 0.16em;
+  text-shadow: 0 0 10px rgba(160, 0, 0, 0.48);
+}
+
+/* 手機版 */
+@media (max-width: 640px) {
+  .hades-notice {
+    width: calc(100% - 26px);
+    margin: 38px auto 34px;
+  }
+
+  .notice-frame {
+    padding: 28px 18px 26px;
+    border-radius: 18px;
+  }
+
+  .notice-overline {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    margin-bottom: 17px;
+  }
+
+  .notice-service {
+    gap: 9px;
+    margin-bottom: 22px;
+  }
+
+  .notice-service span {
+    min-width: calc(50% - 8px);
+    padding: 8px 10px;
+    font-size: 0.86rem;
+  }
+
+  .notice-time {
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    padding: 12px 10px;
+    font-size: 0.9rem;
+  }
+
+  .notice-desc,
+  .notice-tag {
+    font-size: 0.82rem;
+  }
+}
