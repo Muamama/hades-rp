@@ -139,7 +139,7 @@
     min-width: 104px;
     padding: 8px 16px;
   
-    color: #f3e4b5;
+    color: #ead9a6;
     font-family: inherit;
     font-size: 0.95rem;
     font-weight: 600;
@@ -150,17 +150,17 @@
     border: 1px solid transparent;
   
     background:
-      linear-gradient(rgba(10, 6, 6, 0.94), rgba(10, 6, 6, 0.94)) padding-box,
+      linear-gradient(rgba(8, 6, 6, 0.92), rgba(8, 6, 6, 0.92)) padding-box,
       linear-gradient(
         120deg,
-        rgba(212, 175, 55, 0.58),
-        rgba(120, 0, 0, 0.72),
-        rgba(212, 175, 55, 0.22)
+        rgba(160, 128, 40, 0.38),
+        rgba(85, 0, 0, 0.52),
+        rgba(160, 128, 40, 0.12)
       ) border-box;
   
     box-shadow:
-      inset 0 0 10px rgba(120, 0, 0, 0.16),
-      0 0 8px rgba(80, 0, 0, 0.18);
+      inset 0 0 8px rgba(100, 0, 0, 0.12),
+      0 0 6px rgba(80, 0, 0, 0.12);
   
     transition:
       transform 0.28s ease,
@@ -170,13 +170,13 @@
   }
   
   .notice-service-btn:hover {
-    color: #ffd978;
+    color: #f3df98;
     transform: translateY(-2px);
-    filter: brightness(1.06);
+    filter: brightness(1.04);
     box-shadow:
-      inset 0 0 12px rgba(120, 0, 0, 0.26),
-      0 0 12px rgba(212, 175, 55, 0.14),
-      0 0 18px rgba(120, 0, 0, 0.24);
+      inset 0 0 10px rgba(100, 0, 0, 0.18),
+      0 0 10px rgba(212, 175, 55, 0.08),
+      0 0 14px rgba(100, 0, 0, 0.18);
   }
   
   .notice-service-btn:active {
@@ -241,9 +241,10 @@
     justify-content: center;
     padding: 24px;
     background:
-      radial-gradient(circle at center, rgba(130, 0, 0, 0.22), transparent 42%),
-      rgba(0, 0, 0, 0.80);
-    backdrop-filter: blur(8px);
+      radial-gradient(circle at center, rgba(85, 0, 0, 0.16), transparent 40%),
+      rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
   
   .notice-popup-overlay.show {
@@ -255,27 +256,31 @@
     width: min(540px, 92vw);
     padding: 42px 38px 36px;
     border-radius: 22px;
-    border: 1px solid transparent;
+    border: 1px solid rgba(212, 175, 55, 0.10);
   
+    /* 磨砂透明玻璃感 + 暗紅金 */
     background:
       linear-gradient(
         135deg,
-        rgba(140, 10, 10, 0.82),
-        rgba(212, 175, 55, 0.55),
-        rgba(90, 0, 0, 0.82),
-        rgba(212, 175, 55, 0.22)
-      ) border-box,
-      radial-gradient(circle at 50% 35%, rgba(120, 18, 10, 0.24), transparent 42%) padding-box,
+        rgba(90, 8, 8, 0.22),
+        rgba(212, 175, 55, 0.06),
+        rgba(50, 5, 5, 0.26)
+      ),
       linear-gradient(
         180deg,
-        rgba(10, 6, 7, 0.98),
-        rgba(25, 7, 8, 0.96),
-        rgba(5, 3, 4, 0.98)
-      ) padding-box;
+        rgba(8, 5, 6, 0.68),
+        rgba(24, 7, 8, 0.58),
+        rgba(6, 4, 5, 0.72)
+      );
+  
+    backdrop-filter: blur(16px) saturate(110%);
+    -webkit-backdrop-filter: blur(16px) saturate(110%);
   
     box-shadow:
-      0 0 30px rgba(120, 0, 0, 0.28),
-      inset 0 0 24px rgba(212, 175, 55, 0.05);
+      0 0 24px rgba(100, 0, 0, 0.20),
+      0 8px 30px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 240, 210, 0.05),
+      inset 0 0 18px rgba(212, 175, 55, 0.03);
   
     animation: noticePopupIn 0.32s ease both;
   }
@@ -283,12 +288,18 @@
   .notice-popup-card::before {
     content: "";
     position: absolute;
-    inset: 12px;
+    inset: 10px;
     border-radius: 16px;
-    border: 1px solid rgba(212, 175, 55, 0.12);
     pointer-events: none;
+    border: 1px solid rgba(212, 175, 55, 0.08);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.02),
+        rgba(255, 255, 255, 0.005)
+      );
   }
-  
+    
   .notice-popup-close {
     position: absolute;
     top: 16px;
@@ -296,16 +307,16 @@
     z-index: 2;
     border: 0;
     background: transparent;
-    color: rgba(212, 175, 55, 0.76);
+    color: rgba(212, 175, 55, 0.62);
     font-size: 1.05rem;
     cursor: pointer;
     transition: 0.25s ease;
   }
-  
+    
   .notice-popup-close:hover {
-    color: #ffd978;
+    color: #e7c96e;
     transform: rotate(90deg);
-    text-shadow: 0 0 10px rgba(212, 175, 55, 0.65);
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.24);
   }
   
   .notice-popup-info {
@@ -316,24 +327,25 @@
   
   .notice-popup-overline {
     margin: 0 0 14px;
-    color: rgba(212, 175, 55, 0.62);
+    color: rgba(212, 175, 55, 0.52);
     font-size: 0.72rem;
     letter-spacing: 0.28em;
   }
-  
+    
   .notice-popup-info h3 {
     margin: 0 0 22px;
-    color: #d4af37;
+    color: #d0ae4c;
     font-size: 2rem;
     letter-spacing: 0.16em;
     text-shadow:
-      0 0 12px rgba(212, 175, 55, 0.45),
-      0 0 24px rgba(120, 0, 0, 0.28);
+      0 0 10px rgba(212, 175, 55, 0.18),
+      0 0 18px rgba(100, 0, 0, 0.18);
   }
+
   
   .notice-popup-info p {
     margin: 0;
-    color: rgba(255, 239, 205, 0.86);
+    color: rgba(255, 239, 205, 0.82);
     font-size: 1rem;
     line-height: 2;
     letter-spacing: 0.08em;
