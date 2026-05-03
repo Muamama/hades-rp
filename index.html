@@ -62,33 +62,32 @@
     overflow: hidden;
     border: 1px solid transparent;
   
-    /* 外框漸變 */
+    /* 更暗、更融入背景的黑紅金 */
     background:
       linear-gradient(
         135deg,
-        rgba(140, 10, 10, 0.82),
-        rgba(212, 175, 55, 0.55),
-        rgba(90, 0, 0, 0.82),
-        rgba(212, 175, 55, 0.22)
+        rgba(85, 8, 8, 0.68),
+        rgba(140, 110, 35, 0.18),
+        rgba(55, 6, 6, 0.72),
+        rgba(110, 82, 20, 0.10)
       ) border-box,
   
-      /* 內層底色：黑 / 暗紅 / 金色暈染 */
-      radial-gradient(circle at 50% 50%, rgba(120, 18, 10, 0.30), transparent 42%) padding-box,
-      radial-gradient(circle at 18% 18%, rgba(212, 175, 55, 0.16), transparent 30%) padding-box,
-      radial-gradient(circle at 82% 22%, rgba(120, 0, 0, 0.22), transparent 28%) padding-box,
+      radial-gradient(circle at 50% 48%, rgba(75, 10, 10, 0.22), transparent 44%) padding-box,
+      radial-gradient(circle at 18% 18%, rgba(160, 130, 45, 0.07), transparent 28%) padding-box,
+      radial-gradient(circle at 82% 22%, rgba(60, 0, 0, 0.14), transparent 26%) padding-box,
       linear-gradient(
         90deg,
-        rgba(5, 5, 6, 0.97) 0%,
-        rgba(25, 7, 8, 0.95) 22%,
-        rgba(58, 10, 10, 0.90) 50%,
-        rgba(20, 6, 7, 0.95) 78%,
-        rgba(5, 5, 6, 0.97) 100%
+        rgba(3, 3, 4, 0.985) 0%,
+        rgba(12, 5, 6, 0.97) 20%,
+        rgba(28, 7, 7, 0.94) 50%,
+        rgba(12, 5, 6, 0.97) 80%,
+        rgba(3, 3, 4, 0.985) 100%
       ) padding-box;
   
     box-shadow:
-      0 0 20px rgba(120, 0, 0, 0.22),
-      0 0 32px rgba(212, 175, 55, 0.08),
-      inset 0 0 26px rgba(212, 175, 55, 0.04);
+      0 0 16px rgba(100, 0, 0, 0.16),
+      0 0 28px rgba(212, 175, 55, 0.04),
+      inset 0 0 18px rgba(212, 175, 55, 0.025);
   }
   
   .notice-frame::before {
@@ -97,7 +96,8 @@
     inset: 12px;
     border-radius: 17px;
     pointer-events: none;
-    border: 1px solid rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.08);
+    opacity: 0.8;
   }
   
   .notice-frame::after {
@@ -106,11 +106,11 @@
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(circle at 50% 0%, rgba(130, 0, 0, 0.12), transparent 34%),
-      radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.05), transparent 36%);
-    opacity: 0.9;
+      radial-gradient(circle at 50% 0%, rgba(90, 0, 0, 0.10), transparent 32%),
+      radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.025), transparent 34%);
+    opacity: 0.7;
   }
-  
+    
   .notice-overline {
     position: relative;
     z-index: 1;
