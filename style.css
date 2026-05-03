@@ -4285,3 +4285,33 @@ body.popup-open {
     line-height: 1.9;
   }
 }
+
+/* ================================
+   冥界金幣滑鼠游標
+================================ */
+
+/* ================================
+   冥界金幣滑鼠游標
+   圖片建議尺寸：32x32
+================================ */
+
+html,
+body,
+* {
+  cursor: url("images/gil-cursor.png") 16 16, auto;
+}
+
+a,
+button,
+input,
+textarea,
+select,
+label,
+.host-card,
+.service-card,
+.rate-card,
+.schedule-card,
+.nav a,
+.mobile-menu-btn {
+  cursor: url("images/gil-cursor.png") 16 16, pointer;
+}
