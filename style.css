@@ -4298,7 +4298,7 @@ body.popup-open {
 html,
 body,
 * {
-  cursor: url("images/gil-cursor.png") 16 16, auto;
+  cursor: url("images/Gil_Icon.png") 16 16, auto;
 }
 
 a,
@@ -4313,5 +4313,5 @@ label,
 .schedule-card,
 .nav a,
 .mobile-menu-btn {
-  cursor: url("images/gil-cursor.png") 16 16, pointer;
+  cursor: url("images/Gil_Icon.png") 16 16, pointer;
 }
