@@ -362,6 +362,49 @@
         });
       }
 
+      const sectionDetailButtons = document.querySelectorAll(".section-detail-btn");
+      const sectionPopupOverlay = document.getElementById("sectionPopupOverlay");
+      const sectionPopupClose = document.getElementById("sectionPopupClose");
+      const sectionPopupTitle = document.getElementById("sectionPopupTitle");
+      const sectionPopupDesc = document.getElementById("sectionPopupDesc");
+      
+      function openSectionPopup(title, desc) {
+        if (!sectionPopupOverlay || !sectionPopupTitle || !sectionPopupDesc) return;
+      
+        sectionPopupTitle.textContent = title;
+        sectionPopupDesc.textContent = desc;
+      
+        sectionPopupOverlay.classList.add("show");
+        document.body.classList.add("popup-open");
+      }
+      
+      function closeSectionPopup() {
+        if (!sectionPopupOverlay) return;
+      
+        sectionPopupOverlay.classList.remove("show");
+        document.body.classList.remove("popup-open");
+      }
+      
+      sectionDetailButtons.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          openSectionPopup(
+            btn.dataset.title || "詳情解釋",
+            btn.dataset.desc || "此區塊目前尚未補充詳細說明。"
+          );
+        });
+      });
+      
+      if (sectionPopupClose) {
+        sectionPopupClose.addEventListener("click", closeSectionPopup);
+      }
+      
+      if (sectionPopupOverlay) {
+        sectionPopupOverlay.addEventListener("click", function (e) {
+          if (e.target === sectionPopupOverlay) {
+            closeSectionPopup();
+          }
+        });
+      }
       const rewardButtons = document.querySelectorAll(".reward-btn");
       const rewardPopupOverlay = document.getElementById("rewardPopupOverlay");
       const rewardPopupClose = document.getElementById("rewardPopupClose");
