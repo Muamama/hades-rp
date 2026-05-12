@@ -4428,3 +4428,8 @@ body.popup-open {
     display: none !important;
   }
 }
+
+.status-onsite {
+  color: #f1d38b;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.35);
+}
