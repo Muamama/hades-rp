@@ -625,13 +625,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 <option value="Jazper">Jazper</option>
                 <option value="格斯亞德">格斯亞德</option>
                 <option value="蛇魂">蛇魂</option>
-                <option value="餘燼">餘燼</option>
-                <option value="格拉斯莫">格拉斯莫</option>
                 <option value="法拉歐">法拉歐</option>
                 <option value="牛奶">牛奶</option>
-                <option value="冥蓮">冥蓮</option>
                 <option value="埃伊諾">埃伊諾</option>
                 <option value="洛德勒斯">洛德勒斯</option>
+                <option value="甲醛">甲醛</option>
+                <option value="著魔">著魔</option>
               </select>
             </label>
 
@@ -994,6 +993,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <option value="wait" ${item.status === "wait" ? "selected" : ""}>空閒</option>
             <option value="busy" ${item.status === "busy" ? "selected" : ""}>已預定</option>
             <option value="off" ${item.status === "off" ? "selected" : ""}>請假</option>
+            <option value="off" ${item.status === "off" ? "selected" : ""}>現場預約</option>
           </select>
           <input class="row-img" type="text" value="${escapeHtml(item.img)}" />
           <input class="row-sort" type="number" min="0" step="1" value="${Number(item.sort_order ?? 0)}" />
