@@ -55,10 +55,20 @@
         if (status === "wait") {
           return ["空閒", "status-wait", "今夜有空，等待你的指名。"];
         }
+      
         if (status === "busy") {
           return ["已預定", "status-busy", "已被預約，暫不可用。"];
         }
-        return ["請假", "status-off", "今夜不在場。"];
+      
+        if (status === "onsite") {
+          return ["現場預約", "status-onsite", "今夜可現場詢問預約。"];
+        }
+      
+        if (status === "off") {
+          return ["請假", "status-off", "今夜不在場。"];
+        }
+      
+        return ["未知", "status-off", "狀態尚未確認。"];
       }
 
       function clearScheduleRows() {
