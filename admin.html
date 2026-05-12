@@ -993,7 +993,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <option value="wait" ${item.status === "wait" ? "selected" : ""}>空閒</option>
             <option value="busy" ${item.status === "busy" ? "selected" : ""}>已預定</option>
             <option value="off" ${item.status === "off" ? "selected" : ""}>請假</option>
-            <option value="off" ${item.status === "off" ? "selected" : ""}>現場預約</option>
+            <option value="onsite" ${item.status === "onsite" ? "selected" : ""}>現場預約</option>
           </select>
           <input class="row-img" type="text" value="${escapeHtml(item.img)}" />
           <input class="row-sort" type="number" min="0" step="1" value="${Number(item.sort_order ?? 0)}" />
