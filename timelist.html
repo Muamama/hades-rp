@@ -141,7 +141,11 @@
         return (scheduleList || []).map(item => {
           let finalStatus = item.status || "off";
 
-          if (item.status !== "off" && reservedMap.has(Number(item.id))) {
+          if (
+            item.status !== "off" &&
+            item.status !== "onsite" &&
+            reservedMap.has(Number(item.id))
+          ) {
             finalStatus = "busy";
           }
 
