@@ -2,14 +2,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>冥界 - 店員名冊 - FFXIV 繁中龍男夜店</title>
-  <meta name="description" content="冥界店員名冊——在永夜之中甦醒的獄犬們。每一位皆承載慾望與狂宴的邀請，等待與你相遇。" />
+  <title>冥界 - 獄犬名冊 - FFXIV 繁中龍男夜店</title>
+  <meta name="description" content="冥界獄犬名冊——在永夜之中甦醒的獄犬們。每一位皆承載慾望與狂宴的邀請，等待與你相遇。" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://xn--ffxiv-9n1hg1s2uq1tl288cuga123hf59g.club/host.html" />
   <link rel="icon" href="images/logo.png" type="image/png" />
   <link rel="apple-touch-icon" href="images/logo.png" />
 
-  <meta property="og:title" content="冥界 - 店員名冊" />
+  <meta property="og:title" content="冥界 - 獄犬名冊" />
   <meta property="og:description" content="他們在黑夜中等待——選擇你的獄犬，墜入冥界的狂宴。" />
   <meta property="og:image" content="https://xn--ffxiv-9n1hg1s2uq1tl288cuga123hf59g.club/images/logo.png" />
   <meta property="og:url" content="https://xn--ffxiv-9n1hg1s2uq1tl288cuga123hf59g.club/host.html" />
@@ -17,7 +17,7 @@
   <meta property="og:locale" content="zh_TW" />
   <meta property="og:site_name" content="冥界" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="冥界 - 店員名冊" />
+  <meta name="twitter:title" content="冥界 - 獄犬名冊" />
   <meta name="twitter:description" content="他們在黑夜中等待——選擇你的獄犬。" />
   <meta name="twitter:image" content="https://xn--ffxiv-9n1hg1s2uq1tl288cuga123hf59g.club/images/logo.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -52,9 +52,9 @@
 
       <nav class="main-nav">
         <a href="index.html">主頁</a>
-        <a href="rates.html">指名費用</a>
-        <a href="services.html">服務內容</a>
-        <a class="active" href="host.html">店員</a>
+        <a href="rates.html">獄犬指名</a>
+        <a href="services.html">冥界服務</a>
+        <a class="active" href="host.html">獄犬名冊</a>
         <a href="booking.html">墜入預約</a>
         <a href="timelist.html">時間表</a>
         <a href="leaderboard.html">排行榜</a>
@@ -65,9 +65,9 @@
 
     <div class="mobile-menu" id="mobileMenu">
       <a href="index.html">主頁</a>
-      <a href="rates.html">指名費用</a>
-      <a href="services.html">服務內容</a>
-      <a class="active" href="host.html">店員</a>
+      <a href="rates.html">獄犬指名</a>
+      <a href="services.html">冥界服務</a>
+      <a class="active" href="host.html">獄犬名冊</a>
       <a href="booking.html">墜入預約</a>
       <a href="timelist.html">時間表</a>
       <a href="leaderboard.html">排行榜</a>
@@ -80,7 +80,7 @@
     <section class="echo-hero">
       <div class="echo-hero-inner">
         <div class="echo-kicker">NETHER HOSTS</div>
-        <h1 class="echo-title">冥界店員</h1>
+        <h1 class="echo-title">冥界獄犬</h1>
         <p class="echo-desc">
           在裂縫張開的夜裡，獄犬們行走於燈影與低語之間。每隻獄犬都有屬於自己的氣息、節奏與溫度，你可以在這裡認識牠們，尋找最讓你心動的目光。
         </p>
@@ -98,7 +98,7 @@
           <button id="logoutBtn" class="admin-inline-btn ghost" type="button">登出</button>
         </div>
 
-        <p id="authMessage" class="admin-inline-message">未登入。登入後可直接在店員卡片上打賞。</p>
+        <p id="authMessage" class="admin-inline-message">未登入。登入後可直接在獄犬卡片上打賞。</p>
       </div>
     </section>
 
@@ -285,7 +285,7 @@
           <button id="customTipBtn" class="host-tip-btn wide" type="button">送出自訂打賞</button>
         </div>
 
-        <p id="tipMessage" class="host-admin-message">登入管理員後可替目前店員增加打賞。</p>
+        <p id="tipMessage" class="host-admin-message">登入管理員後可替獄犬增加打賞。</p>
       </div>
     </div>
   </div>
@@ -352,7 +352,7 @@
 
       if (currentUser) {
         hostAdminPanel.classList.remove("locked");
-        tipMessage.textContent = `已登入管理員，可替 ${currentHost?.name || "目前店員"} 增加打賞。`;
+        tipMessage.textContent = `已登入管理員，可替 ${currentHost?.name || "目前獄犬"} 增加打賞。`;
       } else {
         hostAdminPanel.classList.add("locked");
         tipMessage.textContent = "尚未登入管理員，無法送出打賞。";
@@ -383,8 +383,8 @@
       currentHost = null;
       customAmountInput.value = "";
       tipMessage.textContent = currentUser
-        ? "已登入管理員，可替目前店員增加打賞。"
-        : "登入管理員後可替目前店員增加打賞。";
+        ? "已登入管理員，可替目前獄犬增加打賞。"
+        : "登入管理員後可替目前獄犬增加打賞。";
     }
 
     async function checkSession() {
@@ -417,7 +417,7 @@
       }
 
       if (!currentHost) {
-        tipMessage.textContent = "請先選擇店員。";
+        tipMessage.textContent = "請先選擇獄犬。";
         return;
       }
 
@@ -433,7 +433,7 @@
         .single();
 
       if (fetchError) {
-        tipMessage.textContent = "讀取店員資料失敗。";
+        tipMessage.textContent = "讀取獄犬資料失敗。";
         console.error(fetchError);
         return;
       }
@@ -451,7 +451,7 @@
         .eq("host_name", currentHost.name);
 
       if (updateError) {
-        tipMessage.textContent = "更新失敗，請確認你是否為管理員，或該店員是否已建立在排行榜資料表。";
+        tipMessage.textContent = "更新失敗，請確認你是否為管理員，或該獄犬是否已建立在排行榜資料表。";
         console.error(updateError);
         return;
       }
