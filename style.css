@@ -912,7 +912,7 @@ main > * {
   /* 🔥 這裡放你的圖片 */
   background: 
     linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9)),
-    url("images/banner.png") center/100% 100% no-repeat;
+    url("images/banner.png") center/cover no-repeat;
 
   display: flex;
   align-items: center;
