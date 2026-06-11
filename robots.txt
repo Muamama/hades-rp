@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin.html
+Disallow: /admin-schedule.html
+Disallow: /admin-bookings.html
+Disallow: /admin-echo.html
+
+Sitemap: https://xn--ffxiv-9n1hg1s2uq1tl288cuga123hf59g.club/sitemap.xml
