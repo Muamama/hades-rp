@@ -834,11 +834,23 @@ main > * {
   font-family: "Noto Serif TC", serif;
   font-size: clamp(4rem, 10vw, 7.5rem);
   line-height: 0.95;
-  color: #d4af37;
+  color: rgba(245, 199, 56, 0.8);
   letter-spacing: 10px;
+  background:
+    linear-gradient(180deg, rgba(255, 252, 214, 0.98) 0%, rgba(255, 225, 99, 0.9) 24%, rgba(191, 132, 11, 0.66) 50%, rgba(255, 237, 150, 0.95) 70%, rgba(176, 116, 7, 0.78) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 0.7px rgba(255, 235, 144, 0.64);
+  filter:
+    drop-shadow(0 3px 8px rgba(0, 0, 0, 0.82))
+    drop-shadow(0 0 10px rgba(255, 42, 36, 0.38))
+    drop-shadow(0 0 24px rgba(165, 0, 0, 0.5));
   text-shadow:
-    0 0 12px rgba(212, 175, 55, 0.15),
-    0 0 30px rgba(120, 0, 0, 0.28);
+    0 1px 0 rgba(255, 255, 255, 0.26),
+    0 -2px 0 rgba(88, 43, 0, 0.36),
+    0 0 18px rgba(217, 0, 0, 0.42),
+    0 0 42px rgba(120, 0, 0, 0.58);
 }
 
 .rift-hook {
