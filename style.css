@@ -834,20 +834,20 @@ main > * {
   font-family: "Noto Serif TC", serif;
   font-size: clamp(4rem, 10vw, 7.5rem);
   line-height: 0.95;
-  color: #c99a22;
+  color: #FFD633;
   letter-spacing: 10px;
   background:
-    linear-gradient(180deg, #f1d66a 0%, #d1a62b 24%, #c18f17 46%, #8f5f0c 66%, #d7ae32 82%, #9a6810 100%);
+    linear-gradient(180deg, #fff2a3 0%, #FFD633 28%, #e3b51f 48%, #a46d0b 68%, #FFD633 84%, #b8790e 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   filter:
     drop-shadow(0 3px 8px rgba(0, 0, 0, 0.82))
-    drop-shadow(0 0 1px rgba(226, 178, 58, 0.52))
+    drop-shadow(0 0 1px rgba(255, 214, 51, 0.52))
     drop-shadow(0 0 9px rgba(220, 0, 0, 0.34))
     drop-shadow(0 0 22px rgba(145, 0, 0, 0.44));
   text-shadow:
-    0 1px 0 rgba(242, 207, 92, 0.34),
+    0 1px 0 rgba(255, 214, 51, 0.34),
     0 -2px 0 rgba(86, 50, 0, 0.42),
     0 0 14px rgba(185, 0, 0, 0.36),
     0 0 34px rgba(110, 0, 0, 0.5);
