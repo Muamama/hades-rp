@@ -1,30 +1,9 @@
-// ================================
-// 冥界金幣滑鼠游標
-// ================================
-
 document.addEventListener("DOMContentLoaded", () => {
   const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-  if (!isFinePointer) return;
-
-  const cursor = document.createElement("div");
-  const glow = document.createElement("div");
-
-  cursor.className = "gil-cursor";
-  glow.className = "gil-cursor-glow";
-
-  document.body.appendChild(glow);
-  document.body.appendChild(cursor);
-
-  let mouseX = 0;
-  let mouseY = 0;
-  let glowX = 0;
-  let glowY = 0;
-  let lastFeedAt = 0;
-  let currentDogTarget = null;
-
   const dogTargetSelector = ".logo img, .hero-logo img";
   const feedCooldown = 520;
+
+  let lastFeedAt = 0;
 
   function getDogFeedTarget(x, y) {
     const targets = document.querySelectorAll(dogTargetSelector);
@@ -58,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return null;
   }
 
-  function spawnFeedEffect(x, y, mouthX, mouthY) {
+  function spawnFeedBurst(mouthX, mouthY) {
     const burst = document.createElement("div");
     burst.className = "gil-feed-burst";
     burst.style.left = mouthX + "px";
@@ -77,36 +56,97 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.body.appendChild(burst);
     window.setTimeout(() => burst.remove(), 720);
-
-    cursor.style.setProperty("--feed-x", mouthX - x + "px");
-    cursor.style.setProperty("--feed-y", mouthY - y + "px");
   }
 
-  function triggerDogFeed(feedTarget) {
+  function biteDog(target) {
+    target.classList.remove("doggy-feeding");
+    void target.offsetWidth;
+    target.classList.add("doggy-feeding");
+
+    window.setTimeout(() => {
+      target.classList.remove("doggy-feeding");
+    }, 520);
+  }
+
+  function triggerTouchFeed(feedTarget, x, y) {
+    const now = Date.now();
+    if (now - lastFeedAt < feedCooldown) return;
+
+    lastFeedAt = now;
+
+    const coin = document.createElement("div");
+    coin.className = "gil-touch-coin is-eaten";
+    coin.style.left = x + "px";
+    coin.style.top = y + "px";
+    coin.style.setProperty("--feed-x", feedTarget.mouthX - x + "px");
+    coin.style.setProperty("--feed-y", feedTarget.mouthY - y + "px");
+
+    document.body.appendChild(coin);
+    biteDog(feedTarget.target);
+    spawnFeedBurst(feedTarget.mouthX, feedTarget.mouthY);
+
+    window.setTimeout(() => coin.remove(), 520);
+  }
+
+  if (!isFinePointer) {
+    document.addEventListener(
+      "touchstart",
+      (e) => {
+        const touch = e.changedTouches && e.changedTouches[0];
+        if (!touch) return;
+
+        const feedTarget = getDogFeedTarget(touch.clientX, touch.clientY);
+        if (feedTarget) {
+          triggerTouchFeed(feedTarget, touch.clientX, touch.clientY);
+        }
+      },
+      { passive: true }
+    );
+
+    document.addEventListener("click", (e) => {
+      const feedTarget = getDogFeedTarget(e.clientX, e.clientY);
+      if (feedTarget) {
+        triggerTouchFeed(feedTarget, e.clientX, e.clientY);
+      }
+    });
+
+    return;
+  }
+
+  const cursor = document.createElement("div");
+  const glow = document.createElement("div");
+
+  cursor.className = "gil-cursor";
+  glow.className = "gil-cursor-glow";
+
+  document.body.appendChild(glow);
+  document.body.appendChild(cursor);
+
+  let mouseX = 0;
+  let mouseY = 0;
+  let glowX = 0;
+  let glowY = 0;
+
+  function triggerMouseFeed(feedTarget) {
     const now = Date.now();
     if (now - lastFeedAt < feedCooldown) return;
 
     lastFeedAt = now;
 
     document.body.classList.add("gil-feeding");
+    cursor.style.setProperty("--feed-x", feedTarget.mouthX - mouseX + "px");
+    cursor.style.setProperty("--feed-y", feedTarget.mouthY - mouseY + "px");
     cursor.classList.remove("is-eaten");
     void cursor.offsetWidth;
     cursor.classList.add("is-eaten");
 
-    feedTarget.target.classList.remove("doggy-feeding");
-    void feedTarget.target.offsetWidth;
-    feedTarget.target.classList.add("doggy-feeding");
-
-    spawnFeedEffect(mouseX, mouseY, feedTarget.mouthX, feedTarget.mouthY);
+    biteDog(feedTarget.target);
+    spawnFeedBurst(feedTarget.mouthX, feedTarget.mouthY);
 
     window.setTimeout(() => {
       cursor.classList.remove("is-eaten");
       document.body.classList.remove("gil-feeding");
     }, 430);
-
-    window.setTimeout(() => {
-      feedTarget.target.classList.remove("doggy-feeding");
-    }, 520);
   }
 
   document.addEventListener("mousemove", (e) => {
@@ -119,14 +159,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("gil-cursor-active");
 
     const feedTarget = getDogFeedTarget(mouseX, mouseY);
-
     if (feedTarget) {
-      if (currentDogTarget !== feedTarget.target) {
-        currentDogTarget = feedTarget.target;
-      }
-      triggerDogFeed(feedTarget);
-    } else {
-      currentDogTarget = null;
+      triggerMouseFeed(feedTarget);
     }
   });
 
