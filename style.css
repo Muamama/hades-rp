@@ -696,9 +696,102 @@ a {
   max-width: 1200px;
   margin: 0 auto;
   padding: 30px 20px 90px;
+  position: relative;
+  isolation: isolate;
 }
 
 /* 第一屏 */
+.mingjie-home::before,
+.mingjie-home::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mingjie-home::before {
+  top: 0;
+  bottom: 0;
+  background:
+    radial-gradient(ellipse at 18% 14%, rgba(255, 58, 58, 0.18) 0 1px, rgba(170, 0, 0, 0.14) 1.5px 2.5px, transparent 3px),
+    radial-gradient(ellipse at 64% 22%, rgba(255, 58, 58, 0.14) 0 1px, rgba(160, 0, 0, 0.12) 1.5px 2.3px, transparent 3px),
+    radial-gradient(ellipse at 37% 48%, rgba(255, 58, 58, 0.15) 0 0.9px, rgba(150, 0, 0, 0.12) 1.4px 2.2px, transparent 2.8px),
+    radial-gradient(ellipse at 82% 58%, rgba(255, 58, 58, 0.12) 0 0.8px, rgba(130, 0, 0, 0.11) 1.3px 2px, transparent 2.6px),
+    radial-gradient(ellipse at 49% 77%, rgba(255, 58, 58, 0.14) 0 0.9px, rgba(160, 0, 0, 0.11) 1.4px 2.2px, transparent 2.8px),
+    radial-gradient(ellipse at 9% 68%, rgba(255, 58, 58, 0.12) 0 0.8px, rgba(130, 0, 0, 0.10) 1.2px 1.9px, transparent 2.5px),
+    radial-gradient(ellipse at 72% 84%, rgba(255, 58, 58, 0.12) 0 0.8px, rgba(145, 0, 0, 0.11) 1.2px 2px, transparent 2.5px),
+    radial-gradient(ellipse at 28% 88%, rgba(255, 58, 58, 0.11) 0 0.7px, rgba(130, 0, 0, 0.10) 1.1px 1.8px, transparent 2.4px),
+    linear-gradient(rgba(255, 0, 0, 0.014), rgba(120, 0, 0, 0.012));
+  background-position: 0 0, 22px 34px, 54px 18px, 82px 64px, 118px 40px, 142px 90px, 68px 112px, 156px 24px, 0 0;
+  background-size: 150px 118px, 190px 154px, 170px 126px, 220px 170px, 205px 158px, 240px 184px, 180px 136px, 260px 196px, auto;
+  opacity: 0.42;
+  backdrop-filter: blur(0.9px) saturate(106%);
+  -webkit-backdrop-filter: blur(0.9px) saturate(106%);
+  mix-blend-mode: screen;
+  animation: hadesRedRain 0.5s linear infinite;
+}
+
+.mingjie-home::after {
+  bottom: -70px;
+  height: 230px;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(210, 0, 0, 0.30), transparent 64%),
+    linear-gradient(to top, rgba(150, 0, 0, 0.20), rgba(120, 0, 0, 0.075), transparent 74%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='620' height='120' viewBox='0 0 620 120'%3E%3Cpath d='M0 72 C74 45 120 91 198 68 C280 44 340 86 418 64 C494 42 548 80 620 58' fill='none' stroke='%23d00000' stroke-opacity='.34' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M0 91 C82 70 143 100 224 82 C306 64 372 96 453 78 C524 62 574 88 620 76' fill='none' stroke='%23ff3a35' stroke-opacity='.18' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center bottom, left bottom, 0 bottom;
+  background-size: auto, auto, 620px 120px;
+  filter: blur(0.8px);
+  opacity: 0.42;
+  mix-blend-mode: screen;
+  transform-origin: center bottom;
+  animation: hadesBloodWave 7.5s ease-in-out infinite;
+}
+
+.mingjie-home > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes hadesRedRain {
+  from {
+    background-position: 0 -118px, 22px -154px, 54px -126px, 82px -170px, 118px -158px, 142px -184px, 68px -136px, 156px -196px, 0 0;
+  }
+
+  to {
+    background-position: 10px 118px, 14px 154px, 62px 126px, 74px 170px, 126px 158px, 134px 184px, 76px 136px, 148px 196px, 0 0;
+  }
+}
+
+@keyframes hadesBloodWave {
+  0% {
+    background-position: center bottom, left bottom, 0 bottom;
+    opacity: 0.32;
+    transform: translateY(18px) scaleY(0.78);
+  }
+
+  48% {
+    background-position: center bottom, left bottom, -92px bottom;
+    opacity: 0.64;
+    transform: translateY(-16px) scaleY(1.22);
+  }
+
+  100% {
+    background-position: center bottom, left bottom, -186px bottom;
+    opacity: 0.34;
+    transform: translateY(16px) scaleY(0.82);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mingjie-home::before,
+  .mingjie-home::after {
+    animation: none;
+  }
+}
+
 .rift-hero {
   position: relative;
   text-align: center;
