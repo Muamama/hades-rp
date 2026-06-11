@@ -837,13 +837,13 @@ main > * {
   color: #d4af37;
   letter-spacing: 10px;
   background:
-    linear-gradient(180deg, #fff3b8 0%, #e6c24f 18%, #d4af37 38%, #9f6f12 56%, #f2d56a 72%, #b88418 100%);
+    linear-gradient(180deg, #fff0a8 0%, #e4bf48 24%, #d4af37 46%, #bd8b1f 66%, #f0d064 82%, #b88418 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 0.55px rgba(255, 229, 132, 0.72);
   filter:
     drop-shadow(0 3px 8px rgba(0, 0, 0, 0.82))
+    drop-shadow(0 0 1px rgba(255, 230, 126, 0.48))
     drop-shadow(0 0 9px rgba(220, 0, 0, 0.34))
     drop-shadow(0 0 22px rgba(145, 0, 0, 0.44));
   text-shadow:
