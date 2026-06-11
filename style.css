@@ -94,6 +94,13 @@ a {
 .page {
   width: 100%;
   flex: 1;
+  position: relative;
+  isolation: isolate;
+}
+
+main {
+  position: relative;
+  isolation: isolate;
 }
 
 .home-page {
@@ -701,8 +708,8 @@ a {
 }
 
 /* 第一屏 */
-.mingjie-home::before,
-.mingjie-home::after {
+main::before,
+main::after {
   content: "";
   position: fixed;
   left: 0;
@@ -711,7 +718,7 @@ a {
   z-index: 0;
 }
 
-.mingjie-home::before {
+main::before {
   top: 0;
   bottom: 0;
   background:
@@ -733,7 +740,7 @@ a {
   animation: hadesRedRain 0.5s linear infinite;
 }
 
-.mingjie-home::after {
+main::after {
   bottom: -70px;
   height: 230px;
   background:
@@ -750,7 +757,7 @@ a {
   animation: hadesBloodWave 7.5s ease-in-out infinite;
 }
 
-.mingjie-home > * {
+main > * {
   position: relative;
   z-index: 1;
 }
@@ -786,8 +793,8 @@ a {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mingjie-home::before,
-  .mingjie-home::after {
+  main::before,
+  main::after {
     animation: none;
   }
 }
