@@ -834,23 +834,23 @@ main > * {
   font-family: "Noto Serif TC", serif;
   font-size: clamp(4rem, 10vw, 7.5rem);
   line-height: 0.95;
-  color: rgba(245, 199, 56, 0.8);
+  color: #d4af37;
   letter-spacing: 10px;
   background:
-    linear-gradient(180deg, rgba(255, 252, 214, 0.98) 0%, rgba(255, 225, 99, 0.9) 24%, rgba(191, 132, 11, 0.66) 50%, rgba(255, 237, 150, 0.95) 70%, rgba(176, 116, 7, 0.78) 100%);
+    linear-gradient(180deg, #fff3b8 0%, #e6c24f 18%, #d4af37 38%, #9f6f12 56%, #f2d56a 72%, #b88418 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 0.7px rgba(255, 235, 144, 0.64);
+  -webkit-text-stroke: 0.55px rgba(255, 229, 132, 0.72);
   filter:
     drop-shadow(0 3px 8px rgba(0, 0, 0, 0.82))
-    drop-shadow(0 0 10px rgba(255, 42, 36, 0.38))
-    drop-shadow(0 0 24px rgba(165, 0, 0, 0.5));
+    drop-shadow(0 0 9px rgba(220, 0, 0, 0.34))
+    drop-shadow(0 0 22px rgba(145, 0, 0, 0.44));
   text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.26),
-    0 -2px 0 rgba(88, 43, 0, 0.36),
-    0 0 18px rgba(217, 0, 0, 0.42),
-    0 0 42px rgba(120, 0, 0, 0.58);
+    0 1px 0 rgba(255, 246, 174, 0.38),
+    0 -2px 0 rgba(86, 50, 0, 0.42),
+    0 0 14px rgba(185, 0, 0, 0.36),
+    0 0 34px rgba(110, 0, 0, 0.5);
 }
 
 .rift-hook {
