@@ -4817,4 +4817,7 @@ body.popup-open {
     transform: translateY(0) scale(1) !important;
     filter: blur(0) !important;
   }
+  .page-wrapper > .home-page.mingjie-home {
+    padding-top: 0;
+  }
 }
