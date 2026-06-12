@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.createElement("div");
     const imageSrc = target.currentSrc || target.src;
 
-    overlay.className = "dog-jaw-overlay";
+    overlay.className = "dog-ai-bite-overlay";
     overlay.style.left = rect.left + "px";
     overlay.style.top = rect.top + "px";
     overlay.style.width = rect.width + "px";
@@ -84,8 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.style.setProperty("--mouth-x", mouthXPct + "%");
     overlay.style.setProperty("--mouth-y", mouthYPct + "%");
     overlay.innerHTML = `
-      <img class="dog-jaw-half dog-jaw-upper" src="${imageSrc}" alt="">
-      <img class="dog-jaw-half dog-jaw-lower" src="${imageSrc}" alt="">
+      <img class="dog-ai-bite-image" src="${imageSrc}" alt="">
+      <span class="dog-ai-mouth"></span>
+      <span class="dog-ai-swallow"></span>
     `;
 
     target.classList.remove("doggy-feeding");
