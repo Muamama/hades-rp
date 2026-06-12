@@ -732,8 +732,8 @@ main::before {
     radial-gradient(ellipse at 28% 88%, rgba(255, 58, 58, 0.11) 0 0.7px, rgba(130, 0, 0, 0.10) 1.1px 1.8px, transparent 2.4px),
     linear-gradient(rgba(255, 0, 0, 0.014), rgba(120, 0, 0, 0.012));
   background-position: 0 0, 22px 34px, 54px 18px, 82px 64px, 118px 40px, 142px 90px, 68px 112px, 156px 24px, 0 0;
-  background-size: 150px 118px, 190px 154px, 170px 126px, 220px 170px, 205px 158px, 240px 184px, 180px 136px, 260px 196px, auto;
-  opacity: 0.42;
+  background-size: 72px 58px, 92px 74px, 84px 62px, 108px 84px, 98px 76px, 118px 90px, 88px 66px, 126px 96px, auto;
+  opacity: 0.68;
   backdrop-filter: blur(0.9px) saturate(106%);
   -webkit-backdrop-filter: blur(0.9px) saturate(106%);
   mix-blend-mode: screen;
@@ -764,11 +764,11 @@ main > * {
 
 @keyframes hadesRedRain {
   from {
-    background-position: 0 -118px, 22px -154px, 54px -126px, 82px -170px, 118px -158px, 142px -184px, 68px -136px, 156px -196px, 0 0;
+    background-position: 0 -58px, 22px -74px, 54px -62px, 82px -84px, 118px -76px, 142px -90px, 68px -66px, 156px -96px, 0 0;
   }
 
   to {
-    background-position: 10px 118px, 14px 154px, 62px 126px, 74px 170px, 126px 158px, 134px 184px, 76px 136px, 148px 196px, 0 0;
+    background-position: 10px 58px, 14px 74px, 62px 62px, 74px 84px, 126px 76px, 134px 90px, 76px 66px, 148px 96px, 0 0;
   }
 }
 
