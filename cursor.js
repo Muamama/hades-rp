@@ -1,4 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const mobileMenu = document.getElementById("mobileMenu");
+  const menuToggle = document.getElementById("menuToggle");
+
+  function syncMobileMenuState() {
+    if (!mobileMenu) return;
+
+    if (mobileMenu.classList.contains("open")) {
+      mobileMenu.style.setProperty("opacity", "1", "important");
+      mobileMenu.style.setProperty("pointer-events", "auto", "important");
+      mobileMenu.style.setProperty("visibility", "visible", "important");
+      mobileMenu.style.setProperty("transform", "translateY(0) scale(1)", "important");
+      mobileMenu.style.setProperty("filter", "blur(0)", "important");
+    } else {
+      mobileMenu.style.removeProperty("opacity");
+      mobileMenu.style.removeProperty("pointer-events");
+      mobileMenu.style.removeProperty("visibility");
+      mobileMenu.style.removeProperty("transform");
+      mobileMenu.style.removeProperty("filter");
+    }
+  }
+
+  if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener("click", () => {
+      requestAnimationFrame(syncMobileMenuState);
+    });
+
+    document.addEventListener("click", () => {
+      requestAnimationFrame(syncMobileMenuState);
+    });
+
+    syncMobileMenuState();
+  }
+
   const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const dogTargetSelector = ".logo img, .hero-logo img";
   const feedCooldown = 860;
