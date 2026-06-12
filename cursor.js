@@ -43,11 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
     burst.style.left = mouthX + "px";
     burst.style.top = mouthY + "px";
 
-    const chomp = document.createElement("div");
-    chomp.className = "gil-feed-chomp";
-    chomp.innerHTML = "<i></i><b></b>";
-    burst.appendChild(chomp);
-
     for (let i = 0; i < 9; i += 1) {
       const spark = document.createElement("span");
       const angle = (Math.PI * 2 * i) / 9 + Math.random() * 0.34;
@@ -63,13 +58,37 @@ document.addEventListener("DOMContentLoaded", () => {
     window.setTimeout(() => burst.remove(), 980);
   }
 
-  function biteDog(target) {
+  function biteDog(feedTarget) {
+    const target = feedTarget.target;
+    const rect = target.getBoundingClientRect();
+    const mouthXPct = ((feedTarget.mouthX - rect.left) / rect.width) * 100;
+    const mouthYPct = ((feedTarget.mouthY - rect.top) / rect.height) * 100;
+    const overlay = document.createElement("div");
+    const imageSrc = target.currentSrc || target.src;
+
+    overlay.className = "dog-jaw-overlay";
+    overlay.style.left = rect.left + "px";
+    overlay.style.top = rect.top + "px";
+    overlay.style.width = rect.width + "px";
+    overlay.style.height = rect.height + "px";
+    overlay.style.setProperty("--mouth-x", mouthXPct + "%");
+    overlay.style.setProperty("--mouth-y", mouthYPct + "%");
+    overlay.innerHTML = `
+      <img class="dog-jaw-half dog-jaw-upper" src="${imageSrc}" alt="">
+      <img class="dog-jaw-half dog-jaw-lower" src="${imageSrc}" alt="">
+    `;
+
     target.classList.remove("doggy-feeding");
+    target.classList.remove("doggy-feeding-source");
     void target.offsetWidth;
     target.classList.add("doggy-feeding");
+    target.classList.add("doggy-feeding-source");
+    document.body.appendChild(overlay);
 
     window.setTimeout(() => {
       target.classList.remove("doggy-feeding");
+      target.classList.remove("doggy-feeding-source");
+      overlay.remove();
     }, 780);
   }
 
@@ -87,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
     coin.style.setProperty("--feed-y", feedTarget.mouthY - y + "px");
 
     document.body.appendChild(coin);
-    biteDog(feedTarget.target);
+    biteDog(feedTarget);
     spawnFeedBurst(feedTarget.mouthX, feedTarget.mouthY);
 
     window.setTimeout(() => coin.remove(), 880);
@@ -145,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     void cursor.offsetWidth;
     cursor.classList.add("is-eaten");
 
-    biteDog(feedTarget.target);
+    biteDog(feedTarget);
     spawnFeedBurst(feedTarget.mouthX, feedTarget.mouthY);
 
     window.setTimeout(() => {
