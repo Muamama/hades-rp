@@ -70,32 +70,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function biteDog(feedTarget) {
     const target = feedTarget.target;
-    const rect = target.getBoundingClientRect();
-    const mouthXPct = ((feedTarget.mouthX - rect.left) / rect.width) * 100;
-    const mouthYPct = ((feedTarget.mouthY - rect.top) / rect.height) * 100;
-    const overlay = document.createElement("div");
-    const imageSrc = target.currentSrc || target.src;
-
-    overlay.className = "dog-ai-bite-overlay";
-    overlay.style.left = rect.left + "px";
-    overlay.style.top = rect.top + "px";
-    overlay.style.width = rect.width + "px";
-    overlay.style.height = rect.height + "px";
-    overlay.style.setProperty("--mouth-x", mouthXPct + "%");
-    overlay.style.setProperty("--mouth-y", mouthYPct + "%");
-    overlay.innerHTML = `
-      <img class="dog-ai-bite-image" src="${imageSrc}" alt="">
-      <span class="dog-ai-swallow"></span>
-    `;
 
     target.classList.remove("doggy-feeding");
     void target.offsetWidth;
     target.classList.add("doggy-feeding");
-    document.body.appendChild(overlay);
 
     window.setTimeout(() => {
       target.classList.remove("doggy-feeding");
-      overlay.remove();
     }, 780);
   }
 
