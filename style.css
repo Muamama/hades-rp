@@ -4631,38 +4631,6 @@ body.popup-open {
   transform: translate(-50%, -50%);
 }
 
-.gil-feed-burst::before,
-.gil-feed-burst::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.gil-feed-burst::before {
-  width: 12px;
-  height: 12px;
-  border: 2px solid rgba(255, 224, 130, 0.86);
-  box-shadow:
-    0 0 14px rgba(255, 224, 130, 0.78),
-    0 0 24px rgba(170, 0, 0, 0.52);
-  animation: biteRing 0.46s ease-out 0.36s forwards;
-}
-
-.gil-feed-burst::after {
-  width: 28px;
-  height: 18px;
-  background:
-    radial-gradient(circle at 28% 50%, rgba(0, 0, 0, 0.9) 0 18%, transparent 19%),
-    radial-gradient(circle at 52% 50%, rgba(0, 0, 0, 0.9) 0 18%, transparent 19%),
-    radial-gradient(circle at 76% 50%, rgba(0, 0, 0, 0.9) 0 18%, transparent 19%);
-  opacity: 0.78;
-  animation: biteMarks 0.44s ease-out 0.38s forwards;
-}
-
 .gil-feed-burst span {
   position: absolute;
   left: 0;
@@ -4724,34 +4692,6 @@ body.popup-open {
   }
   100% {
     transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes biteRing {
-  0% {
-    opacity: 0.95;
-    width: 8px;
-    height: 8px;
-  }
-  100% {
-    opacity: 0;
-    width: 54px;
-    height: 54px;
-  }
-}
-
-@keyframes biteMarks {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.4) rotate(-8deg);
-  }
-  34% {
-    opacity: 0.78;
-    transform: translate(-50%, -50%) scale(1) rotate(-8deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.24) rotate(-8deg);
   }
 }
 
