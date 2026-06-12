@@ -4727,8 +4727,8 @@ body.popup-open {
   padding-top: 0;
 }
 
-/* Mobile viewport lock: keep header/footer fixed and scroll only the content
-   between the two gold divider lines. */
+/* Mobile viewport lock: keep header/footer fixed while content scrolls behind
+   the frosted tabs. Padding keeps the readable area inside the gold lines. */
 @media (max-width: 768px) {
   html {
     width: 100%;
@@ -4815,16 +4815,17 @@ body.popup-open {
     position: fixed;
     left: 0;
     right: 0;
-    top: calc(var(--header-h) + env(safe-area-inset-top, 0px));
-    bottom: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px));
+    top: 0;
+    bottom: 0;
     width: 100%;
-    height: auto;
+    height: 100dvh;
     max-height: none;
     overflow-x: hidden;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    padding-bottom: 32px;
+    padding-top: calc(var(--header-h) + env(safe-area-inset-top, 0px)) !important;
+    padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px) + 32px) !important;
   }
 
   .mobile-menu {
