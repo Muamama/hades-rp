@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const feedCooldown = 860;
 
   const lastFeedByTarget = new WeakMap();
+  let lastTouchFeedAt = 0;
 
   function canFeed(target) {
     const now = Date.now();
@@ -15,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
-  function getDogFeedTarget(x, y) {
+  function getDogFeedTarget(clientX, clientY) {
     const targets = document.querySelectorAll(dogTargetSelector);
 
     for (const target of targets) {
@@ -24,34 +25,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const padding = Math.max(12, Math.min(rect.width, rect.height) * 0.18);
       const inPaddedRect =
-        x >= rect.left - padding &&
-        x <= rect.right + padding &&
-        y >= rect.top - padding &&
-        y <= rect.bottom + padding;
+        clientX >= rect.left - padding &&
+        clientX <= rect.right + padding &&
+        clientY >= rect.top - padding &&
+        clientY <= rect.bottom + padding;
 
       if (!inPaddedRect) continue;
 
-      const mouthX = rect.left + rect.width * 0.48;
-      const mouthY = rect.top + rect.height * 0.54;
+      const mouthClientX = rect.left + rect.width * 0.48;
+      const mouthClientY = rect.top + rect.height * 0.54;
       const radiusX = Math.max(20, rect.width * 0.42);
       const radiusY = Math.max(20, rect.height * 0.42);
       const normalized =
-        ((x - mouthX) * (x - mouthX)) / (radiusX * radiusX) +
-        ((y - mouthY) * (y - mouthY)) / (radiusY * radiusY);
+        ((clientX - mouthClientX) * (clientX - mouthClientX)) / (radiusX * radiusX) +
+        ((clientY - mouthClientY) * (clientY - mouthClientY)) / (radiusY * radiusY);
 
       if (normalized <= 1) {
-        return { target, mouthX, mouthY };
+        return {
+          target,
+          mouthX: mouthClientX,
+          mouthY: mouthClientY,
+          mouthPageX: mouthClientX + window.scrollX,
+          mouthPageY: mouthClientY + window.scrollY
+        };
       }
     }
 
     return null;
   }
 
-  function spawnFeedBurst(mouthX, mouthY) {
+  function spawnFeedBurst(mouthPageX, mouthPageY) {
     const burst = document.createElement("div");
     burst.className = "gil-feed-burst";
-    burst.style.left = mouthX + "px";
-    burst.style.top = mouthY + "px";
+    burst.style.left = mouthPageX + "px";
+    burst.style.top = mouthPageY + "px";
 
     for (let i = 0; i < 9; i += 1) {
       const spark = document.createElement("span");
@@ -80,19 +87,19 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 780);
   }
 
-  function triggerTouchFeed(feedTarget, x, y) {
+  function triggerTouchFeed(feedTarget, clientX, clientY, pageX, pageY) {
     if (!canFeed(feedTarget.target)) return;
 
     const coin = document.createElement("div");
     coin.className = "gil-touch-coin is-eaten";
-    coin.style.left = x + "px";
-    coin.style.top = y + "px";
-    coin.style.setProperty("--feed-x", feedTarget.mouthX - x + "px");
-    coin.style.setProperty("--feed-y", feedTarget.mouthY - y + "px");
+    coin.style.left = pageX + "px";
+    coin.style.top = pageY + "px";
+    coin.style.setProperty("--feed-x", feedTarget.mouthPageX - pageX + "px");
+    coin.style.setProperty("--feed-y", feedTarget.mouthPageY - pageY + "px");
 
     document.body.appendChild(coin);
     biteDog(feedTarget);
-    spawnFeedBurst(feedTarget.mouthX, feedTarget.mouthY);
+    spawnFeedBurst(feedTarget.mouthPageX, feedTarget.mouthPageY);
 
     window.setTimeout(() => coin.remove(), 880);
   }
@@ -106,16 +113,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const feedTarget = getDogFeedTarget(touch.clientX, touch.clientY);
         if (feedTarget) {
-          triggerTouchFeed(feedTarget, touch.clientX, touch.clientY);
+          lastTouchFeedAt = Date.now();
+          triggerTouchFeed(feedTarget, touch.clientX, touch.clientY, touch.pageX, touch.pageY);
         }
       },
       { passive: true }
     );
 
     document.addEventListener("click", (e) => {
+      if (Date.now() - lastTouchFeedAt < 700) return;
+
       const feedTarget = getDogFeedTarget(e.clientX, e.clientY);
       if (feedTarget) {
-        triggerTouchFeed(feedTarget, e.clientX, e.clientY);
+        triggerTouchFeed(
+          feedTarget,
+          e.clientX,
+          e.clientY,
+          e.clientX + window.scrollX,
+          e.clientY + window.scrollY
+        );
       }
     });
 
@@ -147,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cursor.classList.add("is-eaten");
 
     biteDog(feedTarget);
-    spawnFeedBurst(feedTarget.mouthX, feedTarget.mouthY);
+    spawnFeedBurst(feedTarget.mouthPageX, feedTarget.mouthPageY);
 
     window.setTimeout(() => {
       cursor.classList.remove("is-eaten");

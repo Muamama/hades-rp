@@ -4586,7 +4586,7 @@ body.popup-open {
 }
 
 .gil-touch-coin {
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   width: 28px;
@@ -4621,7 +4621,7 @@ body.popup-open {
 }
 
 .gil-feed-burst {
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   width: 0;
