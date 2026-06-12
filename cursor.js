@@ -85,7 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
     overlay.style.setProperty("--mouth-y", mouthYPct + "%");
     overlay.innerHTML = `
       <img class="dog-ai-bite-image" src="${imageSrc}" alt="">
-      <span class="dog-ai-mouth"></span>
       <span class="dog-ai-swallow"></span>
     `;
 
@@ -93,17 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
     void target.offsetWidth;
     target.classList.add("doggy-feeding");
     document.body.appendChild(overlay);
-
-    const mouth = overlay.querySelector(".dog-ai-mouth");
-    window.setTimeout(() => {
-      mouth.style.opacity = "0.9";
-      mouth.style.transform = "translate(-50%, -50%) scale(0.86, 0.72) rotate(-6deg)";
-    }, 20);
-
-    window.setTimeout(() => {
-      mouth.style.opacity = "0.55";
-      mouth.style.transform = "translate(-50%, -50%) scale(0.28, 0.08) rotate(-6deg)";
-    }, 330);
 
     window.setTimeout(() => {
       target.classList.remove("doggy-feeding");
