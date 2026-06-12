@@ -722,17 +722,20 @@ main::before {
   top: 0;
   bottom: 0;
   background:
-    repeating-linear-gradient(108deg, transparent 0 19px, rgba(255, 22, 22, 0.36) 20px 21px, transparent 22px 58px),
-    repeating-linear-gradient(103deg, transparent 0 27px, rgba(210, 0, 0, 0.30) 28px 29px, transparent 30px 76px),
-    repeating-linear-gradient(112deg, transparent 0 34px, rgba(255, 58, 58, 0.22) 35px 36px, transparent 37px 92px),
+    radial-gradient(ellipse 2px 4px at 18% 22%, rgba(255, 24, 24, 0.42) 0 42%, rgba(175, 0, 0, 0.28) 58%, transparent 72%),
+    radial-gradient(ellipse 1.6px 3px at 68% 16%, rgba(255, 34, 34, 0.34) 0 42%, rgba(180, 0, 0, 0.24) 58%, transparent 72%),
+    radial-gradient(ellipse 2.2px 3.6px at 42% 64%, rgba(255, 22, 22, 0.38) 0 42%, rgba(190, 0, 0, 0.25) 58%, transparent 72%),
+    radial-gradient(ellipse 1.5px 2.8px at 83% 76%, rgba(255, 42, 42, 0.32) 0 42%, rgba(160, 0, 0, 0.22) 58%, transparent 72%),
+    radial-gradient(ellipse 1.8px 3.4px at 9% 82%, rgba(255, 26, 26, 0.34) 0 42%, rgba(170, 0, 0, 0.23) 58%, transparent 72%),
+    radial-gradient(ellipse 1.7px 3px at 54% 35%, rgba(255, 32, 32, 0.33) 0 42%, rgba(180, 0, 0, 0.23) 58%, transparent 72%),
     linear-gradient(rgba(255, 0, 0, 0.018), rgba(150, 0, 0, 0.014));
-  background-position: 0 -120px, 43px -180px, 91px -240px, 0 0;
-  background-size: 140px 120px, 210px 180px, 280px 240px, auto;
-  opacity: 0.62;
-  backdrop-filter: blur(0.7px) saturate(112%);
-  -webkit-backdrop-filter: blur(0.7px) saturate(112%);
+  background-position: 0 -86px, 31px -118px, 67px -94px, 101px -132px, 142px -104px, 176px -146px, 0 0;
+  background-size: 82px 86px, 118px 118px, 96px 94px, 132px 132px, 108px 104px, 146px 146px, auto;
+  opacity: 0.7;
+  backdrop-filter: blur(0.65px) saturate(112%);
+  -webkit-backdrop-filter: blur(0.65px) saturate(112%);
   mix-blend-mode: screen;
-  animation: hadesRedRain 0.42s linear infinite;
+  animation: hadesRedRain 0.46s linear infinite;
 }
 
 main::after {
@@ -759,11 +762,11 @@ main > * {
 
 @keyframes hadesRedRain {
   from {
-    background-position: 0 -120px, 43px -180px, 91px -240px, 0 0;
+    background-position: 0 -86px, 31px -118px, 67px -94px, 101px -132px, 142px -104px, 176px -146px, 0 0;
   }
 
   to {
-    background-position: -34px 120px, 18px 180px, 52px 240px, 0 0;
+    background-position: -22px 86px, 13px 118px, 43px 94px, 75px 132px, 116px 104px, 148px 146px, 0 0;
   }
 }
 
