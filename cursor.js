@@ -96,13 +96,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const mouth = overlay.querySelector(".dog-ai-mouth");
     window.setTimeout(() => {
-      mouth.style.opacity = "1";
-      mouth.style.transform = "translate(-50%, -50%) scale(1.12, 1.05) rotate(-4deg)";
+      mouth.style.opacity = "0.9";
+      mouth.style.transform = "translate(-50%, -50%) scale(0.86, 0.72) rotate(-6deg)";
     }, 20);
 
     window.setTimeout(() => {
-      mouth.style.opacity = "0.92";
-      mouth.style.transform = "translate(-50%, -50%) scale(0.42, 0.12) rotate(-4deg)";
+      mouth.style.opacity = "0.55";
+      mouth.style.transform = "translate(-50%, -50%) scale(0.28, 0.08) rotate(-6deg)";
     }, 330);
 
     window.setTimeout(() => {

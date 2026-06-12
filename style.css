@@ -4649,27 +4649,26 @@ body.popup-open {
   left: var(--mouth-x, 48%);
   top: var(--mouth-y, 54%);
   pointer-events: none;
-  border-radius: 999px;
   transform: translate(-50%, -50%);
   z-index: 2;
 }
 
 .dog-ai-mouth {
-  width: 38%;
-  height: 22%;
+  width: 24%;
+  height: 13%;
   background:
-    linear-gradient(90deg, transparent 0 10%, rgba(255, 230, 170, 0.95) 11% 15%, transparent 16% 30%, rgba(255, 230, 170, 0.95) 31% 35%, transparent 36% 64%, rgba(255, 230, 170, 0.95) 65% 69%, transparent 70% 84%, rgba(255, 230, 170, 0.95) 85% 89%, transparent 90%),
-    radial-gradient(ellipse at 50% 52%, rgba(0, 0, 0, 0.98) 0 42%, rgba(70, 0, 0, 0.96) 53%, rgba(160, 0, 0, 0.78) 65%, rgba(255, 40, 30, 0.2) 76%, transparent 78%);
+    radial-gradient(ellipse at 50% 54%, rgba(0, 0, 0, 0.96) 0 38%, rgba(72, 0, 0, 0.86) 55%, rgba(160, 0, 0, 0.42) 72%, transparent 78%),
+    linear-gradient(100deg, transparent 0 18%, rgba(255, 230, 170, 0.82) 19% 23%, transparent 24% 42%, rgba(255, 230, 170, 0.75) 43% 47%, transparent 48% 70%, rgba(255, 230, 170, 0.82) 71% 75%, transparent 76%);
+  clip-path: polygon(7% 44%, 22% 22%, 42% 34%, 55% 18%, 79% 30%, 94% 52%, 78% 78%, 54% 66%, 36% 82%, 16% 68%);
   box-shadow:
-    inset 0 0 12px rgba(0, 0, 0, 1),
-    0 0 10px rgba(255, 40, 30, 0.9),
-    0 0 22px rgba(120, 0, 0, 0.78),
-    0 0 28px rgba(212, 175, 55, 0.32);
-  opacity: 0.2;
-  transform: translate(-50%, -50%) scale(0.18, 0.05) rotate(-4deg);
+    inset 0 0 8px rgba(0, 0, 0, 1),
+    0 0 8px rgba(255, 40, 30, 0.62),
+    0 0 15px rgba(120, 0, 0, 0.48);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.1, 0.04) rotate(-6deg);
   transition:
-    opacity 0.12s ease,
-    transform 0.22s cubic-bezier(0.2, 0.82, 0.24, 1);
+    opacity 0.08s ease,
+    transform 0.18s cubic-bezier(0.2, 0.82, 0.24, 1);
 }
 
 .dog-ai-swallow {
