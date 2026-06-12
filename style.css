@@ -2714,19 +2714,19 @@ body {
     top: calc(100% + 8px);
     left: 12px;
     right: 12px;
-    display: grid;
+    display: none;
     grid-template-columns: 1fr;
     gap: 0;
     overflow: hidden;
-  
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-  
-    transform: translateY(-14px) scale(0.97);
+
+    opacity: var(--mobile-menu-opacity, 1);
+    pointer-events: var(--mobile-menu-pointer-events, none);
+    visibility: var(--mobile-menu-visibility, visible);
+
+    transform: var(--mobile-menu-transform, translateY(0) scale(1));
     transform-origin: top center;
-    filter: blur(8px);
-  
+    filter: var(--mobile-menu-filter, blur(0));
+
     background:
       radial-gradient(circle at center, rgba(120, 0, 0, 0.22) 0%, rgba(60, 0, 0, 0.12) 28%, rgba(10, 10, 10, 0.9) 72%),
       linear-gradient(to bottom, rgba(18, 18, 18, 0.92), rgba(8, 8, 8, 0.96));
@@ -2741,14 +2741,14 @@ body {
       0 0 24px rgba(212, 175, 55, 0.06),
       0 0 36px rgba(120, 0, 0, 0.12),
       inset 0 1px 0 rgba(255, 235, 180, 0.06);
-  
+
     transition:
       opacity 0.28s ease,
       transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
       filter 0.42s cubic-bezier(0.22, 1, 0.36, 1),
       visibility 0.28s ease;
   }
-  
+
   .mobile-menu::before {
     content: "";
     position: absolute;
@@ -2760,7 +2760,7 @@ body {
     filter: blur(22px);
     opacity: 0.95;
   }
-  
+
   .mobile-menu::after {
     content: "";
     position: absolute;
@@ -2779,14 +2779,20 @@ body {
     );
     pointer-events: none;
   }
-  
+
   .mobile-menu.open {
-    opacity: 1;
-    pointer-events: auto;
-    visibility: visible;
-  
-    transform: translateY(0) scale(1);
-    filter: blur(0);
+    display: grid !important;
+    --mobile-menu-opacity: 1;
+    --mobile-menu-pointer-events: auto;
+    --mobile-menu-visibility: visible;
+    --mobile-menu-transform: translateY(0) scale(1);
+    --mobile-menu-filter: blur(0);
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+
+    transform: translateY(0) scale(1) !important;
+    filter: blur(0) !important;
   }
 
   .mobile-menu a {
@@ -4814,10 +4820,10 @@ body.popup-open {
     max-height: calc(100dvh - var(--header-h) - var(--footer-h) - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 24px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    transition: none !important;
   }
 
   .mobile-menu.open {
+    display: grid !important;
     opacity: 1 !important;
     pointer-events: auto !important;
     visibility: visible !important;
@@ -4826,6 +4832,7 @@ body.popup-open {
   }
 
   #mobileMenu.open {
+    display: grid !important;
     opacity: 1 !important;
     pointer-events: auto !important;
     visibility: visible !important;
