@@ -4612,16 +4612,12 @@ body.popup-open {
 .hero-logo img.doggy-feeding {
   animation: doggySourcePulse 0.74s cubic-bezier(0.24, 0.88, 0.28, 1) both !important;
   transform-origin: 48% 54%;
+  opacity: 1 !important;
   filter:
     brightness(1.18)
     saturate(1.28)
     drop-shadow(0 0 10px rgba(255, 40, 30, 0.88))
     drop-shadow(0 0 24px rgba(212, 175, 55, 0.34)) !important;
-}
-
-.logo img.doggy-feeding-source,
-.hero-logo img.doggy-feeding-source {
-  opacity: 0;
 }
 
 .dog-ai-bite-overlay {
@@ -4655,21 +4651,25 @@ body.popup-open {
   pointer-events: none;
   border-radius: 999px;
   transform: translate(-50%, -50%);
+  z-index: 2;
 }
 
 .dog-ai-mouth {
-  width: 34%;
-  height: 18%;
+  width: 38%;
+  height: 22%;
   background:
-    radial-gradient(ellipse at 50% 50%, rgba(0, 0, 0, 0.96) 0 34%, rgba(85, 0, 0, 0.92) 45%, rgba(255, 40, 30, 0.42) 66%, transparent 72%),
-    linear-gradient(90deg, transparent 0 12%, rgba(255, 230, 170, 0.95) 13% 17%, transparent 18% 31%, rgba(255, 230, 170, 0.95) 32% 36%, transparent 37% 63%, rgba(255, 230, 170, 0.95) 64% 68%, transparent 69% 82%, rgba(255, 230, 170, 0.95) 83% 87%, transparent 88%);
+    linear-gradient(90deg, transparent 0 10%, rgba(255, 230, 170, 0.95) 11% 15%, transparent 16% 30%, rgba(255, 230, 170, 0.95) 31% 35%, transparent 36% 64%, rgba(255, 230, 170, 0.95) 65% 69%, transparent 70% 84%, rgba(255, 230, 170, 0.95) 85% 89%, transparent 90%),
+    radial-gradient(ellipse at 50% 52%, rgba(0, 0, 0, 0.98) 0 42%, rgba(70, 0, 0, 0.96) 53%, rgba(160, 0, 0, 0.78) 65%, rgba(255, 40, 30, 0.2) 76%, transparent 78%);
   box-shadow:
-    inset 0 0 10px rgba(0, 0, 0, 0.9),
-    0 0 12px rgba(255, 40, 30, 0.72),
-    0 0 20px rgba(212, 175, 55, 0.3);
-  mix-blend-mode: screen;
-  opacity: 0;
-  animation: dogAiMouth 0.78s cubic-bezier(0.2, 0.82, 0.24, 1) both;
+    inset 0 0 12px rgba(0, 0, 0, 1),
+    0 0 10px rgba(255, 40, 30, 0.9),
+    0 0 22px rgba(120, 0, 0, 0.78),
+    0 0 28px rgba(212, 175, 55, 0.32);
+  opacity: 0.2;
+  transform: translate(-50%, -50%) scale(0.18, 0.05) rotate(-4deg);
+  transition:
+    opacity 0.12s ease,
+    transform 0.22s cubic-bezier(0.2, 0.82, 0.24, 1);
 }
 
 .dog-ai-swallow {
@@ -4808,25 +4808,6 @@ body.popup-open {
   }
   100% {
     transform: scale(1) rotate(0deg);
-  }
-}
-
-@keyframes dogAiMouth {
-  0%, 28% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.18, 0.08) rotate(-4deg);
-  }
-  44% {
-    opacity: 0.95;
-    transform: translate(-50%, -50%) scale(1.08, 1) rotate(-4deg);
-  }
-  58% {
-    opacity: 0.82;
-    transform: translate(-50%, -50%) scale(0.42, 0.18) rotate(-4deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.1, 0.06) rotate(-4deg);
   }
 }
 

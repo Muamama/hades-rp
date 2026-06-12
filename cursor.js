@@ -90,15 +90,23 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     target.classList.remove("doggy-feeding");
-    target.classList.remove("doggy-feeding-source");
     void target.offsetWidth;
     target.classList.add("doggy-feeding");
-    target.classList.add("doggy-feeding-source");
     document.body.appendChild(overlay);
+
+    const mouth = overlay.querySelector(".dog-ai-mouth");
+    window.setTimeout(() => {
+      mouth.style.opacity = "1";
+      mouth.style.transform = "translate(-50%, -50%) scale(1.12, 1.05) rotate(-4deg)";
+    }, 20);
+
+    window.setTimeout(() => {
+      mouth.style.opacity = "0.92";
+      mouth.style.transform = "translate(-50%, -50%) scale(0.42, 0.12) rotate(-4deg)";
+    }, 330);
 
     window.setTimeout(() => {
       target.classList.remove("doggy-feeding");
-      target.classList.remove("doggy-feeding-source");
       overlay.remove();
     }, 780);
   }
