@@ -20,13 +20,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  function setMobileMenuOpen(open) {
+    if (!menuToggle || !mobileMenu) return;
+
+    menuToggle.classList.toggle("active", open);
+    mobileMenu.classList.toggle("open", open);
+    menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    syncMobileMenuState();
+  }
+
   if (menuToggle && mobileMenu) {
-    menuToggle.addEventListener("click", () => {
-      requestAnimationFrame(syncMobileMenuState);
-    });
+    menuToggle.addEventListener(
+      "click",
+      (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        setMobileMenuOpen(!mobileMenu.classList.contains("open"));
+      },
+      true
+    );
+
+    mobileMenu.addEventListener(
+      "click",
+      (e) => {
+        e.stopPropagation();
+      },
+      true
+    );
 
     document.addEventListener("click", () => {
-      requestAnimationFrame(syncMobileMenuState);
+      setMobileMenuOpen(false);
     });
 
     syncMobileMenuState();
