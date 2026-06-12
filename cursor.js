@@ -3,7 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const dogTargetSelector = ".logo img, .hero-logo img";
   const feedCooldown = 860;
 
-  let lastFeedAt = 0;
+  const lastFeedByTarget = new WeakMap();
+
+  function canFeed(target) {
+    const now = Date.now();
+    const lastFeedAt = lastFeedByTarget.get(target) || 0;
+
+    if (now - lastFeedAt < feedCooldown) return false;
+
+    lastFeedByTarget.set(target, now);
+    return true;
+  }
 
   function getDogFeedTarget(x, y) {
     const targets = document.querySelectorAll(dogTargetSelector);
@@ -93,10 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function triggerTouchFeed(feedTarget, x, y) {
-    const now = Date.now();
-    if (now - lastFeedAt < feedCooldown) return;
-
-    lastFeedAt = now;
+    if (!canFeed(feedTarget.target)) return;
 
     const coin = document.createElement("div");
     coin.className = "gil-touch-coin is-eaten";
@@ -152,10 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let glowY = 0;
 
   function triggerMouseFeed(feedTarget) {
-    const now = Date.now();
-    if (now - lastFeedAt < feedCooldown) return;
-
-    lastFeedAt = now;
+    if (!canFeed(feedTarget.target)) return;
 
     document.body.classList.add("gil-feeding");
     cursor.style.setProperty("--feed-x", feedTarget.mouthX - mouseX + "px");
