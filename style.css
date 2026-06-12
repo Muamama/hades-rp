@@ -4767,6 +4767,12 @@ body.popup-open {
     transform: translateZ(0);
     backface-visibility: hidden;
     contain: layout;
+    z-index: 9999;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(120, 0, 0, 0.16), transparent 58%),
+      linear-gradient(180deg, rgba(12, 10, 10, 0.76), rgba(4, 4, 4, 0.72));
+    backdrop-filter: blur(16px) saturate(122%);
+    -webkit-backdrop-filter: blur(16px) saturate(122%);
   }
 
   .site-header {
@@ -4774,6 +4780,11 @@ body.popup-open {
     height: calc(var(--header-h) + env(safe-area-inset-top, 0px));
     padding-top: env(safe-area-inset-top, 0px);
     overflow: visible;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.28);
+    box-shadow:
+      0 10px 34px rgba(0, 0, 0, 0.42),
+      0 0 28px rgba(120, 0, 0, 0.12),
+      inset 0 -1px 0 rgba(255, 226, 150, 0.08);
   }
 
   .header-inner {
@@ -4786,6 +4797,11 @@ body.popup-open {
     padding: 0 12px env(safe-area-inset-bottom, 0px);
     flex-wrap: nowrap;
     gap: clamp(18px, 7vw, 44px);
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow:
+      0 -10px 34px rgba(0, 0, 0, 0.46),
+      0 0 28px rgba(120, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 226, 150, 0.08);
   }
 
   .site-footer a {
