@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const dogTargetSelector = ".logo img, .hero-logo img";
-  const feedCooldown = 520;
+  const feedCooldown = 860;
 
   let lastFeedAt = 0;
 
@@ -43,6 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
     burst.style.left = mouthX + "px";
     burst.style.top = mouthY + "px";
 
+    const chomp = document.createElement("div");
+    chomp.className = "gil-feed-chomp";
+    chomp.innerHTML = "<i></i><b></b>";
+    burst.appendChild(chomp);
+
     for (let i = 0; i < 9; i += 1) {
       const spark = document.createElement("span");
       const angle = (Math.PI * 2 * i) / 9 + Math.random() * 0.34;
@@ -55,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.body.appendChild(burst);
-    window.setTimeout(() => burst.remove(), 720);
+    window.setTimeout(() => burst.remove(), 980);
   }
 
   function biteDog(target) {
@@ -65,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.setTimeout(() => {
       target.classList.remove("doggy-feeding");
-    }, 520);
+    }, 780);
   }
 
   function triggerTouchFeed(feedTarget, x, y) {
@@ -85,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
     biteDog(feedTarget.target);
     spawnFeedBurst(feedTarget.mouthX, feedTarget.mouthY);
 
-    window.setTimeout(() => coin.remove(), 520);
+    window.setTimeout(() => coin.remove(), 880);
   }
 
   if (!isFinePointer) {
@@ -146,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.setTimeout(() => {
       cursor.classList.remove("is-eaten");
       document.body.classList.remove("gil-feeding");
-    }, 430);
+    }, 820);
   }
 
   document.addEventListener("mousemove", (e) => {
