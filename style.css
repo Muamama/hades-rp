@@ -722,12 +722,12 @@ main::before {
   top: 0;
   bottom: 0;
   background:
-    radial-gradient(ellipse 2px 4px at 18% 22%, rgba(255, 24, 24, 0.42) 0 42%, rgba(175, 0, 0, 0.28) 58%, transparent 72%),
-    radial-gradient(ellipse 1.6px 3px at 68% 16%, rgba(255, 34, 34, 0.34) 0 42%, rgba(180, 0, 0, 0.24) 58%, transparent 72%),
-    radial-gradient(ellipse 2.2px 3.6px at 42% 64%, rgba(255, 22, 22, 0.38) 0 42%, rgba(190, 0, 0, 0.25) 58%, transparent 72%),
-    radial-gradient(ellipse 1.5px 2.8px at 83% 76%, rgba(255, 42, 42, 0.32) 0 42%, rgba(160, 0, 0, 0.22) 58%, transparent 72%),
-    radial-gradient(ellipse 1.8px 3.4px at 9% 82%, rgba(255, 26, 26, 0.34) 0 42%, rgba(170, 0, 0, 0.23) 58%, transparent 72%),
-    radial-gradient(ellipse 1.7px 3px at 54% 35%, rgba(255, 32, 32, 0.33) 0 42%, rgba(180, 0, 0, 0.23) 58%, transparent 72%),
+    radial-gradient(ellipse 1.4px 2.8px at 18% 22%, rgba(255, 24, 24, 0.42) 0 42%, rgba(175, 0, 0, 0.28) 58%, transparent 72%),
+    radial-gradient(ellipse 1.2px 2.2px at 68% 16%, rgba(255, 34, 34, 0.34) 0 42%, rgba(180, 0, 0, 0.24) 58%, transparent 72%),
+    radial-gradient(ellipse 1.6px 2.6px at 42% 64%, rgba(255, 22, 22, 0.38) 0 42%, rgba(190, 0, 0, 0.25) 58%, transparent 72%),
+    radial-gradient(ellipse 1.1px 2px at 83% 76%, rgba(255, 42, 42, 0.32) 0 42%, rgba(160, 0, 0, 0.22) 58%, transparent 72%),
+    radial-gradient(ellipse 1.3px 2.5px at 9% 82%, rgba(255, 26, 26, 0.34) 0 42%, rgba(170, 0, 0, 0.23) 58%, transparent 72%),
+    radial-gradient(ellipse 1.2px 2.2px at 54% 35%, rgba(255, 32, 32, 0.33) 0 42%, rgba(180, 0, 0, 0.23) 58%, transparent 72%),
     linear-gradient(rgba(255, 0, 0, 0.018), rgba(150, 0, 0, 0.014));
   background-position: 0 -86px, 31px -118px, 67px -94px, 101px -132px, 142px -104px, 176px -146px, 0 0;
   background-size: 82px 86px, 118px 118px, 96px 94px, 132px 132px, 108px 104px, 146px 146px, auto;
@@ -739,11 +739,11 @@ main::before {
 }
 
 main::after {
-  bottom: -70px;
-  height: 230px;
+  bottom: -10vh;
+  height: max(34vh, 280px);
   background:
-    radial-gradient(ellipse at 50% 100%, rgba(210, 0, 0, 0.30), transparent 64%),
-    linear-gradient(to top, rgba(150, 0, 0, 0.20), rgba(120, 0, 0, 0.075), transparent 74%),
+    radial-gradient(ellipse at 50% 100%, rgba(210, 0, 0, 0.34), transparent 68%),
+    linear-gradient(to top, rgba(150, 0, 0, 0.22), rgba(120, 0, 0, 0.09), transparent 76%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='620' height='120' viewBox='0 0 620 120'%3E%3Cpath d='M0 72 C74 45 120 91 198 68 C280 44 340 86 418 64 C494 42 548 80 620 58' fill='none' stroke='%23d00000' stroke-opacity='.34' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M0 91 C82 70 143 100 224 82 C306 64 372 96 453 78 C524 62 574 88 620 76' fill='none' stroke='%23ff3a35' stroke-opacity='.18' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: repeat-x;
   background-position: center bottom, left bottom, 0 bottom;
