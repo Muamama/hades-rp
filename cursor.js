@@ -131,6 +131,38 @@ document.addEventListener("DOMContentLoaded", () => {
     window.setTimeout(() => burst.remove(), 980);
   }
 
+  function triggerDogCharge(feedTarget) {
+    if (!feedTarget.target.closest(".hero-logo")) return;
+
+    document
+      .querySelectorAll(".leaderboard-dog-charge, .leaderboard-dog-bite")
+      .forEach((effect) => effect.remove());
+
+    const charge = document.createElement("div");
+    const dog = document.createElement("img");
+    const shockwave = document.createElement("span");
+    const bite = document.createElement("span");
+
+    charge.className = "leaderboard-dog-charge";
+    charge.style.left = `${feedTarget.mouthX}px`;
+    charge.style.top = `${feedTarget.mouthY}px`;
+
+    dog.src = "images/logo.png";
+    dog.alt = "";
+    dog.className = "leaderboard-dog-charge-logo";
+
+    shockwave.className = "leaderboard-dog-charge-wave";
+    bite.className = "leaderboard-dog-bite";
+    bite.style.left = `${feedTarget.mouthX}px`;
+    bite.style.top = `${feedTarget.mouthY}px`;
+
+    charge.append(shockwave, dog);
+    document.body.appendChild(charge);
+    document.body.appendChild(bite);
+    window.setTimeout(() => charge.remove(), 700);
+    window.setTimeout(() => bite.remove(), 700);
+  }
+
   function biteDog(feedTarget) {
     const target = feedTarget.target;
 
@@ -156,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(coin);
     biteDog(feedTarget);
     spawnFeedBurst(feedTarget.mouthPageX, feedTarget.mouthPageY);
+    triggerDogCharge(feedTarget);
 
     window.setTimeout(() => coin.remove(), 880);
   }
@@ -220,6 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     biteDog(feedTarget);
     spawnFeedBurst(feedTarget.mouthPageX, feedTarget.mouthPageY);
+    triggerDogCharge(feedTarget);
 
     window.setTimeout(() => {
       cursor.classList.remove("is-eaten");
