@@ -4878,6 +4878,28 @@ body.popup-open {
   }
 }
 
+@media (hover: hover) and (pointer: fine) {
+  body.gil-cursor-active .gil-cursor:not(.is-eaten) {
+    opacity: 1 !important;
+  }
+
+  body.gil-cursor-active .gil-cursor-glow {
+    opacity: 0.45 !important;
+  }
+
+  body.gil-hovering .gil-cursor-glow {
+    opacity: 0.85 !important;
+  }
+
+  body.gil-clicking .gil-cursor-glow {
+    opacity: 1 !important;
+  }
+
+  body.gil-feeding .gil-cursor-glow {
+    opacity: 0.95 !important;
+  }
+}
+
 .gil-touch-coin {
   position: absolute;
   left: 0;
