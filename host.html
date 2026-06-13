@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260612-mobile-tabs15" />
+  <link rel="stylesheet" href="style.css?v=20260613-host-faster-bite" />
 </head>
 
 <body>
@@ -387,6 +387,38 @@
         : "登入管理員後可替目前獄犬增加打賞。";
     }
 
+    function triggerDogCharge(event) {
+      const centerX = event.clientX;
+      const centerY = event.clientY;
+      document
+        .querySelectorAll(".leaderboard-dog-charge, .leaderboard-dog-bite")
+        .forEach((effect) => effect.remove());
+
+      const charge = document.createElement("div");
+      const dog = document.createElement("img");
+      const shockwave = document.createElement("span");
+      const bite = document.createElement("span");
+
+      charge.className = "leaderboard-dog-charge";
+      charge.style.left = `${centerX}px`;
+      charge.style.top = `${centerY}px`;
+
+      dog.src = "images/logo.png";
+      dog.alt = "";
+      dog.className = "leaderboard-dog-charge-logo";
+
+      shockwave.className = "leaderboard-dog-charge-wave";
+      bite.className = "leaderboard-dog-bite";
+      bite.style.left = `${centerX}px`;
+      bite.style.top = `${centerY}px`;
+
+      charge.append(shockwave, dog);
+      document.body.appendChild(charge);
+      document.body.appendChild(bite);
+      setTimeout(() => charge.remove(), 700);
+      setTimeout(() => bite.remove(), 700);
+    }
+
     async function checkSession() {
       const { data, error } = await supabase.auth.getSession();
 
@@ -500,25 +532,24 @@
 
     function setupHostCards() {
       hostCards.forEach((card) => {
-    
         card.addEventListener("click", (e) => {
-    
+          triggerDogCharge(e);
+
           if (window.innerWidth <= 768) {
             e.preventDefault();
             card.classList.add("touch-active");
             setTimeout(() => {
               openHostPopup(card);
-            }, 220);
+            }, 260);
             setTimeout(() => {
               card.classList.remove("touch-active");
             }, 500);
-    
           } else {
-            openHostPopup(card);
+            setTimeout(() => {
+              openHostPopup(card);
+            }, 240);
           }
-    
         });
-    
       });
     }
     function setupTipButtons() {

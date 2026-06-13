@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260612-mobile-tabs15" />
+  <link rel="stylesheet" href="style.css?v=20260613-host-faster-bite" />
   
   <style>
     .gil-price {
@@ -108,28 +108,6 @@
     }
   </style>
 </head>
-<script>
-  const siteHeader = document.querySelector('.site-header');
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      siteHeader.classList.add('scrolled');
-    } else {
-      siteHeader.classList.remove('scrolled');
-    }
-  });
-</script>
-<script>
-  const siteHeader = document.querySelector('.site-header');
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      siteHeader.classList.add('scrolled');
-    } else {
-      siteHeader.classList.remove('scrolled');
-    }
-  });
-</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -225,14 +203,16 @@ document.addEventListener('DOMContentLoaded', function () {
     </section>
 
     <section class="leaderboard-section">
+      <div class="leaderboard-podium" id="leaderboardPodium"></div>
+
       <div class="leaderboard-summary">
-        <div class="leaderboard-stat">
-          <span class="leaderboard-stat-label">上榜獄犬數</span>
-          <strong id="hostCount">0</strong>
-        </div>
         <div class="leaderboard-stat">
           <span class="leaderboard-stat-label">累積打賞總額</span>
           <strong id="totalAmount">0</strong>
+        </div>
+        <div class="leaderboard-stat">
+          <span class="leaderboard-stat-label">上榜獄犬數</span>
+          <strong id="hostCount">0</strong>
         </div>
       </div>
 
@@ -271,6 +251,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    const hostImages = {
+      "刻耳柏洛斯": "images/刻耳柏洛斯.jpg",
+      "厄耳特洛斯": "images/厄耳特洛斯.jpg",
+      "著魔": "images/著魔.jpg",
+      "龍冽": "images/龍冽.jpg",
+      "安怛": "images/安怛.jpg",
+      "Jazper": "images/Jazper.jpg",
+      "蛇魂": "images/蛇魂.jpg",
+      "埃伊諾": "images/埃伊諾.jpg",
+      "法拉歐": "images/法拉歐.jpg",
+      "牛奶": "images/牛奶.jpg",
+      "甲醛": "images/甲醛.jpg",
+      "洛德勒斯": "images/洛德勒斯.jpg"
+    };
+
     function gilHTML(amount, large = false) {
       return `
         <span class="gil-price">
@@ -281,7 +276,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function markUpdatedRows() {
-      const rows = document.querySelectorAll(".leaderboard-item");
+      const rows = document.querySelectorAll(".leaderboard-item, .leaderboard-podium-card");
       rows.forEach((row) => {
         row.classList.add("is-updated");
         setTimeout(() => {
@@ -296,13 +291,47 @@ document.addEventListener('DOMContentLoaded', function () {
       }, 850);
     }
 
+    function triggerDogCharge(event) {
+      const centerX = event.clientX;
+      const centerY = event.clientY;
+      document
+        .querySelectorAll(".leaderboard-dog-charge, .leaderboard-dog-bite")
+        .forEach((effect) => effect.remove());
+
+      const charge = document.createElement("div");
+      const dog = document.createElement("img");
+      const shockwave = document.createElement("span");
+      const bite = document.createElement("span");
+
+      charge.className = "leaderboard-dog-charge";
+      charge.style.left = `${centerX}px`;
+      charge.style.top = `${centerY}px`;
+
+      dog.src = "images/logo.png";
+      dog.alt = "";
+      dog.className = "leaderboard-dog-charge-logo";
+
+      shockwave.className = "leaderboard-dog-charge-wave";
+      bite.className = "leaderboard-dog-bite";
+      bite.style.left = `${centerX}px`;
+      bite.style.top = `${centerY}px`;
+
+      charge.append(shockwave, dog);
+      document.body.appendChild(charge);
+      document.body.appendChild(bite);
+      setTimeout(() => charge.remove(), 700);
+      setTimeout(() => bite.remove(), 700);
+    }
+
     async function renderLeaderboard(animate = false) {
       const body = document.getElementById("leaderboardBody");
+      const podium = document.getElementById("leaderboardPodium");
       const empty = document.getElementById("leaderboardEmpty");
       const totalAmountEl = document.getElementById("totalAmount");
       const hostCountEl = document.getElementById("hostCount");
 
       body.innerHTML = "";
+      podium.innerHTML = "";
 
       const { data, error } = await supabase
         .from("host_leaderboard")
@@ -336,6 +365,24 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       empty.style.display = "none";
+
+      activeRows.slice(0, 3).forEach((row, index) => {
+        const card = document.createElement("article");
+        card.className = `leaderboard-podium-card rank-${index + 1}`;
+        card.innerHTML = `
+          <div class="leaderboard-photo-frame">
+            <img src="${hostImages[row.host_name] || "images/logo.png"}" alt="${row.host_name}">
+          </div>
+          <div class="leaderboard-medal">#${index + 1}</div>
+          <h2>${row.host_name}</h2>
+          <div class="leaderboard-podium-meta">
+            <span>${(row.tip_count || 0).toLocaleString()} 次打賞</span>
+            <strong>${gilHTML(row.total_amount, true)}</strong>
+          </div>
+        `;
+        card.addEventListener("click", triggerDogCharge);
+        podium.appendChild(card);
+      });
 
       activeRows.forEach((row, index) => {
         const div = document.createElement("div");
