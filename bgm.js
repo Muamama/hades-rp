@@ -17,7 +17,8 @@
   audio.loop = true;
   audio.preload = "auto";
   audio.playsInline = true;
-  audio.volume = Number.isFinite(savedVolume) ? savedVolume : 0.34;
+  audio.volume = Number.isFinite(savedVolume) && savedVolume > 0 ? savedVolume : 0.34;
+  localStorage.setItem(storagePrefix + "volume", String(audio.volume));
 
   document.body.appendChild(audio);
 
