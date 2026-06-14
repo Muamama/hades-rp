@@ -9,6 +9,7 @@
   let hasAppliedResumeTime = false;
   let lastPersistedAt = 0;
   let pendingPersist = 0;
+  const gestureEvents = ["pointerdown", "touchstart", "click"];
 
   const audio = document.createElement("audio");
   audio.id = "siteBgmAudio";
@@ -81,8 +82,19 @@
 
     hasTriedToPlay = true;
     applyResumeTime();
-    audio.play().catch(function () {
-      hasTriedToPlay = false;
+    return audio.play()
+      .then(function () {
+        removeGestureStartEvents();
+      })
+      .catch(function () {
+        hasTriedToPlay = false;
+      });
+  }
+
+  function removeGestureStartEvents() {
+    gestureEvents.forEach(function (eventName) {
+      window.removeEventListener(eventName, playBgm, true);
+      document.removeEventListener(eventName, playBgm, true);
     });
   }
 
@@ -95,6 +107,10 @@
     document.addEventListener("scroll", playBgm, scrollOptions);
     window.addEventListener("wheel", playBgm, onceOptions);
     window.addEventListener("touchmove", playBgm, onceOptions);
+    gestureEvents.forEach(function (eventName) {
+      window.addEventListener(eventName, playBgm, { passive: true, capture: true });
+      document.addEventListener(eventName, playBgm, { passive: true, capture: true });
+    });
     window.addEventListener("keydown", function (event) {
       if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
         playBgm();
@@ -128,7 +144,7 @@
     saveState(false);
   });
   audio.addEventListener("play", function () {
-    saveState(true);
+    saveState(false);
   });
   audio.addEventListener("pause", function () {
     saveState(true);
