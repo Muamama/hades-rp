@@ -1,6 +1,7 @@
 (function () {
   const audioSrc = window.MINGJIE_BGM_SRC || "audio/FFXIV%20Pulse%20Remix%20Album%20-%20Rise%20%28Alexander%27s%20Theme%29%20-%20Sophie%20%28Desucrate%29%20%28youtube%29.mp3";
   const storagePrefix = "mingjie:bgm:";
+  const defaultVolume = 0.17;
   const savedVolume = Number(localStorage.getItem(storagePrefix + "volume"));
   const savedTime = Number(sessionStorage.getItem(storagePrefix + "time"));
   const savedTimestamp = Number(sessionStorage.getItem(storagePrefix + "savedAt"));
@@ -17,7 +18,9 @@
   audio.loop = true;
   audio.preload = "auto";
   audio.playsInline = true;
-  audio.volume = Number.isFinite(savedVolume) && savedVolume > 0 ? savedVolume : 0.34;
+  audio.volume = Number.isFinite(savedVolume) && savedVolume > 0
+    ? Math.min(savedVolume, defaultVolume)
+    : defaultVolume;
   localStorage.setItem(storagePrefix + "volume", String(audio.volume));
 
   document.body.appendChild(audio);
