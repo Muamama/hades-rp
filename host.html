@@ -24,6 +24,31 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=20260613-host-faster-bite" />
+  <style>
+    .host-popup-overlay {
+      z-index: 10050 !important;
+    }
+
+    @media (max-width: 768px) {
+      body.popup-open .site-header,
+      body.popup-open .site-footer {
+        z-index: 9998;
+      }
+
+      body.popup-open .host-popup-overlay {
+        padding:
+          calc(env(safe-area-inset-top, 0px) + 18px)
+          18px
+          calc(env(safe-area-inset-bottom, 0px) + 18px);
+      }
+
+      .host-popup-overlay.show .host-popup-card {
+        max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 36px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+  </style>
 </head>
 
 <body>
