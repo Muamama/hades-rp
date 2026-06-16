@@ -780,10 +780,10 @@ body.bgm-playing main::before {
 }
 
 .site-bgm-player {
-  width: min(194px, calc(100vw - 56px));
+  width: min(246px, calc(100vw - 56px));
   min-height: 56px;
   display: grid;
-  grid-template-columns: 154px 24px;
+  grid-template-columns: 154px 82px;
   align-items: center;
   gap: 8px;
   padding: 7px 12px 7px 8px;
@@ -871,7 +871,7 @@ body.bgm-playing main::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
+  gap: 7px;
   min-width: 0;
 }
 
@@ -910,14 +910,14 @@ body.bgm-playing main::before {
 }
 
 .site-bgm-volume input {
-  position: absolute;
-  width: 1px;
+  position: static;
+  width: 56px;
   height: 4px;
-  pointer-events: none;
+  pointer-events: auto;
   opacity: 0.78;
   accent-color: rgba(210, 28, 56, 0.72);
   cursor: pointer;
-  clip-path: inset(50%);
+  clip-path: none;
 }
 
 .site-bgm-volume input::-webkit-slider-runnable-track {
@@ -958,9 +958,9 @@ body.bgm-playing main::before {
   }
 
   .site-bgm-player {
-    width: min(184px, calc(100vw - 56px));
+    width: min(236px, calc(100vw - 56px));
     min-height: 52px;
-    grid-template-columns: 144px 24px;
+    grid-template-columns: 144px 70px;
     gap: 7px;
     padding: 6px 8px 6px 6px;
     border-radius: 0;
@@ -987,7 +987,7 @@ body.bgm-playing main::before {
   }
 
   .site-bgm-volume input {
-    width: 1px;
+    width: 45px;
   }
 }
 
