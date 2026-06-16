@@ -3,7 +3,8 @@
   const storagePrefix = "mingjie:bgm:";
   const defaultVolume = 0.17;
   const maxVolume = 0.34;
-  const savedVolume = Number(localStorage.getItem(storagePrefix + "volume"));
+  const savedVolumeRaw = localStorage.getItem(storagePrefix + "volume");
+  const savedVolume = Number(savedVolumeRaw);
   const savedTime = Number(sessionStorage.getItem(storagePrefix + "time"));
   const savedTimestamp = Number(sessionStorage.getItem(storagePrefix + "savedAt"));
   const wasPlaying = sessionStorage.getItem(storagePrefix + "playing") === "true";
@@ -17,29 +18,25 @@
   audio.loop = true;
   audio.preload = "auto";
   audio.playsInline = true;
-  audio.volume = Number.isFinite(savedVolume) && savedVolume > 0
-    ? Math.min(savedVolume, maxVolume)
+  audio.volume = savedVolumeRaw !== null && Number.isFinite(savedVolume)
+    ? Math.min(Math.max(savedVolume, 0), maxVolume)
     : defaultVolume;
-  localStorage.setItem(storagePrefix + "volume", String(audio.volume));
+  if (savedVolumeRaw === null || String(savedVolume) !== String(audio.volume)) {
+    localStorage.setItem(storagePrefix + "volume", String(audio.volume));
+  }
 
   const drawer = document.createElement("div");
   drawer.className = "site-bgm-drawer";
   drawer.innerHTML = [
-    '<button class="site-bgm-tab" type="button" aria-label="Open music player" aria-expanded="false">',
-    '  <span class="site-bgm-tab-mark" aria-hidden="true"></span>',
-    "</button>",
     '<div class="site-bgm-player">',
-    '  <button class="site-bgm-play" type="button" aria-label="Play music" aria-pressed="false">',
-    '    <span class="site-bgm-play-icon" aria-hidden="true"></span>',
-    "  </button>",
-    '  <div class="site-bgm-track" aria-hidden="true">',
+    '  <button class="site-bgm-track" type="button" aria-label="Play music" aria-expanded="false" aria-pressed="false">',
     '    <div class="site-bgm-track-art"></div>',
     '    <div class="site-bgm-track-meta">',
     '      <span class="site-bgm-track-title">Rise</span>',
     '      <span class="site-bgm-track-subtitle">FFXIV Pulse</span>',
     '      <span class="site-bgm-progress"><span></span></span>',
     "    </div>",
-    "  </div>",
+    "  </button>",
     '  <label class="site-bgm-volume">',
     '    <span class="site-bgm-volume-icon" aria-hidden="true"></span>',
     '    <input type="range" min="0" max="' + String(maxVolume) + '" step="0.01" aria-label="Music volume">',
@@ -50,17 +47,15 @@
   document.body.appendChild(audio);
   document.body.appendChild(drawer);
 
-  const drawerToggle = drawer.querySelector(".site-bgm-tab");
   const player = drawer.querySelector(".site-bgm-player");
-  const toggle = drawer.querySelector(".site-bgm-play");
+  const toggle = drawer.querySelector(".site-bgm-track");
   const volumeInput = drawer.querySelector(".site-bgm-volume input");
   const progressBar = drawer.querySelector(".site-bgm-progress span");
   volumeInput.value = String(audio.volume);
 
   function setDrawerOpen(isOpen) {
     drawer.classList.toggle("is-open", isOpen);
-    drawerToggle.setAttribute("aria-expanded", String(isOpen));
-    drawerToggle.setAttribute("aria-label", isOpen ? "Close music player" : "Open music player");
+    toggle.setAttribute("aria-expanded", String(isOpen));
     localStorage.setItem(storagePrefix + "drawerOpen", String(isOpen));
   }
 
@@ -156,23 +151,24 @@
     saveState(true);
   }
 
+  function persistVolume() {
+    audio.volume = Math.min(Math.max(Number(volumeInput.value) || 0, 0), maxVolume);
+    localStorage.setItem(storagePrefix + "volume", String(audio.volume));
+  }
+
   toggle.addEventListener("click", function () {
-    if (audio.paused) {
+    const shouldOpen = !drawer.classList.contains("is-open");
+
+    setDrawerOpen(shouldOpen);
+    if (shouldOpen && audio.paused) {
       playBgm();
-      return;
     }
-
-    pauseBgm();
-  });
-
-  drawerToggle.addEventListener("click", function () {
-    setDrawerOpen(!drawer.classList.contains("is-open"));
   });
 
   volumeInput.addEventListener("input", function () {
-    audio.volume = Number(volumeInput.value);
-    localStorage.setItem(storagePrefix + "volume", String(audio.volume));
+    persistVolume();
   });
+  volumeInput.addEventListener("change", persistVolume);
 
   audio.addEventListener("loadedmetadata", function () {
     applyResumeTime();
@@ -192,6 +188,7 @@
   });
   audio.addEventListener("ended", updateBgmVisualState);
   window.addEventListener("pagehide", function () {
+    localStorage.setItem(storagePrefix + "volume", String(audio.volume));
     saveState(true);
   });
 
