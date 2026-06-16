@@ -848,7 +848,8 @@ body.bgm-playing main::before {
 @media (max-width: 768px) {
   .site-bgm-switch {
     right: 12px;
-    bottom: calc(var(--footer-h, 58px) + env(safe-area-inset-bottom, 0px) + 12px);
+    bottom: auto;
+    top: calc(var(--header-h, 72px) + env(safe-area-inset-top, 0px) + 16px);
     min-width: 76px;
     min-height: 38px;
     padding: 0 12px;
