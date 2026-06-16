@@ -755,7 +755,7 @@ body.bgm-playing main::before {
   z-index: 10020;
   display: flex;
   align-items: center;
-  --bgm-peek: 64px;
+  --bgm-peek: 44px;
   border: 1px solid rgba(255, 255, 255, 0.42);
   border-radius: 0;
   color: rgba(248, 235, 212, 0.88);
@@ -955,7 +955,7 @@ body.bgm-playing main::before {
 
 @media (max-width: 768px) {
   .site-bgm-drawer {
-    --bgm-peek: 58px;
+    --bgm-peek: 46px;
     right: 0;
     top: auto;
     bottom: calc(var(--footer-h, 68px) + env(safe-area-inset-bottom, 0px) + 14px);
