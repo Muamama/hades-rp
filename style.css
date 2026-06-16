@@ -754,7 +754,8 @@ body.bgm-playing main::before {
   z-index: 10020;
   display: flex;
   align-items: center;
-  transform: translateX(calc(100% - 38px));
+  filter: drop-shadow(0 12px 34px rgba(0, 0, 0, 0.28));
+  transform: translateX(calc(100% - 42px));
   transition: transform 0.34s cubic-bezier(0.2, 0.86, 0.2, 1);
 }
 
@@ -763,24 +764,36 @@ body.bgm-playing main::before {
 }
 
 .site-bgm-tab {
-  width: 38px;
-  height: 72px;
+  position: relative;
+  z-index: 2;
+  width: 42px;
+  height: 66px;
   display: grid;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.32);
-  border-right: 0;
-  border-radius: 20px 0 0 20px;
+  margin-right: -1px;
+  border: 1px solid rgba(255, 255, 255, 0.44);
+  border-right-color: rgba(255, 255, 255, 0.18);
+  border-radius: 24px 0 0 24px;
   color: rgba(255, 234, 204, 0.86);
   background:
-    linear-gradient(120deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04)),
-    rgba(20, 20, 20, 0.38);
+    linear-gradient(120deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.025) 56%, rgba(255, 255, 255, 0.16)),
+    rgba(255, 255, 255, 0.045);
   box-shadow:
-    inset 1px 1px 0 rgba(255, 255, 255, 0.22),
-    inset -8px 0 18px rgba(255, 255, 255, 0.08),
-    0 8px 28px rgba(0, 0, 0, 0.34);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
+    inset 1px 1px 0 rgba(255, 255, 255, 0.3),
+    inset -12px -8px 26px rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(26px) saturate(160%);
+  -webkit-backdrop-filter: blur(26px) saturate(160%);
   cursor: pointer;
+}
+
+.site-bgm-tab::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: -1px;
+  bottom: 10px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.16), transparent);
 }
 
 .site-bgm-tab-mark {
@@ -805,20 +818,22 @@ body.bgm-playing main::before {
   align-items: center;
   gap: 10px;
   padding: 10px 14px 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.34);
-  border-radius: 26px 0 0 26px;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-left-color: rgba(255, 255, 255, 0.18);
+  border-right: 0;
+  border-radius: 0 0 0 0;
   color: rgba(248, 235, 212, 0.88);
   background:
-    linear-gradient(120deg, rgba(255, 255, 255, 0.20), rgba(255, 255, 255, 0.05) 45%, rgba(255, 255, 255, 0.13)),
-    radial-gradient(circle at 24% 30%, rgba(255, 166, 210, 0.16), transparent 36%),
-    rgba(12, 12, 12, 0.34);
+    linear-gradient(120deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.025) 42%, rgba(255, 255, 255, 0.13)),
+    radial-gradient(circle at 22% 34%, rgba(255, 166, 210, 0.11), transparent 34%),
+    radial-gradient(circle at 86% 30%, rgba(255, 255, 255, 0.12), transparent 42%),
+    rgba(255, 255, 255, 0.04);
   box-shadow:
-    inset 1px 1px 0 rgba(255, 255, 255, 0.24),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.12),
-    inset -22px -14px 36px rgba(255, 255, 255, 0.08),
-    0 14px 38px rgba(0, 0, 0, 0.32);
-  backdrop-filter: blur(24px) saturate(155%);
-  -webkit-backdrop-filter: blur(24px) saturate(155%);
+    inset 1px 1px 0 rgba(255, 255, 255, 0.26),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.14),
+    inset -28px -16px 46px rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(28px) saturate(165%);
+  -webkit-backdrop-filter: blur(28px) saturate(165%);
 }
 
 .site-bgm-play {
@@ -870,7 +885,7 @@ body.bgm-playing main::before {
   gap: 9px;
   padding: 6px 10px 7px 7px;
   border-radius: 16px;
-  background: rgba(10, 7, 9, 0.46);
+  background: rgba(10, 7, 9, 0.34);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     0 6px 18px rgba(0, 0, 0, 0.14);
@@ -981,7 +996,7 @@ body.bgm-playing main::before {
 @media (max-width: 768px) {
   .site-bgm-drawer {
     top: calc(var(--header-h, 72px) + env(safe-area-inset-top, 0px) + 14px);
-    transform: translateX(calc(100% - 34px));
+    transform: translateX(calc(100% - 36px));
   }
 
   .site-bgm-drawer.is-open {
@@ -989,9 +1004,9 @@ body.bgm-playing main::before {
   }
 
   .site-bgm-tab {
-    width: 34px;
+    width: 36px;
     height: 56px;
-    border-radius: 18px 0 0 18px;
+    border-radius: 20px 0 0 20px;
   }
 
   .site-bgm-player {
@@ -1000,7 +1015,7 @@ body.bgm-playing main::before {
     grid-template-columns: 32px minmax(92px, 1fr) 58px;
     gap: 7px;
     padding: 8px 10px 8px 8px;
-    border-radius: 22px 0 0 22px;
+    border-radius: 0;
   }
 
   .site-bgm-track {
