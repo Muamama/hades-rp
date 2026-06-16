@@ -22,33 +22,47 @@
     : defaultVolume;
   localStorage.setItem(storagePrefix + "volume", String(audio.volume));
 
-  const player = document.createElement("div");
-  player.className = "site-bgm-player";
-  player.innerHTML = [
-    '<button class="site-bgm-play" type="button" aria-label="Play music" aria-pressed="false">',
-    '  <span class="site-bgm-play-icon" aria-hidden="true"></span>',
+  const drawer = document.createElement("div");
+  drawer.className = "site-bgm-drawer";
+  drawer.innerHTML = [
+    '<button class="site-bgm-tab" type="button" aria-label="Open music player" aria-expanded="false">',
+    '  <span class="site-bgm-tab-mark" aria-hidden="true"></span>',
     "</button>",
-    '<div class="site-bgm-track" aria-hidden="true">',
-    '  <div class="site-bgm-track-art"></div>',
-    '  <div class="site-bgm-track-meta">',
-    '    <span class="site-bgm-track-title">Rise</span>',
-    '    <span class="site-bgm-track-subtitle">FFXIV Pulse</span>',
-    '    <span class="site-bgm-progress"><span></span></span>',
+    '<div class="site-bgm-player">',
+    '  <button class="site-bgm-play" type="button" aria-label="Play music" aria-pressed="false">',
+    '    <span class="site-bgm-play-icon" aria-hidden="true"></span>',
+    "  </button>",
+    '  <div class="site-bgm-track" aria-hidden="true">',
+    '    <div class="site-bgm-track-art"></div>',
+    '    <div class="site-bgm-track-meta">',
+    '      <span class="site-bgm-track-title">Rise</span>',
+    '      <span class="site-bgm-track-subtitle">FFXIV Pulse</span>',
+    '      <span class="site-bgm-progress"><span></span></span>',
+    "    </div>",
     "  </div>",
+    '  <label class="site-bgm-volume">',
+    '    <span class="site-bgm-volume-icon" aria-hidden="true"></span>',
+    '    <input type="range" min="0" max="' + String(maxVolume) + '" step="0.01" aria-label="Music volume">',
+    "  </label>",
     "</div>",
-    '<label class="site-bgm-volume">',
-    '  <span class="site-bgm-volume-icon" aria-hidden="true"></span>',
-    '  <input type="range" min="0" max="' + String(maxVolume) + '" step="0.01" aria-label="Music volume">',
-    "</label>",
   ].join("");
 
   document.body.appendChild(audio);
-  document.body.appendChild(player);
+  document.body.appendChild(drawer);
 
-  const toggle = player.querySelector(".site-bgm-play");
-  const volumeInput = player.querySelector(".site-bgm-volume input");
-  const progressBar = player.querySelector(".site-bgm-progress span");
+  const drawerToggle = drawer.querySelector(".site-bgm-tab");
+  const player = drawer.querySelector(".site-bgm-player");
+  const toggle = drawer.querySelector(".site-bgm-play");
+  const volumeInput = drawer.querySelector(".site-bgm-volume input");
+  const progressBar = drawer.querySelector(".site-bgm-progress span");
   volumeInput.value = String(audio.volume);
+
+  function setDrawerOpen(isOpen) {
+    drawer.classList.toggle("is-open", isOpen);
+    drawerToggle.setAttribute("aria-expanded", String(isOpen));
+    drawerToggle.setAttribute("aria-label", isOpen ? "Close music player" : "Open music player");
+    localStorage.setItem(storagePrefix + "drawerOpen", String(isOpen));
+  }
 
   function getResumeTime() {
     if (!Number.isFinite(savedTime) || savedTime < 0) return 0;
@@ -81,7 +95,7 @@
     const isPlaying = !audio.paused;
 
     document.body.classList.toggle("bgm-playing", isPlaying);
-    player.classList.toggle("is-on", isPlaying);
+    drawer.classList.toggle("is-on", isPlaying);
     toggle.setAttribute("aria-pressed", String(isPlaying));
     toggle.setAttribute("aria-label", isPlaying ? "Pause music" : "Play music");
   }
@@ -151,6 +165,10 @@
     pauseBgm();
   });
 
+  drawerToggle.addEventListener("click", function () {
+    setDrawerOpen(!drawer.classList.contains("is-open"));
+  });
+
   volumeInput.addEventListener("input", function () {
     audio.volume = Number(volumeInput.value);
     localStorage.setItem(storagePrefix + "volume", String(audio.volume));
@@ -179,6 +197,7 @@
 
   updateBgmVisualState();
   updateProgress();
+  setDrawerOpen(localStorage.getItem(storagePrefix + "drawerOpen") === "true");
 
   if (wasPlaying) {
     playBgm();
