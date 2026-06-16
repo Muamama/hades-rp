@@ -750,7 +750,8 @@ body.bgm-playing main::before {
 .site-bgm-drawer {
   position: fixed;
   right: 0;
-  top: min(38vh, 360px);
+  top: auto;
+  bottom: calc(var(--footer-h, 72px) + env(safe-area-inset-bottom, 0px) + 16px);
   z-index: 10020;
   display: flex;
   align-items: center;
@@ -981,7 +982,8 @@ body.bgm-playing main::before {
 
 @media (max-width: 768px) {
   .site-bgm-drawer {
-    top: calc(var(--header-h, 72px) + env(safe-area-inset-top, 0px) + 14px);
+    top: auto;
+    bottom: calc(var(--footer-h, 68px) + env(safe-area-inset-bottom, 0px) + 14px);
     transform: translateX(calc(100% - 36px));
   }
 
