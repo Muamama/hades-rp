@@ -749,28 +749,26 @@ body.bgm-playing main::before {
 
 .site-bgm-drawer {
   position: fixed;
-  right: 38px;
+  right: 0;
   top: auto;
   bottom: calc(var(--footer-h, 72px) + env(safe-area-inset-bottom, 0px) + 16px);
   z-index: 10020;
   display: flex;
   align-items: center;
   --bgm-peek: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  border: 1px solid rgba(255, 255, 255, 0.42);
   border-radius: 0;
   color: rgba(248, 235, 212, 0.88);
   background:
-    linear-gradient(120deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.018) 45%, rgba(255, 255, 255, 0.09)),
-    radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.08), transparent 24%),
-    radial-gradient(circle at 28% 72%, rgba(255, 166, 210, 0.055), transparent 38%),
-    rgba(255, 255, 255, 0.010);
+    linear-gradient(120deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.006) 48%, rgba(255, 255, 255, 0.045)),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.026), rgba(255, 255, 255, 0.004)),
+    rgba(255, 255, 255, 0.004);
   box-shadow:
-    inset 1px 1px 0 rgba(255, 255, 255, 0.22),
-    inset -1px -1px 0 rgba(255, 255, 255, 0.10),
-    inset -24px -14px 44px rgba(255, 255, 255, 0.035),
-    0 12px 34px rgba(0, 0, 0, 0.16);
-  backdrop-filter: blur(28px) saturate(165%);
-  -webkit-backdrop-filter: blur(28px) saturate(165%);
+    inset 1px 1px 0 rgba(255, 255, 255, 0.24),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.12),
+    0 10px 28px rgba(0, 0, 0, 0.10);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   transform: translateX(calc(100% - var(--bgm-peek)));
   transition: transform 0.34s cubic-bezier(0.2, 0.86, 0.2, 1);
 }
@@ -780,13 +778,13 @@ body.bgm-playing main::before {
 }
 
 .site-bgm-player {
-  width: min(268px, calc(100vw - 56px));
+  width: min(314px, calc(100vw - 8px));
   min-height: 56px;
   display: grid;
-  grid-template-columns: 154px 98px;
+  grid-template-columns: 154px 98px 40px;
   align-items: center;
   gap: 8px;
-  padding: 7px 16px 7px 8px;
+  padding: 7px 0 7px 8px;
   border: 0;
   border-radius: 0;
   color: rgba(248, 235, 212, 0.88);
@@ -803,7 +801,7 @@ body.bgm-playing main::before {
   padding: 6px 10px 7px 7px;
   border: 0;
   border-radius: 0;
-  background: rgba(10, 7, 9, 0.16);
+  background: rgba(10, 7, 9, 0.13);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
     0 6px 18px rgba(0, 0, 0, 0.14);
@@ -945,10 +943,20 @@ body.bgm-playing main::before {
   box-shadow: 0 0 12px rgba(210, 28, 56, 0.28);
 }
 
+.site-bgm-player::after {
+  content: "";
+  width: 40px;
+  height: 100%;
+  min-height: 42px;
+  border-left: 1px solid rgba(255, 255, 255, 0.10);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.002));
+}
+
 @media (max-width: 768px) {
   .site-bgm-drawer {
     --bgm-peek: 6px;
-    right: 28px;
+    right: 0;
     top: auto;
     bottom: calc(var(--footer-h, 68px) + env(safe-area-inset-bottom, 0px) + 14px);
     transform: translateX(calc(100% - var(--bgm-peek)));
@@ -959,11 +967,11 @@ body.bgm-playing main::before {
   }
 
   .site-bgm-player {
-    width: min(252px, calc(100vw - 56px));
+    width: min(292px, calc(100vw - 8px));
     min-height: 52px;
-    grid-template-columns: 144px 86px;
+    grid-template-columns: 144px 86px 40px;
     gap: 7px;
-    padding: 6px 14px 6px 6px;
+    padding: 6px 0 6px 6px;
     border-radius: 0;
   }
 
