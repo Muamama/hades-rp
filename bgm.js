@@ -156,6 +156,11 @@
     localStorage.setItem(storagePrefix + "volume", String(audio.volume));
   }
 
+  function syncVolumeControl() {
+    volumeInput.value = String(audio.volume);
+    localStorage.setItem(storagePrefix + "volume", String(audio.volume));
+  }
+
   toggle.addEventListener("click", function () {
     const shouldOpen = !drawer.classList.contains("is-open");
 
@@ -169,6 +174,8 @@
     persistVolume();
   });
   volumeInput.addEventListener("change", persistVolume);
+  volumeInput.addEventListener("pointerup", persistVolume);
+  volumeInput.addEventListener("keyup", persistVolume);
 
   audio.addEventListener("loadedmetadata", function () {
     applyResumeTime();
@@ -187,8 +194,18 @@
     saveState(true);
   });
   audio.addEventListener("ended", updateBgmVisualState);
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") {
+      syncVolumeControl();
+      saveState(true);
+    }
+  });
   window.addEventListener("pagehide", function () {
-    localStorage.setItem(storagePrefix + "volume", String(audio.volume));
+    syncVolumeControl();
+    saveState(true);
+  });
+  window.addEventListener("beforeunload", function () {
+    syncVolumeControl();
     saveState(true);
   });
 
