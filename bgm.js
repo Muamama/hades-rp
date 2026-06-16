@@ -6,11 +6,9 @@
   const savedTime = Number(sessionStorage.getItem(storagePrefix + "time"));
   const savedTimestamp = Number(sessionStorage.getItem(storagePrefix + "savedAt"));
   const wasPlaying = sessionStorage.getItem(storagePrefix + "playing") === "true";
-  let hasTriedToPlay = false;
   let hasAppliedResumeTime = false;
   let lastPersistedAt = 0;
   let pendingPersist = 0;
-  const gestureEvents = ["pointerdown", "touchstart", "click"];
 
   const audio = document.createElement("audio");
   audio.id = "siteBgmAudio";
@@ -23,7 +21,15 @@
     : defaultVolume;
   localStorage.setItem(storagePrefix + "volume", String(audio.volume));
 
+  const toggle = document.createElement("button");
+  toggle.className = "site-bgm-switch";
+  toggle.type = "button";
+  toggle.setAttribute("aria-label", "開啟音樂");
+  toggle.setAttribute("aria-pressed", "false");
+  toggle.innerHTML = '<span class="site-bgm-switch-icon" aria-hidden="true"></span><span class="site-bgm-switch-text">音樂</span>';
+
   document.body.appendChild(audio);
+  document.body.appendChild(toggle);
 
   function getResumeTime() {
     if (!Number.isFinite(savedTime) || savedTime < 0) return 0;
@@ -50,6 +56,15 @@
 
     audio.currentTime = resumeTime;
     hasAppliedResumeTime = true;
+  }
+
+  function updateBgmVisualState() {
+    const isPlaying = !audio.paused;
+
+    document.body.classList.toggle("bgm-playing", isPlaying);
+    toggle.classList.toggle("is-on", isPlaying);
+    toggle.setAttribute("aria-pressed", String(isPlaying));
+    toggle.setAttribute("aria-label", isPlaying ? "關閉音樂" : "開啟音樂");
   }
 
   function persistState(now) {
@@ -82,82 +97,52 @@
   }
 
   function playBgm() {
-    if (hasTriedToPlay && !audio.paused) return;
+    if (!audio.paused) return Promise.resolve();
 
-    hasTriedToPlay = true;
     applyResumeTime();
     return audio.play()
       .then(function () {
-        removeGestureStartEvents();
+        updateBgmVisualState();
+        saveState(false);
       })
       .catch(function () {
-        hasTriedToPlay = false;
+        updateBgmVisualState();
       });
   }
 
-  function removeGestureStartEvents() {
-    gestureEvents.forEach(function (eventName) {
-      window.removeEventListener(eventName, playBgm, true);
-      document.removeEventListener(eventName, playBgm, true);
-    });
+  function pauseBgm() {
+    audio.pause();
+    updateBgmVisualState();
+    saveState(true);
   }
 
-  function bindStartEvents() {
-    const scrollOptions = { passive: true, once: true, capture: true };
-    const onceOptions = { passive: true, once: true };
-    const prefetchedLinks = new Set();
-
-    window.addEventListener("scroll", playBgm, scrollOptions);
-    document.addEventListener("scroll", playBgm, scrollOptions);
-    window.addEventListener("wheel", playBgm, onceOptions);
-    window.addEventListener("touchmove", playBgm, onceOptions);
-    gestureEvents.forEach(function (eventName) {
-      window.addEventListener(eventName, playBgm, { passive: true, capture: true });
-      document.addEventListener(eventName, playBgm, { passive: true, capture: true });
-    });
-    window.addEventListener("keydown", function (event) {
-      if (["ArrowDown", "ArrowUp", "PageDown", "PageUp", "Home", "End", " "].includes(event.key)) {
-        playBgm();
-      }
-    }, { passive: true });
-
-    document.querySelectorAll("main, .page-wrapper").forEach(function (scrollTarget) {
-      scrollTarget.addEventListener("scroll", playBgm, scrollOptions);
-      scrollTarget.addEventListener("wheel", playBgm, onceOptions);
-      scrollTarget.addEventListener("touchmove", playBgm, onceOptions);
-    });
-
-    function prefetchLink(event) {
-      const link = event.target.closest && event.target.closest("a[href]");
-      if (!link || link.target || link.hasAttribute("download")) return;
-      if (link.origin !== window.location.origin || prefetchedLinks.has(link.href)) return;
-
-      prefetchedLinks.add(link.href);
-      const prefetch = document.createElement("link");
-      prefetch.rel = "prefetch";
-      prefetch.href = link.href;
-      document.head.appendChild(prefetch);
+  toggle.addEventListener("click", function () {
+    if (audio.paused) {
+      playBgm();
+      return;
     }
 
-    document.addEventListener("mouseover", prefetchLink, { passive: true });
-    document.addEventListener("focusin", prefetchLink);
-  }
+    pauseBgm();
+  });
 
   audio.addEventListener("loadedmetadata", applyResumeTime, { once: true });
   audio.addEventListener("timeupdate", function () {
     saveState(false);
   });
   audio.addEventListener("play", function () {
+    updateBgmVisualState();
     saveState(false);
   });
   audio.addEventListener("pause", function () {
+    updateBgmVisualState();
     saveState(true);
   });
+  audio.addEventListener("ended", updateBgmVisualState);
   window.addEventListener("pagehide", function () {
     saveState(true);
   });
 
-  bindStartEvents();
+  updateBgmVisualState();
 
   if (wasPlaying) {
     playBgm();
