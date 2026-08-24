@@ -98,6 +98,398 @@ a {
   isolation: isolate;
 }
 
+/* ===== 單次／季度排行榜切換 ===== */
+.leaderboard-period-panel {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 30px;
+  border: 1px solid rgba(212, 175, 55, 0.24);
+  background:
+    radial-gradient(circle at 82% 0%, rgba(130, 12, 12, 0.2), transparent 38%),
+    linear-gradient(145deg, rgba(31, 17, 17, 0.92), rgba(10, 8, 8, 0.94));
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 234, 185, 0.04);
+}
+
+.leaderboard-period-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.78), transparent);
+  pointer-events: none;
+}
+
+.leaderboard-mode-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.leaderboard-mode-btn {
+  position: relative;
+  display: grid;
+  gap: 5px;
+  min-height: 78px;
+  padding: 15px 20px 14px;
+  border: 0;
+  border-right: 1px solid rgba(212, 175, 55, 0.14);
+  background: transparent;
+  color: #8f7c61;
+  font: inherit;
+  cursor: pointer;
+  transition: color 0.22s ease, background 0.22s ease;
+}
+
+.leaderboard-mode-btn:last-child {
+  border-right: 0;
+}
+
+.leaderboard-mode-btn::after {
+  content: "";
+  position: absolute;
+  right: 22%;
+  bottom: 0;
+  left: 22%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  opacity: 0;
+  transform: scaleX(0.55);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.leaderboard-mode-btn span {
+  color: inherit;
+  font-size: 1.06rem;
+  letter-spacing: 4px;
+}
+
+.leaderboard-mode-btn small {
+  color: #75654f;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.leaderboard-mode-btn:hover {
+  background: rgba(120, 0, 0, 0.1);
+  color: #d8c7a2;
+}
+
+.leaderboard-mode-btn.is-active {
+  background: linear-gradient(180deg, rgba(120, 0, 0, 0.2), rgba(120, 0, 0, 0.05));
+  color: #f3e6c8;
+  text-shadow: 0 0 14px rgba(212, 175, 55, 0.16);
+}
+
+.leaderboard-mode-btn.is-active::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.leaderboard-mode-btn.is-active small {
+  color: #bfae88;
+}
+
+.leaderboard-mode-btn:focus-visible,
+.leaderboard-period-field select:focus-visible,
+.leaderboard-retry-btn:focus-visible {
+  outline: 2px solid rgba(243, 230, 200, 0.72);
+  outline-offset: -3px;
+}
+
+.leaderboard-period-toolbar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding: 22px 24px 10px;
+}
+
+.leaderboard-period-field {
+  display: grid;
+  gap: 8px;
+}
+
+.leaderboard-period-field[hidden] {
+  display: none !important;
+}
+
+.leaderboard-period-field > span {
+  color: #9f8d6d;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+}
+
+.leaderboard-period-field select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 42px 0 14px;
+  border: 1px solid rgba(212, 175, 55, 0.24);
+  border-radius: 0;
+  background:
+    linear-gradient(45deg, transparent 50%, #bfae88 50%) calc(100% - 17px) 19px / 5px 5px no-repeat,
+    linear-gradient(135deg, #bfae88 50%, transparent 50%) calc(100% - 12px) 19px / 5px 5px no-repeat,
+    rgba(7, 6, 6, 0.72);
+  color: #ead9b7;
+  font: inherit;
+  letter-spacing: 1px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.leaderboard-period-field select:disabled {
+  color: #75654f;
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.leaderboard-period-field select option {
+  background: #0d0b0b;
+  color: #ead9b7;
+}
+
+.leaderboard-period-info {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 28px;
+  padding: 22px 24px 26px;
+}
+
+.leaderboard-period-heading-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 9px;
+}
+
+.leaderboard-period-kicker {
+  color: #a98d4f;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+}
+
+.leaderboard-status-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 9px;
+  border: 1px solid rgba(143, 124, 97, 0.3);
+  color: #9f8d6d;
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+}
+
+.leaderboard-status-badge.is-open {
+  border-color: rgba(193, 56, 56, 0.48);
+  background: rgba(120, 0, 0, 0.16);
+  color: #f0b3a4;
+  box-shadow: 0 0 15px rgba(150, 0, 0, 0.11);
+}
+
+.leaderboard-status-badge.is-open::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: #d55b4c;
+  box-shadow: 0 0 7px rgba(213, 91, 76, 0.72);
+  animation: leaderboardStatusPulse 1.8s ease-in-out infinite;
+}
+
+.leaderboard-status-badge.is-closed {
+  border-color: rgba(212, 175, 55, 0.3);
+  color: #c8b486;
+}
+
+.leaderboard-period-info h2 {
+  margin: 0;
+  color: #fff3d0;
+  font-size: clamp(1.35rem, 3vw, 1.8rem);
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.leaderboard-period-info p {
+  margin: 9px 0 0;
+  color: #9f8d6d;
+  font-size: 0.88rem;
+  line-height: 1.75;
+  letter-spacing: 1px;
+}
+
+.leaderboard-season-progress {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 7px 14px;
+  min-width: 160px;
+}
+
+.leaderboard-progress-label {
+  color: #89785d;
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+}
+
+.leaderboard-progress-dots {
+  display: flex;
+  gap: 7px;
+  grid-column: 1;
+}
+
+.leaderboard-progress-dots i {
+  display: block;
+  width: 28px;
+  height: 3px;
+  background: rgba(143, 124, 97, 0.25);
+  box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.04);
+}
+
+.leaderboard-progress-dots i.is-complete {
+  background: #aa8c4e;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
+}
+
+.leaderboard-progress-dots i.is-current {
+  background: #a52f2f;
+  box-shadow: 0 0 8px rgba(165, 47, 47, 0.45);
+}
+
+.leaderboard-season-progress strong {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: #d8c7a2;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.leaderboard-empty {
+  justify-items: center;
+  gap: 7px;
+  padding: 28px 16px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+  background: rgba(7, 6, 6, 0.22);
+}
+
+.leaderboard-empty-mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 3px;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: #aa8c4e;
+}
+
+.leaderboard-empty strong {
+  color: #c7b493;
+  font-size: 0.96rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+
+.leaderboard-empty > span:last-of-type {
+  color: #75654f;
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.leaderboard-empty[data-state="loading"] .leaderboard-empty-mark {
+  animation: leaderboardStateSpin 1.5s linear infinite;
+}
+
+.leaderboard-empty[data-state="error"] .leaderboard-empty-mark {
+  border-color: rgba(193, 56, 56, 0.46);
+  color: #d88778;
+}
+
+.leaderboard-retry-btn {
+  margin-top: 8px;
+  padding: 8px 16px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  background: rgba(120, 0, 0, 0.12);
+  color: #ead9b7;
+  font: inherit;
+  font-size: 0.82rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+}
+
+.leaderboard-retry-btn:hover {
+  background: rgba(120, 0, 0, 0.22);
+}
+
+@keyframes leaderboardStatusPulse {
+  0%, 100% { opacity: 0.56; transform: scale(0.82); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes leaderboardStateSpin {
+  to { transform: rotate(405deg); }
+}
+
+@media (max-width: 700px) {
+  .leaderboard-period-panel {
+    margin-bottom: 24px;
+  }
+
+  .leaderboard-mode-btn {
+    min-height: 70px;
+    padding: 13px 10px 12px;
+  }
+
+  .leaderboard-mode-btn span {
+    font-size: 0.98rem;
+    letter-spacing: 3px;
+  }
+
+  .leaderboard-period-toolbar {
+    grid-template-columns: 1fr;
+    padding: 18px 16px 8px;
+  }
+
+  .leaderboard-period-info {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px 16px 22px;
+  }
+
+  .leaderboard-season-progress {
+    min-width: 0;
+  }
+
+  .leaderboard-period-info h2 {
+    letter-spacing: 2px;
+  }
+
+  .leaderboard-period-info p {
+    font-size: 0.82rem;
+  }
+
+  .leaderboard-summary {
+    gap: 12px;
+  }
+
+  .leaderboard-table {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaderboard-status-badge.is-open::before,
+  .leaderboard-empty[data-state="loading"] .leaderboard-empty-mark {
+    animation: none;
+  }
+}
+
 main {
   position: relative;
   isolation: isolate;

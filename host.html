@@ -112,21 +112,6 @@
       </div>
     </section>
 
-    <section class="admin-inline-section hidden-admin" id="adminInlineSection">
-      <div class="admin-inline-card">
-        <h2 class="admin-inline-title">管理員模式</h2>
-
-        <div class="admin-inline-grid">
-          <input id="adminEmail" class="admin-inline-input" type="email" placeholder="管理員 Email" />
-          <input id="adminPassword" class="admin-inline-input" type="password" placeholder="管理員密碼" />
-          <button id="loginBtn" class="admin-inline-btn" type="button">登入</button>
-          <button id="logoutBtn" class="admin-inline-btn ghost" type="button">登出</button>
-        </div>
-
-        <p id="authMessage" class="admin-inline-message">未登入。登入後可直接在獄犬卡片上打賞。</p>
-      </div>
-    </section>
-
     <section class="host-group special-group">
       <h2 class="host-group-title special-title">困獸狂犬</h2>
 
@@ -322,29 +307,6 @@
         <p id="hostPopupDesc"></p>
       </div>
 
-      <div class="host-admin-panel locked hidden-admin" id="hostAdminPanel">
-        <h4>管理員打賞</h4>
-
-        <div class="host-admin-actions">
-          <button class="host-tip-btn" data-amount="10000" type="button">餘燼供奉・10,000</button>
-          <button class="host-tip-btn" data-amount="30000" type="button">狂火獻祭・30,000</button>
-          <button class="host-tip-btn" data-amount="50000" type="button">深淵降臨・50,000</button>
-        </div>
-
-        <div class="host-admin-custom">
-          <input
-            id="customAmountInput"
-            class="host-admin-input"
-            type="number"
-            min="1"
-            step="1"
-            placeholder="自訂金額（GIL）"
-          />
-          <button id="customTipBtn" class="host-tip-btn wide" type="button">送出自訂打賞</button>
-        </div>
-
-        <p id="tipMessage" class="host-admin-message">登入管理員後可替獄犬增加打賞。</p>
-      </div>
     </div>
   </div>
 
@@ -358,63 +320,21 @@
       DISCORD
     </a>
   </footer>
-  <script type="module">
-    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-    const SUPABASE_URL = "https://jzhbqavasikwpxbqjksu.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_KFcwagT3Ho1ivjPv3Oq9zw_FNIaBVpX";
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    const adminEmail = document.getElementById("adminEmail");
-    const adminPassword = document.getElementById("adminPassword");
-    const loginBtn = document.getElementById("loginBtn");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const authMessage = document.getElementById("authMessage");
-    const adminInlineSection = document.getElementById("adminInlineSection");
-    const hostAdminPanel = document.getElementById("hostAdminPanel");
-
+  <script>
     const hostCards = document.querySelectorAll(".host-card");
     const hostPopupOverlay = document.getElementById("hostPopupOverlay");
     const hostPopupClose = document.getElementById("hostPopupClose");
     const hostPopupImage = document.getElementById("hostPopupImage");
     const hostPopupName = document.getElementById("hostPopupName");
     const hostPopupDesc = document.getElementById("hostPopupDesc");
-    const tipMessage = document.getElementById("tipMessage");
-    const customAmountInput = document.getElementById("customAmountInput");
-    const customTipBtn = document.getElementById("customTipBtn");
-    const tipButtons = document.querySelectorAll(".host-tip-btn[data-amount]");
-
     const menuToggle = document.getElementById("menuToggle");
     const mobileMenu = document.getElementById("mobileMenu");
     const siteHeader = document.querySelector(".site-header");
 
     let currentHost = null;
-    let currentUser = null;
 
     function normalizeHostName(name) {
       return name ? name.trim() : "";
-    }
-
-    function updateAdminVisibility() {
-      if (currentUser) {
-        adminInlineSection.classList.remove("hidden-admin");
-        hostAdminPanel.classList.remove("hidden-admin");
-      } else {
-        adminInlineSection.classList.add("hidden-admin");
-        hostAdminPanel.classList.add("hidden-admin");
-      }
-    }
-
-    function updateAdminPanelState() {
-      updateAdminVisibility();
-
-      if (currentUser) {
-        hostAdminPanel.classList.remove("locked");
-        tipMessage.textContent = `已登入管理員，可替 ${currentHost?.name || "目前獄犬"} 增加打賞。`;
-      } else {
-        hostAdminPanel.classList.add("locked");
-        tipMessage.textContent = "尚未登入管理員，無法送出打賞。";
-      }
     }
 
     function openHostPopup(card) {
@@ -429,8 +349,6 @@
       hostPopupName.textContent = currentHost.name;
       hostPopupDesc.textContent = currentHost.desc;
 
-      updateAdminPanelState();
-
       hostPopupOverlay.classList.add("show");
       document.body.classList.add("popup-open");
     }
@@ -439,10 +357,6 @@
       hostPopupOverlay.classList.remove("show");
       document.body.classList.remove("popup-open");
       currentHost = null;
-      customAmountInput.value = "";
-      tipMessage.textContent = currentUser
-        ? "已登入管理員，可替目前獄犬增加打賞。"
-        : "登入管理員後可替目前獄犬增加打賞。";
     }
 
     function triggerDogCharge(event) {
@@ -475,79 +389,6 @@
       document.body.appendChild(bite);
       setTimeout(() => charge.remove(), 700);
       setTimeout(() => bite.remove(), 700);
-    }
-
-    async function checkSession() {
-      const { data, error } = await supabase.auth.getSession();
-
-      if (error) {
-        authMessage.textContent = "登入狀態檢查失敗。";
-        console.error(error);
-        currentUser = null;
-        updateAdminPanelState();
-        return null;
-      }
-
-      currentUser = data.session?.user || null;
-
-      if (currentUser) {
-        authMessage.textContent = `已登入：${currentUser.email}`;
-      } else {
-        authMessage.textContent = "未登入。";
-      }
-
-      updateAdminPanelState();
-      return currentUser;
-    }
-
-    async function addTipToHost(amount) {
-      if (!currentUser) {
-        tipMessage.textContent = "請先登入管理員帳號。";
-        return;
-      }
-
-      if (!currentHost) {
-        tipMessage.textContent = "請先選擇獄犬。";
-        return;
-      }
-
-      if (!amount || amount <= 0) {
-        tipMessage.textContent = "請輸入正確金額。";
-        return;
-      }
-
-      const { data: currentRow, error: fetchError } = await supabase
-        .from("host_leaderboard")
-        .select("host_name, tip_count, total_amount")
-        .eq("host_name", currentHost.name)
-        .single();
-
-      if (fetchError) {
-        tipMessage.textContent = "讀取獄犬資料失敗。";
-        console.error(fetchError);
-        return;
-      }
-
-      const newTipCount = (currentRow.tip_count || 0) + 1;
-      const newTotalAmount = (currentRow.total_amount || 0) + amount;
-
-      const { error: updateError } = await supabase
-        .from("host_leaderboard")
-        .update({
-          tip_count: newTipCount,
-          total_amount: newTotalAmount,
-          updated_at: new Date().toISOString()
-        })
-        .eq("host_name", currentHost.name);
-
-      if (updateError) {
-        tipMessage.textContent = "更新失敗，請確認你是否為管理員，或該獄犬是否已建立在排行榜資料表。";
-        console.error(updateError);
-        return;
-      }
-
-      tipMessage.textContent = `已為 ${currentHost.name} 增加 ${amount.toLocaleString()} GIL。`;
-      customAmountInput.value = "";
     }
 
     function setupMobileMenu() {
@@ -610,22 +451,6 @@
         });
       });
     }
-    function setupTipButtons() {
-      tipButtons.forEach((btn) => {
-        btn.addEventListener("click", async (e) => {
-          e.stopPropagation();
-          const amount = Number(btn.dataset.amount);
-          await addTipToHost(amount);
-        });
-      });
-
-      customTipBtn.addEventListener("click", async (e) => {
-        e.stopPropagation();
-        const amount = Number(customAmountInput.value);
-        await addTipToHost(amount);
-      });
-    }
-
     function setupPopupEvents() {
       hostPopupClose.addEventListener("click", closeHostPopup);
 
@@ -642,54 +467,10 @@
       });
     }
 
-    function setupAuthButtons() {
-      loginBtn.addEventListener("click", async () => {
-        const email = adminEmail.value.trim();
-        const password = adminPassword.value;
-
-        if (!email || !password) {
-          authMessage.textContent = "請輸入 Email 與密碼。";
-          return;
-        }
-
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password
-        });
-
-        if (error) {
-          authMessage.textContent = "登入失敗。";
-          console.error(error);
-          return;
-        }
-
-        currentUser = data.user;
-        authMessage.textContent = `已登入：${data.user.email}`;
-        updateAdminPanelState();
-      });
-
-      logoutBtn.addEventListener("click", async () => {
-        const { error } = await supabase.auth.signOut();
-
-        if (error) {
-          authMessage.textContent = "登出失敗。";
-          console.error(error);
-          return;
-        }
-
-        currentUser = null;
-        authMessage.textContent = "已登出。";
-        updateAdminPanelState();
-      });
-    }
-
     setupMobileMenu();
     setupHeaderScrollEffect();
     setupHostCards();
-    setupTipButtons();
     setupPopupEvents();
-    setupAuthButtons();
-    checkSession();
   </script>
 <script src="cursor.js?v=20260612-mobile-tabs6"></script>
   <script src="bgm.js?v=20260617-bgm-peek-tucked"></script>

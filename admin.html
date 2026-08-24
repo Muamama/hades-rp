@@ -298,6 +298,309 @@
       font-size: 0.92rem;
     }
 
+    .ranking-toolbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .ranking-toolbar .admin-actions {
+      margin-top: 0;
+    }
+
+    .ranking-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 30px;
+      margin-top: 10px;
+      padding: 6px 12px;
+      border: 1px solid rgba(212,175,55,0.24);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.035);
+      color: #d9c898;
+      font-size: 0.84rem;
+      letter-spacing: 0.05em;
+    }
+
+    .ranking-status-pill::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #b6aa86;
+      box-shadow: 0 0 10px rgba(182,170,134,0.38);
+    }
+
+    .ranking-status-pill.open {
+      color: #c7f3d1;
+      border-color: rgba(98,180,118,0.3);
+      background: rgba(98,180,118,0.08);
+    }
+
+    .ranking-status-pill.open::before {
+      background: #78d38e;
+      box-shadow: 0 0 12px rgba(120,211,142,0.56);
+    }
+
+    .ranking-status-pill.closed {
+      color: rgba(255,255,255,0.58);
+    }
+
+    .ranking-context-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(280px, 0.75fr);
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .ranking-panel {
+      min-width: 0;
+      padding: 20px;
+      border: 1px solid rgba(212,175,55,0.16);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .ranking-panel-title {
+      margin: 0 0 14px;
+      color: #f1d38b;
+      font-size: 1rem;
+      letter-spacing: 0.07em;
+    }
+
+    .ranking-season-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 28px;
+      margin-top: 12px;
+      color: rgba(255,255,255,0.64);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .ranking-session-slots {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .ranking-session-slot {
+      min-width: 0;
+      padding: 13px 12px;
+      border: 1px solid rgba(212,175,55,0.14);
+      border-radius: 14px;
+      background: rgba(0,0,0,0.22);
+      color: rgba(255,255,255,0.66);
+      cursor: pointer;
+      text-align: left;
+      transition: 0.22s ease;
+    }
+
+    .ranking-session-slot:hover,
+    .ranking-session-slot.selected {
+      border-color: rgba(212,175,55,0.48);
+      background: rgba(212,175,55,0.08);
+      color: #f7e9c5;
+    }
+
+    .ranking-session-slot.open {
+      border-color: rgba(98,180,118,0.34);
+    }
+
+    .ranking-session-slot.closed {
+      opacity: 0.72;
+    }
+
+    .ranking-session-slot strong,
+    .ranking-session-slot small {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .ranking-session-slot strong {
+      margin-bottom: 5px;
+      color: inherit;
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .ranking-session-slot small {
+      color: rgba(255,255,255,0.48);
+      font-size: 0.78rem;
+    }
+
+    .ranking-session-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr 1fr;
+      gap: 16px 18px;
+    }
+
+    .ranking-entry-grid {
+      display: grid;
+      grid-template-columns: 1fr 0.8fr 1.2fr;
+      gap: 16px 18px;
+    }
+
+    .ranking-help {
+      margin: 14px 0 0;
+      color: rgba(255,255,255,0.54);
+      font-size: 0.86rem;
+      line-height: 1.8;
+    }
+
+    .ranking-btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .admin-btn:disabled {
+      opacity: 0.42;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .ranking-results-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .ranking-results-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .ranking-results-head .ranking-panel-title {
+      margin: 0;
+    }
+
+    .ranking-view-switch {
+      display: inline-flex;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 999px;
+      background: rgba(0,0,0,0.28);
+    }
+
+    .ranking-view-btn {
+      min-height: 34px;
+      border: 0;
+      border-radius: 999px;
+      padding: 7px 13px;
+      background: transparent;
+      color: rgba(255,255,255,0.58);
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .ranking-view-btn.active {
+      background: rgba(212,175,55,0.16);
+      color: #f4dc9d;
+    }
+
+    .ranking-table-head,
+    .ranking-table-row {
+      display: grid;
+      grid-template-columns: 42px minmax(90px, 1fr) minmax(110px, 0.8fr) 66px;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .ranking-table-head {
+      padding: 0 12px 10px;
+      color: rgba(241,211,139,0.84);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    .ranking-table-row {
+      padding: 12px;
+      border-top: 1px solid rgba(212,175,55,0.1);
+      color: rgba(255,255,255,0.78);
+      font-size: 0.9rem;
+    }
+
+    .ranking-table-row strong {
+      color: #f5e4bb;
+      font-weight: 600;
+    }
+
+    .ranking-table-rank {
+      color: #d4af37;
+      font-weight: 700;
+    }
+
+    .ranking-table-amount {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ranking-table-count {
+      text-align: right;
+      color: rgba(255,255,255,0.48);
+    }
+
+    .ranking-audit-list {
+      display: flex;
+      flex-direction: column;
+      max-height: 390px;
+      overflow: auto;
+    }
+
+    .ranking-audit-row {
+      display: grid;
+      grid-template-columns: minmax(100px, 0.85fr) minmax(90px, 0.75fr) minmax(105px, 0.8fr) minmax(110px, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 4px;
+      border-top: 1px solid rgba(212,175,55,0.1);
+      color: rgba(255,255,255,0.68);
+      font-size: 0.84rem;
+    }
+
+    .ranking-audit-row:first-child {
+      border-top: 0;
+    }
+
+    .ranking-audit-row.reversed {
+      opacity: 0.5;
+    }
+
+    .ranking-audit-amount {
+      color: #f1d38b;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ranking-audit-note {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .ranking-empty {
+      padding: 22px 8px;
+      color: rgba(255,255,255,0.48);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
     .lock-screen {
       position: fixed;
       inset: 0;
@@ -594,6 +897,10 @@
     @media (max-width: 1080px) {
       .admin-form-grid,
       .admin-form-grid.schedule-create,
+      .ranking-context-grid,
+      .ranking-session-grid,
+      .ranking-entry-grid,
+      .ranking-results-grid,
       .schedule-row,
       .schedule-head,
       .booking-head,
@@ -617,6 +924,29 @@
     }
 
     @media (max-width: 560px) {
+      .ranking-session-slots {
+        grid-template-columns: 1fr;
+      }
+
+      .ranking-results-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .ranking-table-head,
+      .ranking-table-row {
+        grid-template-columns: 34px minmax(72px, 1fr) minmax(88px, 0.9fr) 46px;
+        gap: 7px;
+        padding-left: 6px;
+        padding-right: 6px;
+        font-size: 0.78rem;
+      }
+
+      .ranking-audit-row {
+        grid-template-columns: 1fr;
+        align-items: flex-start;
+      }
+
       .admin-love-popup {
         right: 16px;
         bottom: 16px;
@@ -627,6 +957,27 @@
 
       .admin-love-popup-message {
         font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      html {
+        height: auto !important;
+        min-height: 100%;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+      }
+
+      body {
+        height: auto !important;
+        min-height: 100dvh;
+        overflow-x: hidden !important;
+        overflow-y: visible !important;
+      }
+
+      body.modal-locked {
+        height: 100dvh !important;
+        overflow: hidden !important;
       }
     }
 
@@ -828,44 +1179,129 @@ document.addEventListener('DOMContentLoaded', function () {
           <p id="authMessage" class="admin-message">請先登入管理員帳號。</p>
         </div>
 
-        <!-- 排行榜 -->
+        <!-- 營業排行榜 -->
         <div class="admin-card">
-          <h2 class="admin-title">排行榜管理</h2>
+          <div class="ranking-toolbar">
+            <div>
+              <h2 class="admin-title" style="margin-bottom: 6px;">營業排行榜管理</h2>
+              <div class="inline-status">每季固定三次營業；可管理單次榜與季度總榜</div>
+              <span id="rankingSeasonStatus" class="ranking-status-pill">尚未載入</span>
+            </div>
 
-          <div class="admin-form-grid">
+            <div class="admin-actions">
+              <button id="reloadRankingBtn" class="admin-btn ghost" type="button">重新讀取排行榜</button>
+            </div>
+          </div>
+
+          <div class="ranking-context-grid">
+            <div class="ranking-panel">
+              <h3 class="ranking-panel-title">目前季度與三次營業</h3>
+              <label class="admin-label">
+                <span>季度</span>
+                <select id="rankingSeasonSelect" class="admin-input admin-select">
+                  <option value="">讀取中...</option>
+                </select>
+              </label>
+              <div class="ranking-season-meta">
+                <span id="rankingSeasonMeta">選擇季度後即可管理</span>
+                <span>固定 3 場</span>
+              </div>
+              <div id="rankingSessionSlots" class="ranking-session-slots" aria-label="季度營業場次">
+                <button class="ranking-session-slot" type="button" disabled><strong>第 1 次營業</strong><small>尚未建立</small></button>
+                <button class="ranking-session-slot" type="button" disabled><strong>第 2 次營業</strong><small>尚未建立</small></button>
+                <button class="ranking-session-slot" type="button" disabled><strong>第 3 次營業</strong><small>尚未建立</small></button>
+              </div>
+            </div>
+
+            <div class="ranking-panel">
+              <h3 class="ranking-panel-title">建立下一季度</h3>
+              <label class="admin-label">
+                <span>季度顯示名稱</span>
+                <input id="rankingNewSeasonLabel" class="admin-input" type="text" maxlength="60" placeholder="例如 2026 第三季" />
+              </label>
+              <div class="ranking-btn-row">
+                <button id="createRankingSeasonBtn" class="admin-btn" type="button">建立季度</button>
+              </div>
+              <p class="ranking-help">建立後由資料庫一次產生三個營業場次。已有未完成季度時，請先完成三次營業。</p>
+            </div>
+          </div>
+
+          <div class="admin-divider"></div>
+
+          <h3 class="ranking-panel-title">單次營業控制</h3>
+          <div class="ranking-session-grid">
             <label class="admin-label">
-              <span>店員</span>
-              <select id="hostSelect" class="admin-input admin-select">
-                <option value="刻耳柏洛斯">刻耳柏洛斯</option>
-                <option value="厄耳特洛斯">厄耳特洛斯</option>
-                <option value="龍冽">龍冽</option>
-                <option value="安怛">安怛</option>
-                <option value="Jazper">Jazper</option>
-                <option value="格斯亞德">格斯亞德</option>
-                <option value="蛇魂">蛇魂</option>
-                <option value="法拉歐">法拉歐</option>
-                <option value="牛奶">牛奶</option>
-                <option value="埃伊諾">埃伊諾</option>
-                <option value="洛德勒斯">洛德勒斯</option>
-                <option value="甲醛">甲醛</option>
-                <option value="著魔">著魔</option>
-                <option value="曹爺">曹爺</option>
-                <option value="萊特">萊特</option>
-                <option value="孲絮">孲絮</option>
+              <span>營業場次</span>
+              <select id="rankingSessionSelect" class="admin-input admin-select">
+                <option value="">請先選擇季度</option>
               </select>
             </label>
-
             <label class="admin-label">
-              <span>增加金額（GIL）</span>
-              <input id="amountInput" class="admin-input" type="number" min="1" step="1" placeholder="例如 10000" />
+              <span>營業日期</span>
+              <input id="rankingBusinessDate" class="admin-input" type="date" />
+            </label>
+            <label class="admin-label">
+              <span>場次名稱（選填）</span>
+              <input id="rankingSessionLabel" class="admin-input" type="text" maxlength="60" placeholder="例如 七月冥夜" />
             </label>
           </div>
-
-          <div class="admin-actions">
-            <button id="addAmountBtn" class="admin-btn" type="button">增加金額</button>
+          <div class="ranking-btn-row">
+            <button id="openRankingSessionBtn" class="admin-btn" type="button">開啟本次營業</button>
+            <button id="closeRankingSessionBtn" class="admin-btn danger" type="button">結束並封榜</button>
           </div>
+          <p class="ranking-help">同一時間只會有一場營業開啟；第三場封榜後，該季度會一併完成封榜。</p>
 
-          <p id="adminMessage" class="admin-message">登入後才可修改排行榜。</p>
+          <div class="admin-divider"></div>
+
+          <h3 class="ranking-panel-title">增加排行榜金額</h3>
+          <div class="ranking-entry-grid">
+            <label class="admin-label">
+              <span>店員</span>
+              <select id="rankingHostSelect" class="admin-input admin-select">
+                <option value="">由資料庫讀取中...</option>
+              </select>
+            </label>
+            <label class="admin-label">
+              <span>增加金額（GIL）</span>
+              <input id="rankingAmountInput" class="admin-input" type="number" min="1" step="1" inputmode="numeric" placeholder="例如 50000" />
+            </label>
+            <label class="admin-label">
+              <span>操作備註（選填）</span>
+              <input id="rankingNoteInput" class="admin-input" type="text" maxlength="160" placeholder="例如 現場加額" />
+            </label>
+          </div>
+          <div class="ranking-btn-row">
+            <button id="addRankingAmountBtn" class="admin-btn" type="button">增加至單次與季度榜</button>
+          </div>
+          <p id="adminMessage" class="admin-message">登入後才可管理營業排行榜。</p>
+
+          <div class="ranking-results-grid">
+            <div class="ranking-panel">
+              <div class="ranking-results-head">
+                <h3 id="rankingStandingsTitle" class="ranking-panel-title">單次排行榜</h3>
+                <div class="ranking-view-switch" role="group" aria-label="排行榜範圍">
+                  <button class="ranking-view-btn active" type="button" data-ranking-view="session">單次</button>
+                  <button class="ranking-view-btn" type="button" data-ranking-view="season">季度</button>
+                </div>
+              </div>
+              <div class="ranking-table-head" aria-hidden="true">
+                <span>名次</span><span>店員</span><span style="text-align:right;">金額</span><span style="text-align:right;">次數</span>
+              </div>
+              <div id="rankingStandings" aria-live="polite">
+                <div class="ranking-empty">登入後讀取排行榜</div>
+              </div>
+            </div>
+
+            <div class="ranking-panel">
+              <div class="ranking-results-head">
+                <h3 class="ranking-panel-title">最近操作紀錄</h3>
+                <span class="inline-status">僅能沖銷，不直接刪除</span>
+              </div>
+              <div id="rankingAuditList" class="ranking-audit-list" aria-live="polite">
+                <div class="ranking-empty">登入後讀取操作紀錄</div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- 時間表 -->
@@ -1017,9 +1453,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const refreshSessionBtn = document.getElementById("refreshSessionBtn");
     const authMessage = document.getElementById("authMessage");
 
-    const hostSelect = document.getElementById("hostSelect");
-    const amountInput = document.getElementById("amountInput");
-    const addAmountBtn = document.getElementById("addAmountBtn");
+    const rankingSeasonStatus = document.getElementById("rankingSeasonStatus");
+    const rankingSeasonSelect = document.getElementById("rankingSeasonSelect");
+    const rankingSeasonMeta = document.getElementById("rankingSeasonMeta");
+    const rankingSessionSlots = document.getElementById("rankingSessionSlots");
+    const rankingNewSeasonLabel = document.getElementById("rankingNewSeasonLabel");
+    const createRankingSeasonBtn = document.getElementById("createRankingSeasonBtn");
+    const rankingSessionSelect = document.getElementById("rankingSessionSelect");
+    const rankingBusinessDate = document.getElementById("rankingBusinessDate");
+    const rankingSessionLabel = document.getElementById("rankingSessionLabel");
+    const openRankingSessionBtn = document.getElementById("openRankingSessionBtn");
+    const closeRankingSessionBtn = document.getElementById("closeRankingSessionBtn");
+    const rankingHostSelect = document.getElementById("rankingHostSelect");
+    const rankingAmountInput = document.getElementById("rankingAmountInput");
+    const rankingNoteInput = document.getElementById("rankingNoteInput");
+    const addRankingAmountBtn = document.getElementById("addRankingAmountBtn");
+    const reloadRankingBtn = document.getElementById("reloadRankingBtn");
+    const rankingStandingsTitle = document.getElementById("rankingStandingsTitle");
+    const rankingStandings = document.getElementById("rankingStandings");
+    const rankingAuditList = document.getElementById("rankingAuditList");
+    const rankingViewButtons = [...document.querySelectorAll("[data-ranking-view]")];
     const adminMessage = document.getElementById("adminMessage");
 
     const newScheduleName = document.getElementById("newScheduleName");
@@ -1038,7 +1491,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let scheduleChannel = null;
     let bookingChannel = null;
+    let rankingChannel = null;
+    let rankingReloadTimer = null;
     let adminLovePopupShown = false;
+    let rankingSeasons = [];
+    let rankingSessions = [];
+    let selectedRankingSeasonId = null;
+    let selectedRankingSessionId = null;
+    let rankingView = "session";
 
     function setMessage(el, text, type = "") {
       el.textContent = text;
@@ -1096,7 +1556,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       setMessage(authMessage, `已登入：${user.email}`, "success");
-      setMessage(adminMessage, "已通過管理員驗證，可以增加金額。", "success");
+      setMessage(adminMessage, "已通過管理員驗證，可以管理營業排行榜。", "success");
       setMessage(scheduleMessage, "已通過管理員驗證，可以管理時間表。", "success");
       setMessage(bookingMessage, "已通過管理員驗證，可以查看預約資料。", "success");
       showAdminLovePopup();
@@ -1110,6 +1570,8 @@ document.addEventListener('DOMContentLoaded', function () {
       document.body.classList.add("modal-locked");
       bookingList.innerHTML = "";
       scheduleList.innerHTML = "";
+      rankingStandings.innerHTML = `<div class="ranking-empty">登入後讀取排行榜</div>`;
+      rankingAuditList.innerHTML = `<div class="ranking-empty">登入後讀取操作紀錄</div>`;
     }
 
     async function checkSession(showMessage = true) {
@@ -1182,8 +1644,18 @@ document.addEventListener('DOMContentLoaded', function () {
         bookingChannel = null;
       }
 
+      if (rankingChannel) {
+        supabase.removeChannel(rankingChannel);
+        rankingChannel = null;
+      }
+
+      if (rankingReloadTimer) {
+        clearTimeout(rankingReloadTimer);
+        rankingReloadTimer = null;
+      }
+
       setMessage(authMessage, "已登出。");
-      setMessage(adminMessage, "登入後才可修改排行榜。");
+      setMessage(adminMessage, "登入後才可管理營業排行榜。");
       setMessage(scheduleMessage, "登入後才可修改時間表。");
       setMessage(bookingMessage, "登入後才可查看預約資料。");
       setLockMessage("請先登入管理員帳號。");
@@ -1191,53 +1663,523 @@ document.addEventListener('DOMContentLoaded', function () {
       closeProtectedContent();
     }
 
-    async function addAmount() {
-      const user = await checkSession();
+    function rankingStatusText(status, kind = "session") {
+      if (status === "open") return "進行中";
+      if (status === "closed") return "已封榜";
+      return kind === "season" ? "尚未開始" : "未開啟";
+    }
+
+    function formatGil(value) {
+      const amount = Number(value ?? 0);
+      return Number.isFinite(amount) ? amount.toLocaleString("zh-TW") : "0";
+    }
+
+    function rpcResult(data) {
+      return Array.isArray(data) ? data[0] : data;
+    }
+
+    function newIdempotencyKey() {
+      if (globalThis.crypto?.randomUUID) return globalThis.crypto.randomUUID();
+      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (char) => {
+        const random = Math.floor(Math.random() * 16);
+        const value = char === "x" ? random : (random & 0x3) | 0x8;
+        return value.toString(16);
+      });
+    }
+
+    function selectedRankingSeason() {
+      return rankingSeasons.find((item) => Number(item.id) === Number(selectedRankingSeasonId)) ?? null;
+    }
+
+    function selectedRankingSession() {
+      return rankingSessions.find((item) => Number(item.id) === Number(selectedRankingSessionId)) ?? null;
+    }
+
+    function setRankingButtonBusy(button, busy, busyText = "處理中...") {
+      if (busy) {
+        button.dataset.idleText = button.textContent;
+        button.textContent = busyText;
+        button.disabled = true;
+        return;
+      }
+
+      if (button.dataset.idleText) button.textContent = button.dataset.idleText;
+      delete button.dataset.idleText;
+      updateRankingControls();
+    }
+
+    function updateRankingControls() {
+      const season = selectedRankingSeason();
+      const session = selectedRankingSession();
+      const hasUnfinishedSeason = rankingSeasons.some((item) => item.status !== "closed");
+      const isDraft = session?.status === "draft";
+      const isOpen = session?.status === "open";
+
+      createRankingSeasonBtn.disabled = hasUnfinishedSeason;
+      rankingBusinessDate.disabled = !isDraft;
+      rankingSessionLabel.disabled = !isDraft;
+      openRankingSessionBtn.disabled = !isDraft;
+      closeRankingSessionBtn.disabled = !isOpen;
+      addRankingAmountBtn.disabled = !isOpen;
+
+      rankingSeasonStatus.className = "ranking-status-pill";
+      if (season?.status === "open") rankingSeasonStatus.classList.add("open");
+      if (season?.status === "closed") rankingSeasonStatus.classList.add("closed");
+      rankingSeasonStatus.textContent = season
+        ? `第 ${season.season_number} 季 · ${rankingStatusText(season.status, "season")}`
+        : "尚未建立季度";
+
+      rankingSeasonMeta.textContent = season
+        ? `${season.label} · ${rankingStatusText(season.status, "season")}`
+        : "建立第一個季度後即可開始";
+    }
+
+    function renderRankingSeasonOptions() {
+      if (rankingSeasons.length === 0) {
+        rankingSeasonSelect.innerHTML = `<option value="">目前沒有季度</option>`;
+        selectedRankingSeasonId = null;
+        updateRankingControls();
+        return;
+      }
+
+      const stillExists = rankingSeasons.some((item) => Number(item.id) === Number(selectedRankingSeasonId));
+      if (!stillExists) {
+        const preferred =
+          rankingSeasons.find((item) => item.status === "open") ??
+          rankingSeasons.find((item) => item.status === "draft") ??
+          rankingSeasons[0];
+        selectedRankingSeasonId = preferred.id;
+      }
+
+      rankingSeasonSelect.innerHTML = rankingSeasons
+        .map((item) => `
+          <option value="${item.id}" ${Number(item.id) === Number(selectedRankingSeasonId) ? "selected" : ""}>
+            第 ${item.season_number} 季｜${escapeHtml(item.label)}｜${rankingStatusText(item.status, "season")}
+          </option>
+        `)
+        .join("");
+
+      updateRankingControls();
+    }
+
+    function renderRankingSessions() {
+      const sessionByNumber = new Map(rankingSessions.map((item) => [Number(item.session_number), item]));
+
+      rankingSessionSlots.innerHTML = [1, 2, 3]
+        .map((sessionNumber) => {
+          const item = sessionByNumber.get(sessionNumber);
+          if (!item) {
+            return `<button class="ranking-session-slot" type="button" disabled><strong>第 ${sessionNumber} 次營業</strong><small>尚未建立</small></button>`;
+          }
+
+          const isSelected = Number(item.id) === Number(selectedRankingSessionId);
+          const detail = item.business_date || rankingStatusText(item.status);
+          return `
+            <button
+              class="ranking-session-slot ${escapeHtml(item.status)} ${isSelected ? "selected" : ""}"
+              type="button"
+              data-ranking-session-id="${item.id}"
+              aria-pressed="${isSelected ? "true" : "false"}"
+            >
+              <strong>${escapeHtml(item.label || `第 ${sessionNumber} 次營業`)}</strong>
+              <small>${escapeHtml(detail)} · ${rankingStatusText(item.status)}</small>
+            </button>
+          `;
+        })
+        .join("");
+
+      if (rankingSessions.length === 0) {
+        rankingSessionSelect.innerHTML = `<option value="">沒有營業場次</option>`;
+      } else {
+        rankingSessionSelect.innerHTML = rankingSessions
+          .map((item) => `
+            <option value="${item.id}" ${Number(item.id) === Number(selectedRankingSessionId) ? "selected" : ""}>
+              第 ${item.session_number} 次營業｜${escapeHtml(item.label || "尚未命名")}｜${rankingStatusText(item.status)}
+            </option>
+          `)
+          .join("");
+      }
+
+      const session = selectedRankingSession();
+      rankingBusinessDate.value = session?.business_date ?? "";
+      rankingSessionLabel.value = session?.label ?? "";
+      updateRankingControls();
+    }
+
+    function renderRankingStandings(rows) {
+      if (!rows || rows.length === 0) {
+        rankingStandings.innerHTML = `<div class="ranking-empty">此排行榜目前沒有金額紀錄</div>`;
+        return;
+      }
+
+      rankingStandings.innerHTML = rows
+        .map((item, index) => `
+          <div class="ranking-table-row">
+            <span class="ranking-table-rank">${index + 1}</span>
+            <strong>${escapeHtml(item.host_name)}</strong>
+            <span class="ranking-table-amount">${formatGil(item.total_amount)} GIL</span>
+            <span class="ranking-table-count">${formatGil(item.tip_count)}</span>
+          </div>
+        `)
+        .join("");
+    }
+
+    function renderRankingAudit(events) {
+      if (!events || events.length === 0) {
+        rankingAuditList.innerHTML = `<div class="ranking-empty">本場營業尚無操作紀錄</div>`;
+        return;
+      }
+
+      const reversedEventIds = new Set(
+        events
+          .filter((item) => item.reversal_of_event_id != null)
+          .map((item) => Number(item.reversal_of_event_id))
+      );
+      const session = selectedRankingSession();
+
+      rankingAuditList.innerHTML = events
+        .map((item) => {
+          const isReversal = item.reversal_of_event_id != null || Number(item.amount_delta) < 0;
+          const isReversed = reversedEventIds.has(Number(item.id));
+          const canReverse = !isReversal && !isReversed && session?.status === "open";
+          const amountPrefix = Number(item.amount_delta) > 0 ? "+" : "";
+          const note = isReversal
+            ? `沖銷 #${item.reversal_of_event_id}`
+            : item.note || "未填備註";
+
+          return `
+            <div class="ranking-audit-row ${isReversal || isReversed ? "reversed" : ""}">
+              <span>${escapeHtml(formatDateTime(item.created_at))}</span>
+              <strong>${escapeHtml(item.host_name)}</strong>
+              <span class="ranking-audit-amount">${amountPrefix}${formatGil(item.amount_delta)} GIL</span>
+              <span class="ranking-audit-note" title="${escapeHtml(note)}">${escapeHtml(note)}<br><small>${escapeHtml(item.created_by_email || "管理員")}</small></span>
+              ${
+                canReverse
+                  ? `<button class="admin-btn danger delete-btn" type="button" data-ranking-reverse-id="${item.id}">沖銷</button>`
+                  : `<span>${isReversed ? "已沖銷" : ""}</span>`
+              }
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    async function loadRankingHosts() {
+      const previousValue = rankingHostSelect.value;
+      const { data, error } = await supabase
+        .from("host_leaderboard")
+        .select("host_name")
+        .order("host_name", { ascending: true });
+
+      if (error) {
+        console.error(error);
+        rankingHostSelect.innerHTML = `<option value="">店員名單讀取失敗</option>`;
+        return false;
+      }
+
+      const hosts = (data ?? [])
+        .map((item) => item.host_name)
+        .filter(Boolean)
+        .sort((a, b) => a.localeCompare(b, "zh-Hant"));
+
+      rankingHostSelect.innerHTML = [
+        `<option value="">請選擇店員</option>`,
+        ...hosts.map((hostName) => `<option value="${escapeHtml(hostName)}">${escapeHtml(hostName)}</option>`)
+      ].join("");
+
+      if (hosts.includes(previousValue)) rankingHostSelect.value = previousValue;
+      return true;
+    }
+
+    async function loadRankingSeasons() {
+      const { data, error } = await supabase
+        .from("leaderboard_seasons")
+        .select("id, season_number, label, status, is_visible, created_at, opened_at, closed_at")
+        .order("season_number", { ascending: false });
+
+      if (error) {
+        console.error(error);
+        rankingSeasons = [];
+        rankingSeasonSelect.innerHTML = `<option value="">季度讀取失敗</option>`;
+        rankingSeasonStatus.textContent = "季度讀取失敗";
+        rankingStandings.innerHTML = `<div class="ranking-empty">無法讀取季度排行榜</div>`;
+        rankingAuditList.innerHTML = `<div class="ranking-empty">無法讀取操作紀錄</div>`;
+        return false;
+      }
+
+      rankingSeasons = data ?? [];
+      renderRankingSeasonOptions();
+      await loadRankingSessions();
+      return true;
+    }
+
+    async function loadRankingSessions() {
+      if (!selectedRankingSeasonId) {
+        rankingSessions = [];
+        selectedRankingSessionId = null;
+        renderRankingSessions();
+        await Promise.all([loadRankingStandings(), loadRankingAudit()]);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("leaderboard_sessions")
+        .select("id, season_id, session_number, label, business_date, status, created_at, opened_at, closed_at")
+        .eq("season_id", selectedRankingSeasonId)
+        .order("session_number", { ascending: true });
+
+      if (error) {
+        console.error(error);
+        rankingSessions = [];
+        selectedRankingSessionId = null;
+        renderRankingSessions();
+        setMessage(adminMessage, "營業場次讀取失敗。", "error");
+        return;
+      }
+
+      rankingSessions = data ?? [];
+      const stillExists = rankingSessions.some((item) => Number(item.id) === Number(selectedRankingSessionId));
+      if (!stillExists) {
+        const preferred =
+          rankingSessions.find((item) => item.status === "open") ??
+          rankingSessions.find((item) => item.status === "draft") ??
+          rankingSessions[rankingSessions.length - 1] ??
+          null;
+        selectedRankingSessionId = preferred?.id ?? null;
+      }
+
+      renderRankingSessions();
+      await Promise.all([loadRankingStandings(), loadRankingAudit()]);
+    }
+
+    async function loadRankingStandings() {
+      const season = selectedRankingSeason();
+      const session = selectedRankingSession();
+      rankingStandingsTitle.textContent = rankingView === "season" ? "季度排行榜" : "單次排行榜";
+
+      if ((rankingView === "season" && !season) || (rankingView === "session" && !session)) {
+        renderRankingStandings([]);
+        return;
+      }
+
+      rankingStandings.innerHTML = `<div class="ranking-empty">讀取中...</div>`;
+      let query = supabase
+        .from(rankingView === "season" ? "leaderboard_season_scores" : "leaderboard_session_scores")
+        .select("host_name, tip_count, total_amount")
+        .order("total_amount", { ascending: false })
+        .order("tip_count", { ascending: false })
+        .order("host_name", { ascending: true });
+
+      query = rankingView === "season"
+        ? query.eq("season_id", season.id)
+        : query.eq("session_id", session.id);
+
+      const { data, error } = await query;
+      if (error) {
+        console.error(error);
+        rankingStandings.innerHTML = `<div class="ranking-empty">排行榜讀取失敗</div>`;
+        return;
+      }
+
+      renderRankingStandings(data ?? []);
+    }
+
+    async function loadRankingAudit() {
+      const session = selectedRankingSession();
+      if (!session) {
+        renderRankingAudit([]);
+        return;
+      }
+
+      rankingAuditList.innerHTML = `<div class="ranking-empty">讀取中...</div>`;
+      const { data, error } = await supabase
+        .from("leaderboard_tip_events")
+        .select("id, session_id, host_name, amount_delta, tip_delta, note, created_by_email, created_at, reversal_of_event_id")
+        .eq("session_id", session.id)
+        .order("created_at", { ascending: false })
+        .limit(40);
+
+      if (error) {
+        console.error(error);
+        rankingAuditList.innerHTML = `<div class="ranking-empty">操作紀錄讀取失敗</div>`;
+        return;
+      }
+
+      renderRankingAudit(data ?? []);
+    }
+
+    async function loadRankingData(showMessage = false) {
+      if (showMessage) setMessage(adminMessage, "排行榜讀取中...");
+      const [hostsLoaded, seasonsLoaded] = await Promise.all([
+        loadRankingHosts(),
+        loadRankingSeasons()
+      ]);
+
+      if (showMessage && hostsLoaded && seasonsLoaded) {
+        setMessage(adminMessage, "排行榜已重新讀取。", "success");
+      }
+    }
+
+    async function createRankingSeason() {
+      const user = await checkSession(false);
       if (!user) {
         setMessage(adminMessage, "請先登入管理員帳號。", "error");
         return;
       }
 
-      const hostName = hostSelect.value;
-      const amount = Number(amountInput.value);
-
-      if (!hostName || !amount || amount <= 0) {
-        setMessage(adminMessage, "請輸入正確金額。", "error");
+      const label = rankingNewSeasonLabel.value.trim();
+      if (!label) {
+        setMessage(adminMessage, "請輸入季度顯示名稱。", "error");
         return;
       }
 
-      const { data: currentRow, error: fetchError } = await supabase
-        .from("host_leaderboard")
-        .select("host_name, tip_count, total_amount")
-        .eq("host_name", hostName)
-        .single();
+      setRankingButtonBusy(createRankingSeasonBtn, true, "建立中...");
+      const { data, error } = await supabase.rpc("create_leaderboard_season", {
+        p_label: label
+      });
+      setRankingButtonBusy(createRankingSeasonBtn, false);
 
-      if (fetchError) {
-        console.error(fetchError);
-        setMessage(adminMessage, "讀取店員資料失敗。", "error");
+      const result = rpcResult(data);
+      if (error || result?.success === false) {
+        console.error(error || result);
+        setMessage(adminMessage, result?.message || "建立季度失敗。", "error");
         return;
       }
 
-      const newTipCount = (currentRow.tip_count || 0) + 1;
-      const newTotalAmount = (currentRow.total_amount || 0) + amount;
+      rankingNewSeasonLabel.value = "";
+      selectedRankingSeasonId = result?.id ?? result?.season_id ?? null;
+      setMessage(adminMessage, result?.message || `已建立 ${label} 與三次營業場次。`, "success");
+      await loadRankingSeasons();
+    }
 
-      const { error: updateError } = await supabase
-        .from("host_leaderboard")
-        .update({
-          tip_count: newTipCount,
-          total_amount: newTotalAmount,
-          updated_at: new Date().toISOString()
-        })
-        .eq("host_name", hostName);
-
-      if (updateError) {
-        console.error(updateError);
-        setMessage(adminMessage, "更新失敗，請確認是否為管理員帳號。", "error");
+    async function openRankingSession() {
+      const user = await checkSession(false);
+      const session = selectedRankingSession();
+      if (!user || !session) {
+        setMessage(adminMessage, "請先登入並選擇營業場次。", "error");
         return;
       }
 
-      setMessage(adminMessage, `已為 ${hostName} 增加 ${amount.toLocaleString()} GIL。`, "success");
-      amountInput.value = "";
+      const businessDate = rankingBusinessDate.value;
+      const label = rankingSessionLabel.value.trim();
+      if (!businessDate) {
+        setMessage(adminMessage, "請選擇本次營業日期。", "error");
+        return;
+      }
+
+      const ok = confirm(`確定要開啟第 ${session.session_number} 次營業嗎？開啟後日期與名稱將鎖定。`);
+      if (!ok) return;
+
+      setRankingButtonBusy(openRankingSessionBtn, true, "開啟中...");
+      const { data, error } = await supabase.rpc("open_leaderboard_session", {
+        p_session_id: session.id,
+        p_business_date: businessDate,
+        p_label: label || null
+      });
+      setRankingButtonBusy(openRankingSessionBtn, false);
+
+      const result = rpcResult(data);
+      if (error || result?.success === false) {
+        console.error(error || result);
+        setMessage(adminMessage, result?.message || "開啟營業場次失敗。", "error");
+        return;
+      }
+
+      setMessage(adminMessage, result?.message || `第 ${session.session_number} 次營業已開啟。`, "success");
+      await loadRankingSeasons();
+    }
+
+    async function closeRankingSession() {
+      const user = await checkSession(false);
+      const session = selectedRankingSession();
+      if (!user || !session) {
+        setMessage(adminMessage, "請先登入並選擇營業場次。", "error");
+        return;
+      }
+
+      const ok = confirm(`確定結束第 ${session.session_number} 次營業並封榜嗎？封榜後不能再增加或沖銷金額。`);
+      if (!ok) return;
+
+      setRankingButtonBusy(closeRankingSessionBtn, true, "封榜中...");
+      const { data, error } = await supabase.rpc("close_leaderboard_session", {
+        p_session_id: session.id
+      });
+      setRankingButtonBusy(closeRankingSessionBtn, false);
+
+      const result = rpcResult(data);
+      if (error || result?.success === false) {
+        console.error(error || result);
+        setMessage(adminMessage, result?.message || "營業場次封榜失敗。", "error");
+        return;
+      }
+
+      setMessage(adminMessage, result?.message || `第 ${session.session_number} 次營業已封榜。`, "success");
+      await loadRankingSeasons();
+    }
+
+    async function addRankingAmount() {
+      const user = await checkSession(false);
+      const session = selectedRankingSession();
+      if (!user || !session) {
+        setMessage(adminMessage, "請先登入並選擇營業場次。", "error");
+        return;
+      }
+
+      const hostName = rankingHostSelect.value;
+      const amount = Number(rankingAmountInput.value);
+      const note = rankingNoteInput.value.trim();
+      if (!hostName || !Number.isSafeInteger(amount) || amount <= 0) {
+        setMessage(adminMessage, "請選擇店員並輸入正確的正整數金額。", "error");
+        return;
+      }
+
+      setRankingButtonBusy(addRankingAmountBtn, true, "寫入中...");
+      const { data, error } = await supabase.rpc("add_leaderboard_tip", {
+        p_session_id: session.id,
+        p_host_name: hostName,
+        p_amount: amount,
+        p_note: note || null,
+        p_idempotency_key: newIdempotencyKey()
+      });
+      setRankingButtonBusy(addRankingAmountBtn, false);
+
+      const result = rpcResult(data);
+      if (error || result?.success === false) {
+        console.error(error || result);
+        setMessage(adminMessage, result?.message || "增加金額失敗。", "error");
+        return;
+      }
+
+      rankingAmountInput.value = "";
+      rankingNoteInput.value = "";
+      setMessage(adminMessage, result?.message || `已為 ${hostName} 增加 ${formatGil(amount)} GIL。`, "success");
+      await Promise.all([loadRankingStandings(), loadRankingAudit()]);
+    }
+
+    async function reverseRankingEvent(eventId) {
+      const user = await checkSession(false);
+      if (!user) {
+        setMessage(adminMessage, "請先登入管理員帳號。", "error");
+        return;
+      }
+
+      const ok = confirm(`確定要沖銷操作 #${eventId} 嗎？系統會新增一筆反向紀錄，不會刪除原紀錄。`);
+      if (!ok) return;
+
+      const { data, error } = await supabase.rpc("reverse_leaderboard_tip", {
+        p_event_id: eventId,
+        p_idempotency_key: newIdempotencyKey()
+      });
+      const result = rpcResult(data);
+
+      if (error || result?.success === false) {
+        console.error(error || result);
+        setMessage(adminMessage, result?.message || "沖銷失敗。", "error");
+        return;
+      }
+
+      setMessage(adminMessage, result?.message || `操作 #${eventId} 已沖銷。`, "success");
+      await Promise.all([loadRankingStandings(), loadRankingAudit()]);
     }
 
     function scheduleRowTemplate(item) {
@@ -1351,7 +2293,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function loadAll() {
-      await Promise.all([loadSchedule(), loadBookings()]);
+      await Promise.all([loadRankingData(), loadSchedule(), loadBookings()]);
     }
 
     async function addSchedule() {
@@ -1507,6 +2449,14 @@ document.addEventListener('DOMContentLoaded', function () {
       await loadAll();
     }
 
+    function scheduleRankingReload() {
+      if (rankingReloadTimer) clearTimeout(rankingReloadTimer);
+      rankingReloadTimer = setTimeout(async () => {
+        rankingReloadTimer = null;
+        await loadRankingData(false);
+      }, 180);
+    }
+
     function setupRealtime() {
       if (scheduleChannel) {
         supabase.removeChannel(scheduleChannel);
@@ -1514,6 +2464,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
       if (bookingChannel) {
         supabase.removeChannel(bookingChannel);
+      }
+
+      if (rankingChannel) {
+        supabase.removeChannel(rankingChannel);
       }
 
       scheduleChannel = supabase
@@ -1541,8 +2495,32 @@ document.addEventListener('DOMContentLoaded', function () {
             table: "reservations"
           },
           async () => {
-            await loadAll();
+            await Promise.all([loadSchedule(), loadBookings()]);
           }
+        )
+        .subscribe();
+
+      rankingChannel = supabase
+        .channel("admin_leaderboard_realtime")
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "leaderboard_seasons" },
+          scheduleRankingReload
+        )
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "leaderboard_sessions" },
+          scheduleRankingReload
+        )
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "leaderboard_session_scores" },
+          scheduleRankingReload
+        )
+        .on(
+          "postgres_changes",
+          { event: "*", schema: "public", table: "leaderboard_tip_events" },
+          scheduleRankingReload
         )
         .subscribe();
     }
@@ -1573,7 +2551,42 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    addAmountBtn.addEventListener("click", addAmount);
+    reloadRankingBtn.addEventListener("click", () => loadRankingData(true));
+    createRankingSeasonBtn.addEventListener("click", createRankingSeason);
+    openRankingSessionBtn.addEventListener("click", openRankingSession);
+    closeRankingSessionBtn.addEventListener("click", closeRankingSession);
+    addRankingAmountBtn.addEventListener("click", addRankingAmount);
+    rankingSeasonSelect.addEventListener("change", async () => {
+      selectedRankingSeasonId = rankingSeasonSelect.value || null;
+      selectedRankingSessionId = null;
+      updateRankingControls();
+      await loadRankingSessions();
+    });
+    rankingSessionSelect.addEventListener("change", async () => {
+      selectedRankingSessionId = rankingSessionSelect.value || null;
+      renderRankingSessions();
+      await Promise.all([loadRankingStandings(), loadRankingAudit()]);
+    });
+    rankingSessionSlots.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-ranking-session-id]");
+      if (!button) return;
+      selectedRankingSessionId = button.dataset.rankingSessionId;
+      renderRankingSessions();
+      await Promise.all([loadRankingStandings(), loadRankingAudit()]);
+    });
+    rankingViewButtons.forEach((button) => {
+      button.addEventListener("click", async () => {
+        rankingView = button.dataset.rankingView;
+        rankingViewButtons.forEach((item) => item.classList.toggle("active", item === button));
+        await loadRankingStandings();
+      });
+    });
+    rankingAuditList.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-ranking-reverse-id]");
+      if (!button) return;
+      button.disabled = true;
+      await reverseRankingEvent(Number(button.dataset.rankingReverseId));
+    });
     addScheduleBtn.addEventListener("click", addSchedule);
     reloadScheduleBtn.addEventListener("click", loadSchedule);
     reloadBookingsBtn.addEventListener("click", loadBookings);

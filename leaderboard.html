@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260617-bgm-peek-tucked" />
+  <link rel="stylesheet" href="style.css?v=20260824-leaderboard-periods" />
   
   <style>
     .gil-price {
@@ -203,11 +203,74 @@ document.addEventListener('DOMContentLoaded', function () {
     </section>
 
     <section class="leaderboard-section">
+      <div class="leaderboard-period-panel" aria-labelledby="leaderboardPeriodHeading">
+        <div class="leaderboard-mode-switch" role="tablist" aria-label="排行榜類型">
+          <button
+            class="leaderboard-mode-btn is-active"
+            id="singleRankingTab"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="leaderboardRankingPanel"
+            data-ranking-mode="single"
+          >
+            <span>單次榜</span>
+            <small>每次營業</small>
+          </button>
+          <button
+            class="leaderboard-mode-btn"
+            id="seasonRankingTab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="leaderboardRankingPanel"
+            data-ranking-mode="season"
+          >
+            <span>季度榜</span>
+            <small>三次合計</small>
+          </button>
+        </div>
+
+        <div class="leaderboard-period-toolbar">
+          <label class="leaderboard-period-field">
+            <span>選擇季度</span>
+            <select id="leaderboardSeasonSelect" aria-label="選擇季度" disabled>
+              <option>載入中…</option>
+            </select>
+          </label>
+          <label class="leaderboard-period-field" id="leaderboardSessionField">
+            <span>選擇單次營業</span>
+            <select id="leaderboardSessionSelect" aria-label="選擇單次營業" disabled>
+              <option>載入中…</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="leaderboard-period-info">
+          <div>
+            <div class="leaderboard-period-heading-row">
+              <span class="leaderboard-period-kicker" id="leaderboardPeriodKicker">SINGLE SESSION</span>
+              <span class="leaderboard-status-badge" id="leaderboardStatusBadge">載入中</span>
+            </div>
+            <h2 id="leaderboardPeriodHeading">正在讀取排行榜</h2>
+            <p id="leaderboardPeriodMeta">請稍候，冥界正在整理留下的供奉紀錄。</p>
+          </div>
+          <div class="leaderboard-season-progress" id="leaderboardSeasonProgress" aria-label="季度場次進度">
+            <span class="leaderboard-progress-label">季度進度</span>
+            <div class="leaderboard-progress-dots" id="leaderboardProgressDots" aria-hidden="true">
+              <i></i><i></i><i></i>
+            </div>
+            <strong id="leaderboardProgressText">0 / 3 場</strong>
+          </div>
+        </div>
+      </div>
+
+      <div id="leaderboardRankingPanel" role="tabpanel" aria-labelledby="singleRankingTab" aria-busy="true">
       <div class="leaderboard-podium" id="leaderboardPodium"></div>
 
       <div class="leaderboard-summary">
         <div class="leaderboard-stat">
-          <span class="leaderboard-stat-label">累積打賞總額</span>
+          <span class="leaderboard-stat-label" id="totalAmountLabel">本場打賞總額</span>
           <strong id="totalAmount">0</strong>
         </div>
         <div class="leaderboard-stat">
@@ -226,8 +289,12 @@ document.addEventListener('DOMContentLoaded', function () {
         <div id="leaderboardBody"></div>
       </div>
 
-      <div class="leaderboard-empty" id="leaderboardEmpty">
-        目前尚無打賞資料。
+      <div class="leaderboard-empty" id="leaderboardEmpty" role="status" aria-live="polite">
+        <span class="leaderboard-empty-mark" aria-hidden="true">◇</span>
+        <strong id="leaderboardStateTitle">正在載入排行榜</strong>
+        <span id="leaderboardStateDetail">請稍候，冥界正在整理供奉紀錄。</span>
+        <button class="leaderboard-retry-btn" id="leaderboardRetry" type="button" hidden>重新載入</button>
+      </div>
       </div>
     </section>
   </main>
@@ -270,6 +337,50 @@ document.addEventListener('DOMContentLoaded', function () {
       "曹爺": "images/cao-ye-card.png"
     };
 
+    const elements = {
+      rankingPanel: document.getElementById("leaderboardRankingPanel"),
+      podium: document.getElementById("leaderboardPodium"),
+      body: document.getElementById("leaderboardBody"),
+      empty: document.getElementById("leaderboardEmpty"),
+      stateTitle: document.getElementById("leaderboardStateTitle"),
+      stateDetail: document.getElementById("leaderboardStateDetail"),
+      retry: document.getElementById("leaderboardRetry"),
+      totalAmount: document.getElementById("totalAmount"),
+      totalAmountLabel: document.getElementById("totalAmountLabel"),
+      hostCount: document.getElementById("hostCount"),
+      seasonSelect: document.getElementById("leaderboardSeasonSelect"),
+      sessionSelect: document.getElementById("leaderboardSessionSelect"),
+      sessionField: document.getElementById("leaderboardSessionField"),
+      periodKicker: document.getElementById("leaderboardPeriodKicker"),
+      periodHeading: document.getElementById("leaderboardPeriodHeading"),
+      periodMeta: document.getElementById("leaderboardPeriodMeta"),
+      statusBadge: document.getElementById("leaderboardStatusBadge"),
+      progressDots: document.getElementById("leaderboardProgressDots"),
+      progressText: document.getElementById("leaderboardProgressText"),
+      modeButtons: [...document.querySelectorAll("[data-ranking-mode]")]
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const state = {
+      mode: urlParams.get("view") === "season" ? "season" : "single",
+      seasons: [],
+      sessions: [],
+      currentSeasonId: null,
+      currentSessionId: null,
+      periodsReady: false,
+      requestId: 0
+    };
+
+    function escapeHTML(value) {
+      const node = document.createElement("span");
+      node.textContent = String(value ?? "");
+      return node.innerHTML;
+    }
+
+    function idsMatch(left, right) {
+      return left != null && right != null && String(left) === String(right);
+    }
+
     function gilHTML(amount, large = false) {
       return `
         <span class="gil-price">
@@ -279,20 +390,58 @@ document.addEventListener('DOMContentLoaded', function () {
       `;
     }
 
+    function formatDate(value) {
+      if (!value) return "日期待定";
+      const normalized = /^\d{4}-\d{2}-\d{2}$/.test(value)
+        ? `${value}T00:00:00+08:00`
+        : value;
+      const date = new Date(normalized);
+      if (Number.isNaN(date.getTime())) return "日期待定";
+      return new Intl.DateTimeFormat("zh-TW", {
+        month: "2-digit",
+        day: "2-digit",
+        weekday: "short",
+        timeZone: "Asia/Taipei"
+      }).format(date);
+    }
+
+    function seasonLabel(season) {
+      return season?.label || `第 ${season?.season_number ?? "—"} 季`;
+    }
+
+    function sessionLabel(session) {
+      return session?.label || `第 ${session?.session_number ?? "—"} 次營業`;
+    }
+
+    function statusContent(status) {
+      if (status === "open") return { label: "進行中", className: "is-open" };
+      if (status === "closed") return { label: "已封榜", className: "is-closed" };
+      return { label: "尚未開放", className: "is-pending" };
+    }
+
+    function getCurrentSeason() {
+      return state.seasons.find((season) => idsMatch(season.id, state.currentSeasonId)) || null;
+    }
+
+    function getSeasonSessions(seasonId = state.currentSeasonId) {
+      return state.sessions
+        .filter((session) => idsMatch(session.season_id, seasonId))
+        .sort((left, right) => Number(left.session_number) - Number(right.session_number));
+    }
+
+    function getCurrentSession() {
+      return state.sessions.find((session) => idsMatch(session.id, state.currentSessionId)) || null;
+    }
+
     function markUpdatedRows() {
       const rows = document.querySelectorAll(".leaderboard-item, .leaderboard-podium-card");
       rows.forEach((row) => {
         row.classList.add("is-updated");
-        setTimeout(() => {
-          row.classList.remove("is-updated");
-        }, 850);
+        setTimeout(() => row.classList.remove("is-updated"), 850);
       });
 
-      const totalAmountEl = document.getElementById("totalAmount");
-      totalAmountEl.classList.add("is-updated");
-      setTimeout(() => {
-        totalAmountEl.classList.remove("is-updated");
-      }, 850);
+      elements.totalAmount.classList.add("is-updated");
+      setTimeout(() => elements.totalAmount.classList.remove("is-updated"), 850);
     }
 
     function triggerDogCharge(event) {
@@ -321,106 +470,430 @@ document.addEventListener('DOMContentLoaded', function () {
       bite.style.top = `${centerY}px`;
 
       charge.append(shockwave, dog);
-      document.body.appendChild(charge);
-      document.body.appendChild(bite);
+      document.body.append(charge, bite);
       setTimeout(() => charge.remove(), 700);
       setTimeout(() => bite.remove(), 700);
     }
 
-    async function renderLeaderboard(animate = false) {
-      const body = document.getElementById("leaderboardBody");
-      const podium = document.getElementById("leaderboardPodium");
-      const empty = document.getElementById("leaderboardEmpty");
-      const totalAmountEl = document.getElementById("totalAmount");
-      const hostCountEl = document.getElementById("hostCount");
+    function updateUrl() {
+      const params = new URLSearchParams(window.location.search);
+      params.set("view", state.mode);
+      if (state.currentSeasonId != null) params.set("season", state.currentSeasonId);
+      else params.delete("season");
 
-      body.innerHTML = "";
-      podium.innerHTML = "";
-
-      const { data, error } = await supabase
-        .from("host_leaderboard")
-        .select("host_name, tip_count, total_amount")
-        .order("total_amount", { ascending: false })
-        .order("tip_count", { ascending: false })
-        .order("host_name", { ascending: true });
-
-      if (error) {
-        empty.style.display = "block";
-        empty.textContent = "排行榜載入失敗。";
-        console.error(error);
-        return;
+      if (state.mode === "single" && state.currentSessionId != null) {
+        params.set("session", state.currentSessionId);
+      } else {
+        params.delete("session");
       }
 
-      const activeRows = (data || []).filter(
-        (row) => (row.tip_count || 0) > 0 || (row.total_amount || 0) > 0
+      const query = params.toString();
+      const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
+      window.history.replaceState(null, "", nextUrl);
+    }
+
+    function setStateMessage(kind, title, detail) {
+      elements.empty.dataset.state = kind;
+      elements.empty.setAttribute("role", kind === "error" ? "alert" : "status");
+      elements.stateTitle.textContent = title;
+      elements.stateDetail.textContent = detail;
+      elements.empty.style.display = "grid";
+      elements.retry.hidden = kind !== "error";
+      const mark = elements.empty.querySelector(".leaderboard-empty-mark");
+      mark.textContent = kind === "error" ? "!" : kind === "loading" ? "◇" : "—";
+    }
+
+    function hideStateMessage() {
+      elements.empty.style.display = "none";
+      elements.retry.hidden = true;
+    }
+
+    function clearRanking() {
+      elements.body.innerHTML = "";
+      elements.podium.innerHTML = "";
+      elements.totalAmount.innerHTML = gilHTML(0, true);
+      elements.hostCount.textContent = "0";
+    }
+
+    function updateModeControls() {
+      elements.modeButtons.forEach((button) => {
+        const active = button.dataset.rankingMode === state.mode;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-selected", String(active));
+        button.tabIndex = active ? 0 : -1;
+      });
+      elements.sessionField.hidden = state.mode !== "single";
+      elements.totalAmountLabel.textContent = state.mode === "single"
+        ? "本場打賞總額"
+        : "本季打賞總額";
+      elements.rankingPanel.setAttribute(
+        "aria-labelledby",
+        state.mode === "single" ? "singleRankingTab" : "seasonRankingTab"
       );
+    }
 
-      const totalAmount = (data || []).reduce(
-        (sum, row) => sum + (row.total_amount || 0),
-        0
-      );
-
-      totalAmountEl.innerHTML = gilHTML(totalAmount, true);
-      hostCountEl.textContent = activeRows.length.toLocaleString();
-
-      if (activeRows.length === 0) {
-        empty.style.display = "block";
-        return;
+    function updateSelectors() {
+      elements.seasonSelect.innerHTML = "";
+      state.seasons.forEach((season) => {
+        const option = document.createElement("option");
+        option.value = String(season.id);
+        option.textContent = seasonLabel(season);
+        elements.seasonSelect.appendChild(option);
+      });
+      elements.seasonSelect.disabled = state.seasons.length === 0;
+      if (state.currentSeasonId != null) {
+        elements.seasonSelect.value = String(state.currentSeasonId);
       }
 
-      empty.style.display = "none";
-
-      activeRows.slice(0, 3).forEach((row, index) => {
-        const card = document.createElement("article");
-        card.className = `leaderboard-podium-card rank-${index + 1}`;
-        card.innerHTML = `
-          <div class="leaderboard-photo-frame">
-            <img src="${hostImages[row.host_name] || "images/logo.png"}" alt="${row.host_name}">
-          </div>
-          <div class="leaderboard-medal">#${index + 1}</div>
-          <h2>${row.host_name}</h2>
-          <div class="leaderboard-podium-meta">
-            <span>${(row.tip_count || 0).toLocaleString()} 次打賞</span>
-            <strong>${gilHTML(row.total_amount, true)}</strong>
-          </div>
-        `;
-        card.addEventListener("click", triggerDogCharge);
-        podium.appendChild(card);
+      const sessions = getSeasonSessions();
+      elements.sessionSelect.innerHTML = "";
+      sessions.forEach((session) => {
+        const option = document.createElement("option");
+        option.value = String(session.id);
+        option.textContent = `${sessionLabel(session)} · ${formatDate(session.business_date)}`;
+        elements.sessionSelect.appendChild(option);
       });
-
-      activeRows.forEach((row, index) => {
-        const div = document.createElement("div");
-        div.className = "leaderboard-item";
-        div.innerHTML = `
-          <span>#${index + 1}</span>
-          <span>${row.host_name}</span>
-          <span>${(row.tip_count || 0).toLocaleString()}</span>
-          <span>${gilHTML(row.total_amount)}</span>
-        `;
-        body.appendChild(div);
-      });
-
-      if (animate) {
-        markUpdatedRows();
+      elements.sessionSelect.disabled = sessions.length === 0;
+      if (state.currentSessionId != null) {
+        elements.sessionSelect.value = String(state.currentSessionId);
       }
     }
 
-    await renderLeaderboard();
+    function updatePeriodContext() {
+      const season = getCurrentSeason();
+      const session = getCurrentSession();
+      const sessions = getSeasonSessions();
+      const period = state.mode === "single" ? session : season;
+      const status = statusContent(period?.status);
 
-    supabase
-      .channel("leaderboard-realtime")
+      elements.periodKicker.textContent = state.mode === "single"
+        ? "SINGLE SESSION"
+        : "THREE SESSION SEASON";
+      elements.periodHeading.textContent = state.mode === "single"
+        ? (session ? sessionLabel(session) : "尚未建立單次營業")
+        : (season ? seasonLabel(season) : "尚未建立季度");
+      elements.periodMeta.textContent = state.mode === "single"
+        ? (session
+          ? `${seasonLabel(season)} · ${formatDate(session.business_date)} · 本次營業獨立計算`
+          : "此季度尚無可查看的單次營業。")
+        : (season
+          ? `${sessions.length} / 3 次營業 · 三次排行榜合計後封榜`
+          : "每一季由三次營業排行榜合計而成。")
+      elements.statusBadge.textContent = status.label;
+      elements.statusBadge.className = `leaderboard-status-badge ${status.className}`;
+
+      const dots = [...elements.progressDots.querySelectorAll("i")];
+      const sessionsByNumber = new Map(
+        sessions.map((item) => [Number(item.session_number), item])
+      );
+      dots.forEach((dot, index) => {
+        const item = sessionsByNumber.get(index + 1);
+        dot.className = item
+          ? (item.status === "closed" ? "is-complete" : item.status === "open" ? "is-current" : "")
+          : "";
+      });
+      elements.progressText.textContent = `已開放 ${Math.min(sessions.length, 3)} / 3 場`;
+    }
+
+    function renderRows(data, animate = false) {
+      const activeRows = (data || [])
+        .map((row) => ({
+          ...row,
+          tip_count: Number(row.tip_count || 0),
+          total_amount: Number(row.total_amount || 0)
+        }))
+        .filter((row) => row.tip_count > 0 || row.total_amount > 0)
+        .sort((left, right) =>
+          right.total_amount - left.total_amount ||
+          right.tip_count - left.tip_count ||
+          String(left.host_name).localeCompare(String(right.host_name), "zh-Hant")
+        );
+
+      elements.body.innerHTML = "";
+      elements.podium.innerHTML = "";
+      const totalAmount = activeRows.reduce((sum, row) => sum + row.total_amount, 0);
+      elements.totalAmount.innerHTML = gilHTML(totalAmount, true);
+      elements.hostCount.textContent = activeRows.length.toLocaleString();
+
+      if (activeRows.length === 0) {
+        setStateMessage(
+          "empty",
+          "目前尚無打賞資料",
+          state.mode === "single"
+            ? "這次營業尚未留下供奉紀錄。"
+            : "這一季的三次營業尚未留下供奉紀錄。"
+        );
+        return;
+      }
+
+      hideStateMessage();
+      activeRows.slice(0, 3).forEach((row, index) => {
+        const safeName = escapeHTML(row.host_name);
+        const card = document.createElement("article");
+        card.className = `leaderboard-podium-card rank-${index + 1}`;
+        card.tabIndex = 0;
+        card.setAttribute("aria-label", `第 ${index + 1} 名，${row.host_name}`);
+        card.innerHTML = `
+          <div class="leaderboard-photo-frame">
+            <img src="${hostImages[row.host_name] || "images/logo.png"}" alt="${safeName}">
+          </div>
+          <div class="leaderboard-medal">#${index + 1}</div>
+          <h2>${safeName}</h2>
+          <div class="leaderboard-podium-meta">
+            <span>${row.tip_count.toLocaleString()} 次打賞</span>
+            <strong>${gilHTML(row.total_amount, true)}</strong>
+          </div>
+        `;
+        const photo = card.querySelector("img");
+        photo.addEventListener("error", () => { photo.src = "images/logo.png"; }, { once: true });
+        card.addEventListener("click", triggerDogCharge);
+        card.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            const bounds = card.getBoundingClientRect();
+            triggerDogCharge({ clientX: bounds.left + bounds.width / 2, clientY: bounds.top + bounds.height / 2 });
+          }
+        });
+        elements.podium.appendChild(card);
+      });
+
+      activeRows.forEach((row, index) => {
+        const item = document.createElement("div");
+        item.className = "leaderboard-item";
+        item.innerHTML = `
+          <span>#${index + 1}</span>
+          <span>${escapeHTML(row.host_name)}</span>
+          <span>${row.tip_count.toLocaleString()}</span>
+          <span>${gilHTML(row.total_amount)}</span>
+        `;
+        elements.body.appendChild(item);
+      });
+
+      if (animate) markUpdatedRows();
+    }
+
+    async function renderSelectedRanking(animate = false) {
+      updateModeControls();
+      updateSelectors();
+      updatePeriodContext();
+      updateUrl();
+
+      const season = getCurrentSeason();
+      const session = getCurrentSession();
+      if (!season || (state.mode === "single" && !session)) {
+        clearRanking();
+        setStateMessage(
+          "empty",
+          season ? "尚未建立單次營業" : "目前尚未開放排行榜",
+          season ? "請等待下一次營業場次開放。" : "冥界開放新的季度後，排行榜會在這裡出現。"
+        );
+        elements.rankingPanel.setAttribute("aria-busy", "false");
+        return;
+      }
+
+      const requestId = ++state.requestId;
+      elements.rankingPanel.setAttribute("aria-busy", "true");
+      if (!animate) {
+        clearRanking();
+        setStateMessage("loading", "正在載入排行榜", "請稍候，冥界正在整理供奉紀錄。");
+      }
+
+      const query = state.mode === "single"
+        ? supabase
+          .from("leaderboard_session_scores")
+          .select("session_id, host_name, tip_count, total_amount, updated_at")
+          .eq("session_id", session.id)
+          .order("total_amount", { ascending: false })
+          .order("tip_count", { ascending: false })
+          .order("host_name", { ascending: true })
+        : supabase
+          .from("leaderboard_season_scores")
+          .select("season_id, host_name, tip_count, total_amount, updated_at")
+          .eq("season_id", season.id)
+          .order("total_amount", { ascending: false })
+          .order("tip_count", { ascending: false })
+          .order("host_name", { ascending: true });
+
+      const { data, error } = await query;
+      if (requestId !== state.requestId) return;
+      elements.rankingPanel.setAttribute("aria-busy", "false");
+
+      if (error) {
+        clearRanking();
+        setStateMessage("error", "排行榜載入失敗", "目前無法取得資料，請稍後再試。");
+        console.error("Leaderboard query failed:", error);
+        return;
+      }
+
+      renderRows(data, animate);
+    }
+
+    function chooseCurrentPeriods(keepSelection = false) {
+      const requestedSeasonId = keepSelection ? state.currentSeasonId : urlParams.get("season");
+      const requestedSessionId = keepSelection ? state.currentSessionId : urlParams.get("session");
+      const requestedSeason = state.seasons.find((season) => idsMatch(season.id, requestedSeasonId));
+
+      let openSession = null;
+      for (const season of state.seasons) {
+        openSession = getSeasonSessions(season.id).find((session) => session.status === "open");
+        if (openSession) break;
+      }
+
+      const openSessionSeason = openSession
+        ? state.seasons.find((season) => idsMatch(season.id, openSession.season_id))
+        : null;
+      const currentSeason = requestedSeason || openSessionSeason || state.seasons[0] || null;
+      state.currentSeasonId = currentSeason?.id ?? null;
+
+      const seasonSessions = getSeasonSessions();
+      const requestedSession = seasonSessions.find((session) => idsMatch(session.id, requestedSessionId));
+      state.currentSessionId = (
+        requestedSession ||
+        seasonSessions.find((session) => session.status === "open") ||
+        [...seasonSessions].reverse()[0] ||
+        null
+      )?.id ?? null;
+    }
+
+    async function loadPeriods({ keepSelection = false, animate = false } = {}) {
+      const requestId = ++state.requestId;
+      state.periodsReady = false;
+      elements.rankingPanel.setAttribute("aria-busy", "true");
+      if (!animate) {
+        clearRanking();
+        setStateMessage("loading", "正在載入排行榜", "請稍候，冥界正在整理季度與場次。");
+      }
+
+      const { data: seasons, error: seasonsError } = await supabase
+        .from("leaderboard_seasons")
+        .select("id, season_number, label, status, opened_at, closed_at, is_visible")
+        .eq("is_visible", true)
+        .in("status", ["open", "closed"])
+        .order("season_number", { ascending: false });
+
+      if (requestId !== state.requestId) return;
+      if (seasonsError) {
+        elements.rankingPanel.setAttribute("aria-busy", "false");
+        clearRanking();
+        setStateMessage("error", "排行榜載入失敗", "目前無法取得季度資料，請稍後再試。");
+        console.error("Leaderboard seasons query failed:", seasonsError);
+        return;
+      }
+
+      state.seasons = seasons || [];
+      if (state.seasons.length === 0) {
+        state.sessions = [];
+        state.currentSeasonId = null;
+        state.currentSessionId = null;
+        updateModeControls();
+        updateSelectors();
+        updatePeriodContext();
+        updateUrl();
+        state.periodsReady = true;
+        elements.rankingPanel.setAttribute("aria-busy", "false");
+        clearRanking();
+        setStateMessage("empty", "目前尚未開放排行榜", "新的季度開放後，單次榜與季度榜會在這裡出現。");
+        return;
+      }
+
+      const { data: sessions, error: sessionsError } = await supabase
+        .from("leaderboard_sessions")
+        .select("id, season_id, session_number, label, business_date, status, opened_at, closed_at")
+        .in("season_id", state.seasons.map((season) => season.id))
+        .in("status", ["open", "closed"])
+        .order("session_number", { ascending: true });
+
+      if (requestId !== state.requestId) return;
+      if (sessionsError) {
+        elements.rankingPanel.setAttribute("aria-busy", "false");
+        clearRanking();
+        setStateMessage("error", "排行榜載入失敗", "目前無法取得營業場次，請稍後再試。");
+        console.error("Leaderboard sessions query failed:", sessionsError);
+        return;
+      }
+
+      state.sessions = sessions || [];
+      chooseCurrentPeriods(keepSelection);
+      state.periodsReady = true;
+      await renderSelectedRanking(animate);
+    }
+
+    async function setMode(mode) {
+      if (mode !== "single" && mode !== "season") return;
+      state.mode = mode;
+      if (!state.periodsReady) {
+        updateModeControls();
+        updateUrl();
+        return;
+      }
+      await renderSelectedRanking(false);
+    }
+
+    elements.modeButtons.forEach((button, index) => {
+      button.addEventListener("click", () => setMode(button.dataset.rankingMode));
+      button.addEventListener("keydown", (event) => {
+        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const next = elements.modeButtons[(index + direction + elements.modeButtons.length) % elements.modeButtons.length];
+        next.focus();
+        setMode(next.dataset.rankingMode);
+      });
+    });
+
+    elements.seasonSelect.addEventListener("change", async () => {
+      const season = state.seasons.find((item) => idsMatch(item.id, elements.seasonSelect.value));
+      state.currentSeasonId = season?.id ?? null;
+      const sessions = getSeasonSessions();
+      state.currentSessionId = (
+        sessions.find((session) => session.status === "open") ||
+        [...sessions].reverse()[0] ||
+        null
+      )?.id ?? null;
+      await renderSelectedRanking(false);
+    });
+
+    elements.sessionSelect.addEventListener("change", async () => {
+      const session = state.sessions.find((item) => idsMatch(item.id, elements.sessionSelect.value));
+      state.currentSessionId = session?.id ?? null;
+      await renderSelectedRanking(false);
+    });
+
+    elements.retry.addEventListener("click", () => loadPeriods({ keepSelection: true }));
+
+    await loadPeriods();
+
+    let realtimeTimer = null;
+    function scheduleRealtimeRefresh(structureChanged = false) {
+      window.clearTimeout(realtimeTimer);
+      realtimeTimer = window.setTimeout(() => {
+        if (structureChanged) loadPeriods({ keepSelection: true, animate: true });
+        else renderSelectedRanking(true);
+      }, 160);
+    }
+
+    const realtimeChannel = supabase
+      .channel("leaderboard-periods-realtime")
       .on(
         "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "host_leaderboard"
-        },
-        async () => {
-          await renderLeaderboard(true);
-        }
+        { event: "*", schema: "public", table: "leaderboard_session_scores" },
+        () => scheduleRealtimeRefresh(false)
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "leaderboard_sessions" },
+        () => scheduleRealtimeRefresh(true)
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "leaderboard_seasons" },
+        () => scheduleRealtimeRefresh(true)
       )
       .subscribe();
+
+    window.addEventListener("beforeunload", () => {
+      supabase.removeChannel(realtimeChannel);
+    }, { once: true });
   </script>
 <script src="cursor.js?v=20260612-mobile-tabs6"></script>
   <script src="bgm.js?v=20260617-bgm-peek-tucked"></script>
