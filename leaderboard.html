@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260824-leaderboard-tabs-progress" />
+  <link rel="stylesheet" href="style.css?v=20260824-leaderboard-flat-tabs" />
   
   <style>
     .gil-price {
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
   
-<body>
+<body class="leaderboard-page">
   <div class="top-line"></div>
 
   <header class="site-header">
@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         <div class="leaderboard-period-toolbar" id="leaderboardPeriodToolbar">
           <div class="leaderboard-period-field">
-            <span id="leaderboardSeasonChoicesLabel">選擇季度</span>
+            <span class="leaderboard-visually-hidden" id="leaderboardSeasonChoicesLabel">選擇季度</span>
             <div
               class="leaderboard-period-choices"
               id="leaderboardSeasonChoices"
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
           </div>
           <div class="leaderboard-period-field" id="leaderboardSessionField">
-            <span id="leaderboardSessionChoicesLabel">選擇單次營業</span>
+            <span class="leaderboard-visually-hidden" id="leaderboardSessionChoicesLabel">選擇單次營業</span>
             <div
               class="leaderboard-period-choices"
               id="leaderboardSessionChoices"
@@ -289,7 +289,7 @@ document.addEventListener('DOMContentLoaded', function () {
           </div>
         </div>
 
-        <div class="leaderboard-period-info">
+        <div class="leaderboard-period-info leaderboard-visually-hidden">
           <div>
             <div class="leaderboard-period-heading-row">
               <span class="leaderboard-period-kicker" id="leaderboardPeriodKicker">SINGLE SESSION</span>
@@ -301,6 +301,11 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
 
       <div id="leaderboardRankingPanel" role="tabpanel" aria-labelledby="singleRankingTab" aria-busy="true">
+      <header class="leaderboard-ranking-heading">
+        <span id="leaderboardTopKicker">TOP OF THE SESSION</span>
+        <h2 id="leaderboardTopHeading">本次前三名</h2>
+      </header>
+
       <div class="leaderboard-podium" id="leaderboardPodium"></div>
 
       <div class="leaderboard-summary">
@@ -313,6 +318,11 @@ document.addEventListener('DOMContentLoaded', function () {
           <strong id="hostCount">0</strong>
         </div>
       </div>
+
+      <header class="leaderboard-ranking-heading leaderboard-standings-heading">
+        <span>FULL STANDINGS</span>
+        <h2>完整名次</h2>
+      </header>
 
       <div class="leaderboard-table">
         <div class="leaderboard-head">
@@ -332,18 +342,17 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
       </div>
     </section>
-  </main>
 
-  <footer class="site-footer">
-    <a href="/">冥界入口</a>
-    <a href="timelist.html">預約時段</a>
-  
-    <a href="https://discord.gg/eNnUNm2qda" 
-       target="_blank" 
-       rel="noopener noreferrer">
-      DISCORD
-    </a>
-  </footer>
+    <footer class="site-footer">
+      <a href="/">冥界入口</a>
+      <a href="timelist.html">預約時段</a>
+      <a href="https://discord.gg/eNnUNm2qda"
+         target="_blank"
+         rel="noopener noreferrer">
+        DISCORD
+      </a>
+    </footer>
+  </main>
 
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -397,6 +406,8 @@ document.addEventListener('DOMContentLoaded', function () {
       progressFill: document.getElementById("leaderboardProgressFill"),
       progressDots: document.getElementById("leaderboardProgressDots"),
       progressText: document.getElementById("leaderboardProgressText"),
+      topKicker: document.getElementById("leaderboardTopKicker"),
+      topHeading: document.getElementById("leaderboardTopHeading"),
       modeButtons: [...document.querySelectorAll("[data-ranking-mode]")]
     };
 
@@ -578,6 +589,12 @@ document.addEventListener('DOMContentLoaded', function () {
       elements.totalAmountLabel.textContent = state.mode === "single"
         ? "本場打賞總額"
         : "本季打賞總額";
+      elements.topKicker.textContent = state.mode === "single"
+        ? "TOP OF THE SESSION"
+        : "TOP OF THE SEASON";
+      elements.topHeading.textContent = state.mode === "single"
+        ? "本次前三名"
+        : "本季前三名";
       elements.rankingPanel.setAttribute(
         "aria-labelledby",
         state.mode === "single" ? "singleRankingTab" : "seasonRankingTab"
