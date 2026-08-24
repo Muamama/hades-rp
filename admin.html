@@ -411,6 +411,174 @@
       color: #ffb2b2;
     }
 
+    .admin-love-popup {
+      position: fixed;
+      right: clamp(16px, 3vw, 34px);
+      bottom: clamp(16px, 3vw, 34px);
+      z-index: 10030;
+      width: min(280px, calc(100vw - 32px));
+      min-height: 118px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      isolation: isolate;
+      padding: 28px 48px 26px 28px;
+      border: 1px solid rgba(255, 160, 178, 0.34);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255, 116, 151, 0.17), transparent 46%),
+        linear-gradient(145deg, rgba(32, 13, 19, 0.97), rgba(10, 10, 10, 0.96));
+      box-shadow:
+        0 18px 48px rgba(0, 0, 0, 0.46),
+        0 0 28px rgba(255, 105, 135, 0.11),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+      opacity: 0;
+      transform: translateY(18px) scale(0.96);
+      pointer-events: none;
+      transition:
+        opacity 0.32s ease,
+        transform 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+      contain: layout paint;
+    }
+
+    .admin-love-popup[hidden] {
+      display: none;
+    }
+
+    .admin-love-popup.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .admin-love-popup-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 3;
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255, 194, 205, 0.22);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      color: rgba(255, 226, 232, 0.78);
+      font-size: 1.25rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .admin-love-popup-close:hover,
+    .admin-love-popup-close:focus-visible {
+      color: #fff2f5;
+      border-color: rgba(255, 194, 205, 0.52);
+      background: rgba(255, 133, 158, 0.12);
+      box-shadow: 0 0 14px rgba(255, 118, 148, 0.16);
+      outline: none;
+    }
+
+    .admin-love-popup-message {
+      position: relative;
+      z-index: 2;
+      margin: 0;
+      color: #ffdbe3;
+      font-size: 1.08rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      white-space: nowrap;
+      text-shadow:
+        0 0 10px rgba(255, 155, 176, 0.42),
+        0 0 24px rgba(255, 85, 125, 0.2);
+      animation: adminLoveTextFloat 3.2s ease-in-out infinite;
+    }
+
+    .admin-love-popup-hearts {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .admin-love-popup-hearts span {
+      position: absolute;
+      bottom: -24px;
+      color: rgba(255, 170, 188, 0.74);
+      font-size: 1rem;
+      line-height: 1;
+      opacity: 0;
+      filter: drop-shadow(0 0 6px rgba(255, 96, 132, 0.34));
+      animation: adminLoveHeartRise 4.8s ease-in infinite;
+    }
+
+    .admin-love-popup-hearts span:nth-child(1) {
+      left: 8%;
+      animation-delay: -0.4s;
+    }
+
+    .admin-love-popup-hearts span:nth-child(2) {
+      left: 24%;
+      font-size: 0.72rem;
+      animation-delay: -2.8s;
+      animation-duration: 5.4s;
+    }
+
+    .admin-love-popup-hearts span:nth-child(3) {
+      left: 46%;
+      font-size: 1.18rem;
+      animation-delay: -1.6s;
+      animation-duration: 5.8s;
+    }
+
+    .admin-love-popup-hearts span:nth-child(4) {
+      left: 64%;
+      font-size: 0.82rem;
+      animation-delay: -3.7s;
+      animation-duration: 4.6s;
+    }
+
+    .admin-love-popup-hearts span:nth-child(5) {
+      left: 80%;
+      font-size: 1.08rem;
+      animation-delay: -2.1s;
+      animation-duration: 5.1s;
+    }
+
+    .admin-love-popup-hearts span:nth-child(6) {
+      left: 91%;
+      font-size: 0.68rem;
+      animation-delay: -4.4s;
+      animation-duration: 5.6s;
+    }
+
+    @keyframes adminLoveTextFloat {
+      0%, 100% {
+        transform: translateY(2px);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @keyframes adminLoveHeartRise {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) rotate(-8deg) scale(0.75);
+      }
+      18% {
+        opacity: 0.78;
+      }
+      70% {
+        opacity: 0.44;
+      }
+      100% {
+        opacity: 0;
+        transform: translate3d(12px, -150px, 0) rotate(18deg) scale(1.12);
+      }
+    }
+
     .admin-protected {
       visibility: hidden;
     }
@@ -445,6 +613,32 @@
         color: #f1d38b;
         font-size: 0.86rem;
         letter-spacing: 0.05em;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .admin-love-popup {
+        right: 16px;
+        bottom: 16px;
+        min-height: 104px;
+        padding: 24px 44px 22px 22px;
+        border-radius: 18px;
+      }
+
+      .admin-love-popup-message {
+        font-size: 1rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .admin-love-popup,
+      .admin-love-popup-message {
+        animation: none;
+        transition: none;
+      }
+
+      .admin-love-popup-hearts {
+        display: none;
       }
     }
   </style>
@@ -534,6 +728,30 @@ document.addEventListener('DOMContentLoaded', function () {
   </div>
 
   <div id="adminProtected" class="admin-protected">
+    <aside
+      id="adminLovePopup"
+      class="admin-love-popup"
+      role="status"
+      aria-label="管理員訊息"
+      hidden
+    >
+      <button
+        id="adminLovePopupClose"
+        class="admin-love-popup-close"
+        type="button"
+        aria-label="關閉訊息"
+      >&times;</button>
+      <div class="admin-love-popup-hearts" aria-hidden="true">
+        <span>♡</span>
+        <span>♡</span>
+        <span>♡</span>
+        <span>♡</span>
+        <span>♡</span>
+        <span>♡</span>
+      </div>
+      <p class="admin-love-popup-message">別生氣了愛你</p>
+    </aside>
+
     <header class="site-header">
       <div class="header-inner">
     
@@ -785,6 +1003,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const lockScreen = document.getElementById("lockScreen");
     const adminProtected = document.getElementById("adminProtected");
+    const adminLovePopup = document.getElementById("adminLovePopup");
+    const adminLovePopupClose = document.getElementById("adminLovePopupClose");
     const lockEmail = document.getElementById("lockEmail");
     const lockPassword = document.getElementById("lockPassword");
     const lockLoginBtn = document.getElementById("lockLoginBtn");
@@ -818,6 +1038,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let scheduleChannel = null;
     let bookingChannel = null;
+    let adminLovePopupShown = false;
 
     function setMessage(el, text, type = "") {
       el.textContent = text;
@@ -849,6 +1070,21 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
+    function showAdminLovePopup() {
+      if (adminLovePopupShown) return;
+
+      adminLovePopupShown = true;
+      adminLovePopup.hidden = false;
+      requestAnimationFrame(() => {
+        adminLovePopup.classList.add("is-visible");
+      });
+    }
+
+    function hideAdminLovePopup() {
+      adminLovePopup.classList.remove("is-visible");
+      adminLovePopup.hidden = true;
+    }
+
     function openProtectedContent(user) {
       adminProtected.classList.add("unlocked");
       lockScreen.classList.add("hidden");
@@ -863,9 +1099,12 @@ document.addEventListener('DOMContentLoaded', function () {
       setMessage(adminMessage, "已通過管理員驗證，可以增加金額。", "success");
       setMessage(scheduleMessage, "已通過管理員驗證，可以管理時間表。", "success");
       setMessage(bookingMessage, "已通過管理員驗證，可以查看預約資料。", "success");
+      showAdminLovePopup();
     }
 
     function closeProtectedContent() {
+      hideAdminLovePopup();
+      adminLovePopupShown = false;
       adminProtected.classList.remove("unlocked");
       lockScreen.classList.remove("hidden");
       document.body.classList.add("modal-locked");
@@ -1320,6 +1559,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     loginBtn.addEventListener("click", () => loginAdmin());
     logoutBtn.addEventListener("click", logoutAdmin);
+    adminLovePopupClose.addEventListener("click", hideAdminLovePopup);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && adminLovePopup.classList.contains("is-visible")) {
+        hideAdminLovePopup();
+      }
+    });
     refreshSessionBtn.addEventListener("click", async () => {
       const user = await checkSession(true);
       if (user) {
