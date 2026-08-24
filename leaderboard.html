@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260824-leaderboard-mobile-tabs" />
+  <link rel="stylesheet" href="style.css?v=20260824-leaderboard-season-note-footer" />
   
   <style>
     .gil-price {
@@ -304,6 +304,9 @@ document.addEventListener('DOMContentLoaded', function () {
       <header class="leaderboard-ranking-heading">
         <span id="leaderboardTopKicker">TOP OF THE SESSION</span>
         <h2 id="leaderboardTopHeading">本次前三名</h2>
+        <p class="leaderboard-season-note" id="leaderboardSeasonNote" hidden>
+          季度排名是以三次總金額相加留下的結論，並非單次排行順序。
+        </p>
       </header>
 
       <div class="leaderboard-podium" id="leaderboardPodium"></div>
@@ -343,16 +346,17 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </section>
 
-    <footer class="site-footer">
-      <a href="/">冥界入口</a>
-      <a href="timelist.html">預約時段</a>
-      <a href="https://discord.gg/eNnUNm2qda"
-         target="_blank"
-         rel="noopener noreferrer">
-        DISCORD
-      </a>
-    </footer>
   </main>
+
+  <footer class="site-footer">
+    <a href="/">冥界入口</a>
+    <a href="timelist.html">預約時段</a>
+    <a href="https://discord.gg/eNnUNm2qda"
+       target="_blank"
+       rel="noopener noreferrer">
+      DISCORD
+    </a>
+  </footer>
 
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -408,6 +412,7 @@ document.addEventListener('DOMContentLoaded', function () {
       progressText: document.getElementById("leaderboardProgressText"),
       topKicker: document.getElementById("leaderboardTopKicker"),
       topHeading: document.getElementById("leaderboardTopHeading"),
+      seasonNote: document.getElementById("leaderboardSeasonNote"),
       modeButtons: [...document.querySelectorAll("[data-ranking-mode]")]
     };
 
@@ -595,6 +600,7 @@ document.addEventListener('DOMContentLoaded', function () {
       elements.topHeading.textContent = state.mode === "single"
         ? "本次前三名"
         : "本季前三名";
+      elements.seasonNote.hidden = state.mode !== "season";
       elements.rankingPanel.setAttribute(
         "aria-labelledby",
         state.mode === "single" ? "singleRankingTab" : "seasonRankingTab"

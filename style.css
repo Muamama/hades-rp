@@ -2487,6 +2487,19 @@ body.popup-open {
   text-shadow: 0 0 18px rgba(212, 175, 55, 0.08);
 }
 
+.leaderboard-season-note {
+  max-width: 760px;
+  margin: 12px 0 0;
+  color: #93866f;
+  font-size: 0.78rem;
+  line-height: 1.85;
+  letter-spacing: 0.08em;
+}
+
+.leaderboard-season-note[hidden] {
+  display: none;
+}
+
 .leaderboard-standings-heading {
   margin: 44px 0 20px;
 }
@@ -2845,6 +2858,13 @@ body.popup-open {
   .leaderboard-ranking-heading h2 {
     font-size: 1.28rem;
     letter-spacing: 3px;
+  }
+
+  .leaderboard-season-note {
+    margin-top: 10px;
+    font-size: 0.72rem;
+    line-height: 1.75;
+    letter-spacing: 0.05em;
   }
 
   .leaderboard-standings-heading {
@@ -6113,34 +6133,22 @@ body.popup-open {
 
 }
 
-/* 排行榜頁：footer 跟著內容走，避免遮住切換列與榜單標題。 */
+/* 排行榜頁：保留固定 footer 所需的底部安全距離。 */
 body.leaderboard-page {
-  padding-bottom: 0;
+  padding-bottom: var(--footer-h);
 }
 
 body.leaderboard-page > main {
-  padding-bottom: 0;
-}
-
-body.leaderboard-page .site-footer {
-  position: relative;
-  left: auto;
-  right: auto;
-  bottom: auto;
-  width: 100%;
-  height: auto;
-  min-height: var(--footer-h);
-  margin-top: 64px;
-  z-index: 10;
-}
-
-body.leaderboard-page .site-bgm-drawer {
-  bottom: 16px;
+  padding-bottom: 32px;
 }
 
 @media (max-width: 768px) {
+  body.leaderboard-page {
+    padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
   body.leaderboard-page > main {
-    padding-bottom: 0 !important;
+    padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px) + 32px) !important;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -6258,13 +6266,4 @@ body.leaderboard-page .site-bgm-drawer {
     letter-spacing: 0.7px;
   }
 
-  body.leaderboard-page .site-footer {
-    min-height: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px));
-    margin-top: 52px;
-    padding: 0 12px env(safe-area-inset-bottom, 0px);
-  }
-
-  body.leaderboard-page .site-bgm-drawer {
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
-  }
 }
