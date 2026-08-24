@@ -6141,6 +6141,121 @@ body.leaderboard-page .site-bgm-drawer {
 @media (max-width: 768px) {
   body.leaderboard-page > main {
     padding-bottom: 0 !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  body.leaderboard-page > main::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  body.leaderboard-page .leaderboard-mode-switch {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    overflow: hidden;
+    scrollbar-width: none;
+  }
+
+  body.leaderboard-page .leaderboard-mode-btn {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    min-width: 0;
+    min-height: 64px;
+    padding: 9px 8px 8px;
+    text-align: center;
+  }
+
+  body.leaderboard-page .leaderboard-mode-btn span,
+  body.leaderboard-page .leaderboard-mode-btn small {
+    display: block;
+    width: 100%;
+    margin: 0;
+    line-height: 1.25;
+    white-space: nowrap;
+    word-break: keep-all;
+  }
+
+  body.leaderboard-page .leaderboard-mode-btn span {
+    font-size: 0.96rem;
+    letter-spacing: 3px;
+  }
+
+  body.leaderboard-page .leaderboard-mode-btn small {
+    font-size: 0.66rem;
+    letter-spacing: 1.5px;
+  }
+
+  body.leaderboard-page .leaderboard-period-toolbar {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+  }
+
+  body.leaderboard-page .leaderboard-period-toolbar::-webkit-scrollbar,
+  body.leaderboard-page .leaderboard-mode-switch::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+
+  body.leaderboard-page .leaderboard-period-field {
+    flex: 0 0 auto;
+    min-width: max-content;
+  }
+
+  body.leaderboard-page #leaderboardSessionField {
+    margin-left: 4px;
+    padding-left: 4px;
+  }
+
+  body.leaderboard-page .leaderboard-period-choices {
+    flex-wrap: nowrap;
+    min-height: 48px;
+    overflow: visible;
+  }
+
+  body.leaderboard-page .leaderboard-period-choice {
+    flex: 0 0 auto;
+    gap: 7px;
+    min-width: max-content;
+    min-height: 48px;
+    padding: 0 12px;
+    scroll-snap-align: start;
+    white-space: nowrap;
+    word-break: keep-all;
+  }
+
+  body.leaderboard-page .leaderboard-period-choice span,
+  body.leaderboard-page .leaderboard-period-choice small {
+    display: block;
+    flex: none;
+    white-space: nowrap;
+    word-break: keep-all;
+  }
+
+  body.leaderboard-page .leaderboard-period-choice span {
+    font-size: 0.84rem;
+    letter-spacing: 1.5px;
+  }
+
+  body.leaderboard-page .leaderboard-period-choice small {
+    font-size: 0.62rem;
+    letter-spacing: 0.7px;
   }
 
   body.leaderboard-page .site-footer {
