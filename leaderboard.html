@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260824-leaderboard-periods" />
+  <link rel="stylesheet" href="style.css?v=20260824-leaderboard-tabs-progress" />
   
   <style>
     .gil-price {
@@ -192,13 +192,45 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
   </header>
   <main>
-    <section class="echo-hero">
+    <section class="echo-hero leaderboard-hero">
       <div class="echo-hero-inner">
-        <div class="echo-kicker">NETHER RANKING</div>
-        <h1 class="echo-title">冥界排行榜</h1>
-        <p class="echo-desc">
-          所有被記錄下的名字，都是在這片夜色裡留下痕跡的人。這裡展示冥界目前的排行榜與累積紀錄，讓每一道回聲，都有被看見的位置。
-        </p>
+        <div class="leaderboard-hero-copy">
+          <div class="echo-kicker">NETHER RANKING</div>
+          <h1 class="echo-title">冥界排行榜</h1>
+          <p class="echo-desc">
+            所有被記錄下的名字，都是在這片夜色裡留下痕跡的人。這裡展示冥界目前的排行榜與累積紀錄，讓每一道回聲，都有被看見的位置。
+          </p>
+        </div>
+
+        <aside class="leaderboard-hero-season" aria-labelledby="leaderboardHeroSeasonName">
+          <div class="leaderboard-hero-season-head">
+            <span>CURRENT SEASON</span>
+            <span class="leaderboard-status-badge" id="leaderboardStatusBadge">載入中</span>
+          </div>
+          <strong class="leaderboard-hero-season-name" id="leaderboardHeroSeasonName">正在讀取季度</strong>
+          <div class="leaderboard-hero-season-dates">
+            <span>營業日期</span>
+            <strong id="leaderboardHeroDateRange">日期待定</strong>
+          </div>
+          <div class="leaderboard-hero-progress-copy">
+            <span>季度進度</span>
+            <strong id="leaderboardProgressText">已開放 0 / 3 場</strong>
+          </div>
+          <div
+            class="leaderboard-hero-progress-track"
+            id="leaderboardProgressTrack"
+            role="progressbar"
+            aria-label="季度已開放場次"
+            aria-valuemin="0"
+            aria-valuemax="3"
+            aria-valuenow="0"
+          >
+            <i id="leaderboardProgressFill"></i>
+          </div>
+          <div class="leaderboard-progress-dots" id="leaderboardProgressDots" aria-hidden="true">
+            <i></i><i></i><i></i>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -231,36 +263,38 @@ document.addEventListener('DOMContentLoaded', function () {
           </button>
         </div>
 
-        <div class="leaderboard-period-toolbar">
-          <label class="leaderboard-period-field">
-            <span>選擇季度</span>
-            <select id="leaderboardSeasonSelect" aria-label="選擇季度" disabled>
-              <option>載入中…</option>
-            </select>
-          </label>
-          <label class="leaderboard-period-field" id="leaderboardSessionField">
-            <span>選擇單次營業</span>
-            <select id="leaderboardSessionSelect" aria-label="選擇單次營業" disabled>
-              <option>載入中…</option>
-            </select>
-          </label>
+        <div class="leaderboard-period-toolbar" id="leaderboardPeriodToolbar">
+          <div class="leaderboard-period-field">
+            <span id="leaderboardSeasonChoicesLabel">選擇季度</span>
+            <div
+              class="leaderboard-period-choices"
+              id="leaderboardSeasonChoices"
+              role="radiogroup"
+              aria-labelledby="leaderboardSeasonChoicesLabel"
+            >
+              <span class="leaderboard-choice-empty">載入中…</span>
+            </div>
+          </div>
+          <div class="leaderboard-period-field" id="leaderboardSessionField">
+            <span id="leaderboardSessionChoicesLabel">選擇單次營業</span>
+            <div
+              class="leaderboard-period-choices"
+              id="leaderboardSessionChoices"
+              role="radiogroup"
+              aria-labelledby="leaderboardSessionChoicesLabel"
+            >
+              <span class="leaderboard-choice-empty">載入中…</span>
+            </div>
+          </div>
         </div>
 
         <div class="leaderboard-period-info">
           <div>
             <div class="leaderboard-period-heading-row">
               <span class="leaderboard-period-kicker" id="leaderboardPeriodKicker">SINGLE SESSION</span>
-              <span class="leaderboard-status-badge" id="leaderboardStatusBadge">載入中</span>
             </div>
             <h2 id="leaderboardPeriodHeading">正在讀取排行榜</h2>
             <p id="leaderboardPeriodMeta">請稍候，冥界正在整理留下的供奉紀錄。</p>
-          </div>
-          <div class="leaderboard-season-progress" id="leaderboardSeasonProgress" aria-label="季度場次進度">
-            <span class="leaderboard-progress-label">季度進度</span>
-            <div class="leaderboard-progress-dots" id="leaderboardProgressDots" aria-hidden="true">
-              <i></i><i></i><i></i>
-            </div>
-            <strong id="leaderboardProgressText">0 / 3 場</strong>
           </div>
         </div>
       </div>
@@ -348,13 +382,18 @@ document.addEventListener('DOMContentLoaded', function () {
       totalAmount: document.getElementById("totalAmount"),
       totalAmountLabel: document.getElementById("totalAmountLabel"),
       hostCount: document.getElementById("hostCount"),
-      seasonSelect: document.getElementById("leaderboardSeasonSelect"),
-      sessionSelect: document.getElementById("leaderboardSessionSelect"),
+      seasonChoices: document.getElementById("leaderboardSeasonChoices"),
+      sessionChoices: document.getElementById("leaderboardSessionChoices"),
       sessionField: document.getElementById("leaderboardSessionField"),
+      periodToolbar: document.getElementById("leaderboardPeriodToolbar"),
       periodKicker: document.getElementById("leaderboardPeriodKicker"),
       periodHeading: document.getElementById("leaderboardPeriodHeading"),
       periodMeta: document.getElementById("leaderboardPeriodMeta"),
       statusBadge: document.getElementById("leaderboardStatusBadge"),
+      heroSeasonName: document.getElementById("leaderboardHeroSeasonName"),
+      heroDateRange: document.getElementById("leaderboardHeroDateRange"),
+      progressTrack: document.getElementById("leaderboardProgressTrack"),
+      progressFill: document.getElementById("leaderboardProgressFill"),
       progressDots: document.getElementById("leaderboardProgressDots"),
       progressText: document.getElementById("leaderboardProgressText"),
       modeButtons: [...document.querySelectorAll("[data-ranking-mode]")]
@@ -367,6 +406,7 @@ document.addEventListener('DOMContentLoaded', function () {
       sessions: [],
       currentSeasonId: null,
       currentSessionId: null,
+      pendingChoiceFocus: null,
       periodsReady: false,
       requestId: 0
     };
@@ -403,6 +443,16 @@ document.addEventListener('DOMContentLoaded', function () {
         weekday: "short",
         timeZone: "Asia/Taipei"
       }).format(date);
+    }
+
+    function formatDateRange(sessions) {
+      const datedSessions = sessions
+        .filter((session) => session.business_date)
+        .sort((left, right) => String(left.business_date).localeCompare(String(right.business_date)));
+      if (datedSessions.length === 0) return "日期待定";
+      const first = formatDate(datedSessions[0].business_date);
+      const last = formatDate(datedSessions[datedSessions.length - 1].business_date);
+      return first === last ? first : `${first} — ${last}`;
     }
 
     function seasonLabel(season) {
@@ -523,6 +573,7 @@ document.addEventListener('DOMContentLoaded', function () {
         button.tabIndex = active ? 0 : -1;
       });
       elements.sessionField.hidden = state.mode !== "single";
+      elements.periodToolbar.classList.toggle("is-season-mode", state.mode === "season");
       elements.totalAmountLabel.textContent = state.mode === "single"
         ? "本場打賞總額"
         : "本季打賞總額";
@@ -532,30 +583,66 @@ document.addEventListener('DOMContentLoaded', function () {
       );
     }
 
-    function updateSelectors() {
-      elements.seasonSelect.innerHTML = "";
-      state.seasons.forEach((season) => {
-        const option = document.createElement("option");
-        option.value = String(season.id);
-        option.textContent = seasonLabel(season);
-        elements.seasonSelect.appendChild(option);
-      });
-      elements.seasonSelect.disabled = state.seasons.length === 0;
-      if (state.currentSeasonId != null) {
-        elements.seasonSelect.value = String(state.currentSeasonId);
+    function createPeriodChoice({ value, label, meta, active, type }) {
+      const button = document.createElement("button");
+      button.className = "leaderboard-period-choice";
+      button.type = "button";
+      button.role = "radio";
+      button.dataset[`${type}Id`] = String(value);
+      button.setAttribute("aria-checked", String(active));
+      button.tabIndex = active ? 0 : -1;
+      button.classList.toggle("is-active", active);
+
+      const labelNode = document.createElement("span");
+      labelNode.textContent = label;
+      const metaNode = document.createElement("small");
+      metaNode.textContent = meta;
+      button.append(labelNode, metaNode);
+      return button;
+    }
+
+    function showChoiceEmpty(container, text) {
+      const empty = document.createElement("span");
+      empty.className = "leaderboard-choice-empty";
+      empty.textContent = text;
+      container.replaceChildren(empty);
+    }
+
+    function updatePeriodChoices() {
+      if (state.seasons.length === 0) {
+        showChoiceEmpty(elements.seasonChoices, "目前沒有公開季度");
+      } else {
+        const seasonButtons = state.seasons.map((season) => createPeriodChoice({
+          value: season.id,
+          label: seasonLabel(season),
+          meta: statusContent(season.status).label,
+          active: idsMatch(season.id, state.currentSeasonId),
+          type: "season"
+        }));
+        elements.seasonChoices.replaceChildren(...seasonButtons);
       }
 
       const sessions = getSeasonSessions();
-      elements.sessionSelect.innerHTML = "";
-      sessions.forEach((session) => {
-        const option = document.createElement("option");
-        option.value = String(session.id);
-        option.textContent = `${sessionLabel(session)} · ${formatDate(session.business_date)}`;
-        elements.sessionSelect.appendChild(option);
-      });
-      elements.sessionSelect.disabled = sessions.length === 0;
-      if (state.currentSessionId != null) {
-        elements.sessionSelect.value = String(state.currentSessionId);
+      if (sessions.length === 0) {
+        showChoiceEmpty(elements.sessionChoices, "此季度尚無已開放場次");
+      } else {
+        const sessionButtons = sessions.map((session) => createPeriodChoice({
+          value: session.id,
+          label: sessionLabel(session),
+          meta: `${formatDate(session.business_date)} · ${statusContent(session.status).label}`,
+          active: idsMatch(session.id, state.currentSessionId),
+          type: "session"
+        }));
+        elements.sessionChoices.replaceChildren(...sessionButtons);
+      }
+
+      if (state.pendingChoiceFocus) {
+        const { type, id } = state.pendingChoiceFocus;
+        const container = type === "season" ? elements.seasonChoices : elements.sessionChoices;
+        const nextFocus = [...container.querySelectorAll(".leaderboard-period-choice")]
+          .find((button) => idsMatch(button.dataset[`${type}Id`], id));
+        state.pendingChoiceFocus = null;
+        if (nextFocus) window.requestAnimationFrame(() => nextFocus.focus());
       }
     }
 
@@ -563,8 +650,9 @@ document.addEventListener('DOMContentLoaded', function () {
       const season = getCurrentSeason();
       const session = getCurrentSession();
       const sessions = getSeasonSessions();
-      const period = state.mode === "single" ? session : season;
-      const status = statusContent(period?.status);
+      const status = statusContent(season?.status);
+      const availableCount = Math.min(sessions.length, 3);
+      const progressPercent = availableCount / 3 * 100;
 
       elements.periodKicker.textContent = state.mode === "single"
         ? "SINGLE SESSION"
@@ -579,8 +667,12 @@ document.addEventListener('DOMContentLoaded', function () {
         : (season
           ? `${sessions.length} / 3 次營業 · 三次排行榜合計後封榜`
           : "每一季由三次營業排行榜合計而成。")
+      elements.heroSeasonName.textContent = season ? seasonLabel(season) : "尚未建立季度";
+      elements.heroDateRange.textContent = formatDateRange(sessions);
       elements.statusBadge.textContent = status.label;
       elements.statusBadge.className = `leaderboard-status-badge ${status.className}`;
+      elements.progressTrack.setAttribute("aria-valuenow", String(availableCount));
+      elements.progressFill.style.width = `${progressPercent}%`;
 
       const dots = [...elements.progressDots.querySelectorAll("i")];
       const sessionsByNumber = new Map(
@@ -592,7 +684,7 @@ document.addEventListener('DOMContentLoaded', function () {
           ? (item.status === "closed" ? "is-complete" : item.status === "open" ? "is-current" : "")
           : "";
       });
-      elements.progressText.textContent = `已開放 ${Math.min(sessions.length, 3)} / 3 場`;
+      elements.progressText.textContent = `已開放 ${availableCount} / 3 場`;
     }
 
     function renderRows(data, animate = false) {
@@ -674,7 +766,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function renderSelectedRanking(animate = false) {
       updateModeControls();
-      updateSelectors();
+      updatePeriodChoices();
       updatePeriodContext();
       updateUrl();
 
@@ -786,7 +878,7 @@ document.addEventListener('DOMContentLoaded', function () {
         state.currentSeasonId = null;
         state.currentSessionId = null;
         updateModeControls();
-        updateSelectors();
+        updatePeriodChoices();
         updatePeriodContext();
         updateUrl();
         state.periodsReady = true;
@@ -841,8 +933,31 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
 
-    elements.seasonSelect.addEventListener("change", async () => {
-      const season = state.seasons.find((item) => idsMatch(item.id, elements.seasonSelect.value));
+    function handleChoiceKeyboard(event, container) {
+      const buttons = [...container.querySelectorAll(".leaderboard-period-choice")];
+      if (buttons.length === 0) return;
+      const currentIndex = buttons.indexOf(document.activeElement);
+      let nextIndex = currentIndex < 0 ? 0 : currentIndex;
+      if (event.key === "ArrowRight" || event.key === "ArrowDown") nextIndex = (nextIndex + 1) % buttons.length;
+      else if (event.key === "ArrowLeft" || event.key === "ArrowUp") nextIndex = (nextIndex - 1 + buttons.length) % buttons.length;
+      else if (event.key === "Home") nextIndex = 0;
+      else if (event.key === "End") nextIndex = buttons.length - 1;
+      else return;
+      event.preventDefault();
+      const next = buttons[nextIndex];
+      const type = next.dataset.seasonId ? "season" : "session";
+      state.pendingChoiceFocus = { type, id: next.dataset[`${type}Id`] };
+      next.focus();
+      next.click();
+    }
+
+    elements.seasonChoices.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-season-id]");
+      if (!button) return;
+      if (event.detail === 0 && !state.pendingChoiceFocus) {
+        state.pendingChoiceFocus = { type: "season", id: button.dataset.seasonId };
+      }
+      const season = state.seasons.find((item) => idsMatch(item.id, button.dataset.seasonId));
       state.currentSeasonId = season?.id ?? null;
       const sessions = getSeasonSessions();
       state.currentSessionId = (
@@ -852,11 +967,22 @@ document.addEventListener('DOMContentLoaded', function () {
       )?.id ?? null;
       await renderSelectedRanking(false);
     });
+    elements.seasonChoices.addEventListener("keydown", (event) => {
+      handleChoiceKeyboard(event, elements.seasonChoices);
+    });
 
-    elements.sessionSelect.addEventListener("change", async () => {
-      const session = state.sessions.find((item) => idsMatch(item.id, elements.sessionSelect.value));
+    elements.sessionChoices.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-session-id]");
+      if (!button) return;
+      if (event.detail === 0 && !state.pendingChoiceFocus) {
+        state.pendingChoiceFocus = { type: "session", id: button.dataset.sessionId };
+      }
+      const session = state.sessions.find((item) => idsMatch(item.id, button.dataset.sessionId));
       state.currentSessionId = session?.id ?? null;
       await renderSelectedRanking(false);
+    });
+    elements.sessionChoices.addEventListener("keydown", (event) => {
+      handleChoiceKeyboard(event, elements.sessionChoices);
     });
 
     elements.retry.addEventListener("click", () => loadPeriods({ keepSelection: true }));
