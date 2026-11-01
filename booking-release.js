@@ -129,9 +129,9 @@ form.addEventListener("submit", async (event) => {
       requestPayload = null;
     } else {
       let text = `${host}已回應你的指名。\n${slots.selectedOptions[0].textContent}\n`;
-      if (data.addon_reserved) text += "\n加購成功｜香檳的黏膩相擁 × 1\n加購金額：100,000 gil";
-      else if (data.addon_requested) text += "\n香檳加購已被搶先帶走，本次未加購、無加購費用。你的指名預約仍已成功保留。";
-      else text += "\n本次未加購香檳。";
+      if (data.addon_reserved) text += "\n加購成功｜黏膩相擁 × 1\n加購金額：100,000 gil";
+      else if (data.addon_requested) text += "\n相擁加購已被搶先帶走，本次未加購、無加購費用。你的指名預約仍已成功保留。";
+      else text += "\n本次未加購黏膩相擁。";
       message("指名預約成功，請保留確認資訊並等待聯絡。", "success");
       showPopup("success", "召喚已被回應", text);
       form.reset();
