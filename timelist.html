@@ -23,6 +23,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=20260617-bgm-peek-tucked" />
 
+  <style>
+    .schedule-section { margin-top: 0; padding-top: 8px; }
+    .schedule-booking-entry { display: flex; justify-content: center; margin: 0 0 30px; padding: 0 20px; }
+    .schedule-booking-link {
+      display: inline-flex; align-items: center; justify-content: center; gap: 22px;
+      width: min(420px, 100%); min-height: 64px; padding: 16px 24px; box-sizing: border-box;
+      border: 1px solid rgba(212,175,55,.48); border-radius: 3px;
+      background: radial-gradient(ellipse at center,rgba(108,20,26,.24),transparent 80%),rgba(15,9,10,.8);
+      color: #e3c47d; text-decoration: none; font-size: 17px; letter-spacing: .28em;
+      box-shadow: inset 0 0 18px rgba(212,175,55,.035),0 0 22px rgba(100,0,12,.12);
+      transition: border-color .2s,background-color .2s,box-shadow .2s;
+    }
+    .schedule-booking-link::before, .schedule-booking-link::after { content: "◆"; font-size: 8px; color: #ae853b; letter-spacing: 0; }
+    .schedule-booking-link:hover { border-color: #d4af37; background-color: rgba(74,20,24,.5); box-shadow: 0 0 24px rgba(150,44,30,.2),inset 0 0 20px rgba(212,175,55,.06); }
+    .schedule-booking-link:focus-visible { outline: 2px solid #e3c47d; outline-offset: 5px; }
+    @media(max-width:600px) { .schedule-booking-link { min-height: 58px; font-size: 16px; } }
+    @media(prefers-reduced-motion:reduce) { .schedule-booking-link { transition: none; } }
+  </style>
+
   <script type="module">
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
@@ -403,6 +422,9 @@ document.addEventListener('DOMContentLoaded', function () {
     </section>
 
     <section class="schedule-section">
+      <div class="schedule-booking-entry">
+        <a class="schedule-booking-link" href="booking.html" aria-label="墜入預約，查看活動資訊彈窗">墜入預約</a>
+      </div>
 
       <div class="schedule-table" id="scheduleTable">
         <div class="schedule-head">
