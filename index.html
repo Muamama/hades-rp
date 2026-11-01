@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=20260617-bgm-peek-tucked" />
-  <link rel="stylesheet" href="home-event.css?v=20261101-hidden-scroll" />
+  <link rel="stylesheet" href="home-event.css?v=20261101-matching-tabs" />
   <link rel="icon" href="/favicon.ico" />
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -129,7 +129,7 @@
       margin-bottom: 24px;
     }
 
-    .notice-service-btn {
+    .notice-service-btn, .home-event-open {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -160,7 +160,7 @@
         filter 0.28s ease;
     }
 
-    .notice-service-btn:hover {
+    .notice-service-btn:hover, .home-event-open:hover {
       color: #f0dc98;
       transform: translateY(-2px);
       filter: brightness(1.04);
@@ -169,7 +169,7 @@
         0 0 12px rgba(100, 0, 0, 0.18) !important;
     }
 
-    .notice-service-btn:active {
+    .notice-service-btn:active, .home-event-open:active {
       transform: translateY(0) scale(0.98);
     }
 
@@ -413,7 +413,7 @@
         margin-bottom: 22px;
       }
 
-      .notice-service-btn {
+      .notice-service-btn, .home-event-open {
         min-width: calc(50% - 8px);
         padding: 8px 10px;
         font-size: 0.86rem;
