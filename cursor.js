@@ -236,6 +236,40 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(glow);
   document.body.appendChild(cursor);
 
+  // A modal dialog sits above every ordinary z-index. Put the decorative
+  // pointer in its own non-interactive top-layer popover while a modal is open.
+  if (typeof HTMLElement.prototype.showPopover === "function") {
+    const pointerLayer = document.createElement("div");
+    pointerLayer.setAttribute("popover", "manual");
+    pointerLayer.setAttribute("aria-hidden", "true");
+    pointerLayer.style.cssText = "position:fixed;inset:0;margin:0;padding:0;border:0;width:100vw;height:100dvh;max-width:none;max-height:none;overflow:visible;background:transparent;pointer-events:none;";
+    let activeModal = null;
+
+    function syncPointerLayer() {
+      const modals = document.querySelectorAll("dialog:modal");
+      const modal = modals.length ? modals[modals.length - 1] : null;
+      if (modal === activeModal) return;
+      if (pointerLayer.matches(":popover-open")) pointerLayer.hidePopover();
+      activeModal = modal;
+      if (modal) {
+        modal.appendChild(pointerLayer);
+        pointerLayer.append(glow, cursor);
+        pointerLayer.showPopover();
+      } else {
+        document.body.append(glow, cursor);
+        pointerLayer.remove();
+      }
+    }
+
+    new MutationObserver(syncPointerLayer).observe(document.body, {
+      attributes: true,
+      attributeFilter: ["open"],
+      childList: true,
+      subtree: true
+    });
+    syncPointerLayer();
+  }
+
   let mouseX = 0;
   let mouseY = 0;
   let glowX = 0;
