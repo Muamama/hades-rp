@@ -12,7 +12,7 @@ declare
 begin
   select array_agg(id order by sort_order,id) into slots from public.schedule_list
     where release_id='2026-11-02';
-  assert array_length(slots,1)=13, 'Expected 13 slots; 蛇魂 only in second session';
+  assert array_length(slots,1)=15, 'Expected 15 slots; 蛇魂 only in second session; 刻耳柏洛斯 in both';
   assert not (public.get_booking_release_state()->>'is_open')::boolean, 'Release must start closed';
   a:=public.reserve_release_slot(slots[1],'test','test',null,true,key_a);
   assert a->>'code'='not_open', 'Server must refuse early bookings';
