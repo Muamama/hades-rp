@@ -25,6 +25,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=20260617-bgm-peek-tucked" />
 
+  <link rel="stylesheet" href="booking-release.css?v=20261101" />
+
   <style>
     .booking-shell {
       width: min(920px, 92%);
@@ -411,237 +413,7 @@
     }
   </style>
 
-  <script type="module">
-    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-
-    const SUPABASE_URL = "https://jzhbqavasikwpxbqjksu.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_KFcwagT3Ho1ivjPv3Oq9zw_FNIaBVpX";
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    let scheduleChannel = null;
-    let reservationChannel = null;
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const slotSelect = document.getElementById("schedule_id");
-      const form = document.getElementById("bookingForm");
-      const submitBtn = document.getElementById("bookingSubmit");
-      const message = document.getElementById("bookingMessage");
-      const siteHeader = document.querySelector(".site-header");
-
-      const popupOverlay = document.getElementById("bookingPopupOverlay");
-      const popupCard = document.getElementById("bookingPopupCard");
-      const popupClose = document.getElementById("bookingPopupClose");
-      const popupTitle = document.getElementById("bookingPopupTitle");
-      const popupText = document.getElementById("bookingPopupText");
-      const popupConfirm = document.getElementById("bookingPopupConfirm");
-
-      function setMessage(text, type = "") {
-        message.textContent = text || "";
-        message.className = "booking-message" + (type ? ` ${type}` : "");
-      }
-
-      function getSelectedHostName() {
-        const selectedOption = slotSelect.options[slotSelect.selectedIndex];
-        if (!selectedOption || !selectedOption.textContent) return "對方";
-        const text = selectedOption.textContent.trim();
-        return text.split("｜")[0]?.trim() || "對方";
-      }
-
-      function getSuccessLine(hostName) {
-        const lines = [
-          `${hostName}今夜將與你共享這場狂歡。`,
-          `${hostName}今夜將與你沉溺於冥界的享樂。`,
-          `${hostName}已為你留下今夜的位置，等你一同墜入這場夜色。`,
-          `${hostName}將與你在今夜交纏，共享這場不肯熄滅的餘燼。`,
-          `${hostName}已應下你的召喚，今夜將與你共赴這場盛宴。`,
-          `${hostName}的目光今夜將落在你身上，與你共享這場墮落。`,
-          `${hostName}今夜將為你敞開冥界之門，與你一同狂歡至深處。`,
-          `${hostName}會在今夜等待你的靠近，與你共飲這場危險的歡愉。`
-        ];
-        return lines[Math.floor(Math.random() * lines.length)];
-      }
-
-      function getFailureLine(hostName) {
-        const lines = [
-          `${hostName}的靈魂今夜已被佔據，請等待下一次邂逅。`,
-          `${hostName}今夜已屬於他人，請靜候下一次降臨。`,
-          `${hostName}的夜晚已被先一步奪去，請等待下一次召喚。`,
-          `${hostName}今夜已落入別人的懷裡，請等待下一次相遇。`,
-          `${hostName}的名字今夜已被他人低聲喚走，請靜候下一場狂歡。`,
-          `${hostName}今夜的欲望已被帶走，請等待下一次靠近。`,
-          `${hostName}的門扉今夜已為他人開啟，請等待下一次墜落。`,
-          `${hostName}今夜已無法再回應你的渴望，請等待下一次邂逅。`
-        ];
-        return lines[Math.floor(Math.random() * lines.length)];
-      }
-
-      function openPopup(type, title, text) {
-        popupCard.classList.remove("success", "error");
-        popupCard.classList.add(type);
-        popupTitle.textContent = title;
-        popupText.textContent = text;
-        popupOverlay.classList.add("show");
-        document.body.classList.add("popup-open");
-      }
-
-      function closePopup() {
-        popupOverlay.classList.remove("show");
-        document.body.classList.remove("popup-open");
-      }
-
-      async function loadAvailableSlots() {
-        slotSelect.innerHTML = `<option value="">讀取中...</option>`;
-        slotSelect.disabled = true;
-
-        const [
-          { data: scheduleData, error: scheduleError },
-          { data: reservationData, error: reservationError }
-        ] = await Promise.all([
-          supabase
-            .from("schedule_list")
-            .select("id, name, date, status")
-            .neq("status", "off")
-            .order("sort_order", { ascending: true })
-            .order("id", { ascending: true }),
-          supabase
-            .from("reservations_public_view")
-            .select("schedule_id, status")
-        ]);
-
-        if (scheduleError || reservationError) {
-          console.error(scheduleError || reservationError);
-          slotSelect.innerHTML = `<option value="">載入失敗</option>`;
-          setMessage("可預約時段讀取失敗，請稍後再試。", "error");
-          return;
-        }
-
-        const reservedIds = new Set((reservationData || []).map(item => Number(item.schedule_id)));
-        const available = (scheduleData || []).filter(item => item.status === "wait" && !reservedIds.has(Number(item.id)));
-
-        if (!available.length) {
-          slotSelect.innerHTML = `<option value="">目前沒有可預約時段</option>`;
-          setMessage("目前沒有可預約時段。", "error");
-          return;
-        }
-
-        slotSelect.innerHTML = `<option value="">請選擇時段</option>` + available.map(item => {
-          return `<option value="${item.id}">${item.name || ""}｜${item.date || ""}</option>`;
-        }).join("");
-
-        slotSelect.disabled = false;
-        setMessage("");
-      }
-
-      async function submitReservation(e) {
-        e.preventDefault();
-        setMessage("");
-
-        const scheduleId = form.schedule_id.value.trim();
-        const customerName = form.customer_name.value.trim();
-        const customerContact = form.customer_contact.value.trim();
-        const customerNote = form.customer_note.value.trim();
-        const hostName = getSelectedHostName();
-
-        if (!scheduleId || !customerName || !customerContact) {
-          setMessage("請完整填寫必要欄位。", "error");
-          return;
-        }
-
-        submitBtn.disabled = true;
-        submitBtn.textContent = "送出中...";
-
-        const { data, error } = await supabase.rpc("create_reservation", {
-          p_schedule_id: Number(scheduleId),
-          p_customer_name: customerName,
-          p_customer_contact: customerContact,
-          p_customer_note: customerNote || null
-        });
-
-        if (error) {
-          console.error(error);
-          const failText = getFailureLine(hostName);
-          setMessage("預約失敗，請稍後再試。", "error");
-          openPopup("error", "今夜之門已閉", failText);
-          submitBtn.disabled = false;
-          submitBtn.textContent = "送 出 預 約";
-          return;
-        }
-
-        if (!data?.success) {
-          const failText = getFailureLine(hostName);
-          setMessage(data?.message || "此時段已不可預約。", "error");
-          openPopup("error", "今夜之門已閉", failText);
-          submitBtn.disabled = false;
-          submitBtn.textContent = "送 出 預 約";
-          await loadAvailableSlots();
-          return;
-        }
-
-        const successText = getSuccessLine(hostName);
-        setMessage("預約成功，請等待後台確認。", "success");
-        openPopup("success", "召喚已被回應", successText);
-        form.reset();
-        await loadAvailableSlots();
-
-        submitBtn.disabled = false;
-        submitBtn.textContent = "送 出 預 約";
-      }
-
-      function setupRealtime() {
-        if (scheduleChannel) supabase.removeChannel(scheduleChannel);
-        if (reservationChannel) supabase.removeChannel(reservationChannel);
-
-        scheduleChannel = supabase
-          .channel("booking_schedule_realtime")
-          .on("postgres_changes", {
-            event: "*",
-            schema: "public",
-            table: "schedule_list"
-          }, loadAvailableSlots)
-          .subscribe();
-
-        reservationChannel = supabase
-          .channel("booking_reservations_realtime")
-          .on("postgres_changes", {
-            event: "*",
-            schema: "public",
-            table: "reservations"
-          }, loadAvailableSlots)
-          .subscribe();
-      }
-
-      form.addEventListener("submit", submitReservation);
-
-      popupClose.addEventListener("click", closePopup);
-      popupConfirm.addEventListener("click", closePopup);
-
-      popupOverlay.addEventListener("click", (e) => {
-        if (e.target === popupOverlay) closePopup();
-      });
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closePopup();
-      });
-
-      if (siteHeader) {
-        window.addEventListener("scroll", function () {
-          if (window.scrollY > 10) {
-            siteHeader.classList.add("scrolled");
-          } else {
-            siteHeader.classList.remove("scrolled");
-          }
-        });
-      }
-
-      loadAvailableSlots();
-      setupRealtime();
-
-      window.addEventListener("beforeunload", () => {
-        if (scheduleChannel) supabase.removeChannel(scheduleChannel);
-        if (reservationChannel) supabase.removeChannel(reservationChannel);
-      });
-    });
-  </script>
+  <script type="module" src="booking-release.js?v=20261101"></script>
 </head>
 
 <script>
@@ -738,11 +510,23 @@ document.addEventListener('DOMContentLoaded', function () {
     </section>
 
     <section class="booking-shell">
+      <section class="release-panel" aria-labelledby="releaseTitle">
+        <p class="release-kicker">NOVEMBER RENDEZVOUS · 11 / 07</p>
+        <h2 id="releaseTitle">為你，留下這一夜。</h2>
+        <p class="release-date">11 月 7 日・22:00–24:00<br>第一節 22:25–22:55　／　第二節 23:25–23:55<br>每位獄犬每節限一位，共 14 個指名名額。</p>
+        <div class="release-countdown"><strong id="releaseCountdown">等待連線</strong><span>距離指名開放</span></div>
+        <p class="release-status" id="releaseStatus" role="status">11 月 2 日中午 12:00（台灣時間）開放指名。</p>
+        <button id="releaseRetry" class="release-retry" type="button" hidden>重新讀取名額</button>
+        <div class="release-roster" aria-label="本次開放指名的獄犬">
+          <span>著魔</span><span>龍冽</span><span>安怛</span><span>Jazper</span><span>蛇魂</span><span>埃伊諾</span><span>牛奶</span>
+        </div>
+      </section>
+
       <div class="booking-block">
         <h2 class="booking-section-title">預 約 儀 式</h2>
         <p class="booking-section-desc">
           請留下你的名字與聯絡方式，從尚未被預約的時段中選擇你想靠近的對象。<br>
-          當時段被帶走後，它會立刻從表單中消失。
+          指名於 11 月 2 日中午 12:00 開放；現在可先留下聯絡資料，開放後再選擇對象。
         </p>
 
         <form class="booking-form" id="bookingForm">
@@ -757,23 +541,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
             <div class="booking-field">
               <label class="booking-label" for="customer_name">ID @ 伺服器</label>
-              <input class="booking-input" id="customer_name" name="customer_name" type="text" placeholder="請留下您的靈魂記號" required />
+              <input class="booking-input" id="customer_name" name="customer_name" maxlength="60" autocomplete="nickname" type="text" placeholder="請留下您的靈魂記號" required />
             </div>
 
             <div class="booking-field">
               <label class="booking-label" for="customer_contact">聯絡召喚</label>
-              <input class="booking-input" id="customer_contact" name="customer_contact" type="text" placeholder="Discord / Threads ID" required />
+              <input class="booking-input" id="customer_contact" name="customer_contact" maxlength="120" type="text" placeholder="Discord / Threads ID" required />
             </div>
 
             <div class="booking-field full">
               <label class="booking-label" for="customer_note">特殊備註</label>
-              <textarea class="booking-textarea" id="customer_note" name="customer_note" placeholder="想說的話、需求、其他備註"></textarea>
+              <textarea class="booking-textarea" id="customer_note" name="customer_note" maxlength="500" placeholder="想說的話、需求、其他備註"></textarea>
+            </div>
+
+            <div class="booking-field full">
+              <section class="champagne-card" aria-labelledby="champagneTitle">
+                <div class="champagne-heading">
+                  <div><p class="release-kicker">AN EXTRA MOMENT, ONLY WITH YOU</p><h3 id="champagneTitle">香檳的黏膩相擁</h3></div>
+                  <span class="champagne-stock" id="champagneStock" role="status">全場限量 2 份</span>
+                </div>
+                <p class="champagne-description">讓氣泡停留，讓擁抱再近一些。<br>指名限定加購・每份 100,000 gil。</p>
+                <label class="champagne-choice" for="champagne_addon">
+                  <input type="checkbox" id="champagne_addon" name="champagne_addon" disabled aria-describedby="champagneRules" />
+                  <span>為這場相遇，加購一份相擁。</span>
+                </label>
+                <p class="champagne-price" id="champagneTotal">本次加購金額　0 gil</p>
+                <p class="champagne-fine" id="champagneRules">選定指名後可勾選，每筆最多 1 份，全場合計 2 份。僅隨成功的指名預約一同成立，無法單獨購買或事後追加。<br>勾選不代表保留名額；若香檳已售完，仍為你保留成功的指名，且不收取加購費用。</p>
+              </section>
             </div>
           </div>
 
           <div class="booking-actions">
-            <div class="booking-message" id="bookingMessage"></div>
-            <button class="booking-submit" id="bookingSubmit" type="submit">執 行 召 喚</button>
+            <div class="booking-message" id="bookingMessage" role="status" aria-live="polite"></div>
+            <button class="booking-submit" id="bookingSubmit" type="submit" disabled>尚 未 開 放</button>
           </div>
         </form>
       </div>
@@ -800,7 +600,7 @@ document.addEventListener('DOMContentLoaded', function () {
   </main>
 
   <div class="booking-popup-overlay" id="bookingPopupOverlay">
-    <div class="booking-popup-card success" id="bookingPopupCard">
+    <div class="booking-popup-card success" id="bookingPopupCard" role="dialog" aria-modal="true" aria-labelledby="bookingPopupTitle" aria-describedby="bookingPopupText">
       <button class="booking-popup-close" id="bookingPopupClose">✕</button>
       <div class="booking-popup-kicker">NETHER WHISPER</div>
       <h3 class="booking-popup-title" id="bookingPopupTitle">召喚已被回應</h3>

@@ -322,7 +322,7 @@
           <div class="cell" data-label="日期">${escapeHtml(item.schedule_date || "")}</div>
           <div class="cell" data-label="客戶">${escapeHtml(item.customer_name || "")}</div>
           <div class="cell" data-label="聯絡方式">${escapeHtml(item.customer_contact || "")}</div>
-          <div class="cell" data-label="備註">${escapeHtml(item.customer_note || "")}</div>
+          <div class="cell" data-label="備註">${escapeHtml(item.customer_note || "")}${item.champagne_quantity ? `<br><strong style="color:#e8c996">加購：香檳的黏膩相擁 × ${Number(item.champagne_quantity)}｜${Number(item.champagne_unit_price).toLocaleString()} gil</strong>` : ""}</div>
           <div class="cell" data-label="建立時間">${escapeHtml(formatDateTime(item.created_at))}</div>
           <div class="cell" data-label="狀態">
             <span class="status-pill ${getStatusClass(item.status)}">${getStatusText(item.status)}</span>

@@ -1,0 +1,40 @@
+.release-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 34px 30px;
+  border: 1px solid rgba(212,175,55,.34);
+  border-radius: 24px;
+  background: radial-gradient(ellipse at 90% 0%,rgba(128,17,32,.32),transparent 65%),linear-gradient(135deg,#190d10,#090808);
+  color: #eee3d0;
+}
+.release-kicker { margin: 0 0 16px; color: #c8a56c; font-size: 11px; letter-spacing: .3em; }
+.release-panel h2 { margin: 0 0 12px; font-size: clamp(25px,5vw,38px); font-weight: 500; letter-spacing: .12em; }
+.release-panel p { line-height: 1.9; }
+.release-date { color: #c9bca8; font-size: 14px; }
+.release-countdown { display: flex; gap: 12px; margin: 24px 0; align-items: baseline; color: #e6c68f; font-variant-numeric: tabular-nums; }
+.release-countdown strong { font-size: clamp(28px,6vw,42px); font-weight: 400; letter-spacing: .05em; }
+.release-countdown span { font-size: 12px; color: #c5b49e; }
+.release-status { margin: 0; color: #d4b780; font-size: 13px; min-height: 25px; }
+.release-roster { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; padding-top: 22px; border-top: 1px solid rgba(212,175,55,.17); }
+.release-roster span { padding: 7px 13px; border: 1px solid rgba(212,175,55,.2); border-radius: 40px; font-size: 13px; color: #e0d3c0; }
+.champagne-card { padding: 25px; border: 1px solid rgba(204,165,91,.35); border-radius: 18px; background: radial-gradient(ellipse at top right,rgba(134,70,34,.17),transparent 70%),rgba(24,15,16,.8); }
+.champagne-heading { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; }
+.champagne-card h3 { margin: 7px 0 12px; color: #edcf9b; font-size: 22px; font-weight: 500; letter-spacing: .06em; }
+.champagne-card .release-kicker { margin: 0; font-size: 10px; }
+.champagne-stock { white-space: nowrap; color: #ddbb81; border: 1px solid rgba(212,175,55,.3); border-radius: 30px; padding: 6px 12px; font-size: 12px; }
+.champagne-description { margin: 0 0 18px; color: #c6b8a6; font-size: 13px; line-height: 1.9; }
+.champagne-choice { display: flex; align-items: center; gap: 12px; padding-top: 18px; border-top: 1px solid rgba(212,175,55,.18); cursor: pointer; line-height: 1.7; color: #e9dfcf; font-size: 14px; }
+.champagne-choice input { width: 20px; height: 20px; flex: 0 0 20px; accent-color: #c9a45e; }
+.champagne-choice input:focus-visible { outline: 2px solid #e4c382; outline-offset: 4px; }
+.champagne-choice:has(input:disabled) { cursor: default; color: #a49787; }
+.champagne-price { margin: 18px 0 0; color: #e8c996; font-size: 15px; font-variant-numeric: tabular-nums; }
+.champagne-fine { margin: 12px 0 0; color: #b7a793; font-size: 12px; line-height: 1.9; }
+.booking-popup-text { white-space: pre-line; }
+.release-retry { border: 1px solid #96723d; background: transparent; color: #e7c993; padding: 8px 16px; border-radius: 30px; cursor: pointer; font: inherit; margin-top: 12px; }
+@media(max-width:600px) {
+  .release-panel { padding: 26px 20px; }
+  .champagne-card { padding: 21px 18px; }
+  .champagne-heading { flex-direction: column; gap: 6px; }
+  .champagne-card h3 { font-size: 21px; }
+  .release-countdown { gap: 9px; }
+}

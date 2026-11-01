@@ -31,6 +31,7 @@
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    let releaseOpen = false;
     let scheduleChannel = null;
     let reservationChannel = null;
 
@@ -53,7 +54,7 @@
 
       function getStatus(status) {
         if (status === "wait") {
-          return ["空閒", "status-wait", "今夜有空，等待你的指名。"];
+          return releaseOpen ? ["空閒", "status-wait", "今夜有空，等待你的指名。"] : ["尚未開放", "status-wait", "11 月 2 日中午 12:00（台灣時間）開放指名。"];
         }
       
         if (status === "busy") {
@@ -182,8 +183,12 @@
         });
       }
 
+      const releaseTimer = setInterval(() => { if (!releaseOpen) loadSchedule(); }, 15000);
+
       async function loadSchedule() {
         renderLoading();
+        const { data: release, error: releaseError } = await supabase.rpc("get_booking_release_state");
+        releaseOpen = !releaseError && Boolean(release?.is_open);
 
         const [
           { data: scheduleData, error: scheduleError },
@@ -211,7 +216,10 @@
           return;
         }
 
-        const finalData = buildFinalSchedule(scheduleData || [], reservationData || []);
+        const finalData = buildFinalSchedule(scheduleData || [], reservationData || []).map(item => {
+          const slot = release?.slots?.find(slot => slot.id === item.id);
+          return slot && !slot.available && item.final_status === "wait" ? { ...item, final_status: "busy" } : item;
+        });
         renderSchedule(finalData);
       }
 
@@ -276,6 +284,7 @@
       setupRealtime();
 
       window.addEventListener("beforeunload", () => {
+        clearInterval(releaseTimer);
         if (scheduleChannel) {
           supabase.removeChannel(scheduleChannel);
         }
@@ -394,7 +403,8 @@ document.addEventListener('DOMContentLoaded', function () {
     </section>
 
     <section class="schedule-section">
-      <h2 class="rates-section-title">時間表</h2>
+      <h2 class="rates-section-title">11 / 07 時間表</h2>
+      <p style="text-align:center;color:#d4b780;line-height:1.9;padding:0 20px">11 月 2 日中午 12:00（台灣時間）開放指名<br>第一節 22:25–22:55 ／ 第二節 23:25–23:55<br>香檳的黏膩相擁・每份 100,000 gil・全場限量 2 份<br><a href="booking.html" style="color:#ead1a5">前往指名預約 →</a></p>
 
       <div class="schedule-table" id="scheduleTable">
         <div class="schedule-head">
