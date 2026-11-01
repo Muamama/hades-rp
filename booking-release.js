@@ -6,6 +6,18 @@ const form = $("bookingForm");
 const slots = $("schedule_id");
 const submit = $("bookingSubmit");
 const champagne = $("champagne_addon");
+const releaseDialog = $("releaseDialog");
+$("releaseOpen").addEventListener("click", () => releaseDialog.showModal());
+$("releaseClose").addEventListener("click", () => releaseDialog.close());
+$("releaseContinue").addEventListener("click", () => releaseDialog.close());
+releaseDialog.addEventListener("click", (event) => {
+  const bounds = releaseDialog.getBoundingClientRect();
+  if (event.target === releaseDialog &&
+      (event.clientX < bounds.left || event.clientX > bounds.right ||
+       event.clientY < bounds.top || event.clientY > bounds.bottom)) releaseDialog.close();
+});
+releaseDialog.addEventListener("close", () => $("releaseOpen").focus({ preventScroll: true }));
+releaseDialog.showModal();
 let state = null;
 let fetching = false;
 let sending = false;

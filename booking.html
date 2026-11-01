@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=20260617-bgm-peek-tucked" />
 
-  <link rel="stylesheet" href="booking-release.css?v=20261101" />
+  <link rel="stylesheet" href="booking-release.css?v=20261101-modal" />
 
   <style>
     .booking-shell {
@@ -413,7 +413,7 @@
     }
   </style>
 
-  <script type="module" src="booking-release.js?v=20261101-name"></script>
+  <script type="module" src="booking-release.js?v=20261101-modal"></script>
 </head>
 
 <script>
@@ -510,20 +510,9 @@ document.addEventListener('DOMContentLoaded', function () {
     </section>
 
     <section class="booking-shell">
-      <section class="release-panel" aria-labelledby="releaseTitle">
-        <p class="release-kicker">NOVEMBER RENDEZVOUS · 11 / 07</p>
-        <h2 id="releaseTitle">為你，留下這一夜。</h2>
-        <p class="release-date">11 月 7 日・22:00–24:00<br>第一節 22:25–22:55　／　第二節 23:25–23:55<br>每位獄犬每節限一位，共 14 個指名名額。</p>
-        <div class="release-countdown"><strong id="releaseCountdown">等待連線</strong><span>距離指名開放</span></div>
-        <p class="release-status" id="releaseStatus" role="status">11 月 2 日中午 12:00（台灣時間）開放指名。</p>
-        <button id="releaseRetry" class="release-retry" type="button" hidden>重新讀取名額</button>
-        <div class="release-roster" aria-label="本次開放指名的獄犬">
-          <span>著魔</span><span>龍冽</span><span>安怛</span><span>Jazper</span><span>蛇魂</span><span>埃伊諾</span><span>牛奶</span>
-        </div>
-      </section>
 
       <div class="booking-block">
-        <h2 class="booking-section-title">預 約 儀 式</h2>
+        <div class="booking-title-row"><h2 class="booking-section-title">預 約 儀 式</h2><button class="release-open" id="releaseOpen" type="button" aria-haspopup="dialog" aria-controls="releaseDialog">活動資訊與倒數 ↗</button></div>
         <p class="booking-section-desc">
           請留下你的名字與聯絡方式，從尚未被預約的時段中選擇你想靠近的對象。<br>
           指名於 11 月 2 日中午 12:00 開放；現在可先留下聯絡資料，開放後再選擇對象。
@@ -598,6 +587,22 @@ document.addEventListener('DOMContentLoaded', function () {
       </div>
     </section>
   </main>
+
+  <dialog class="release-dialog" id="releaseDialog" aria-labelledby="releaseTitle">
+      <div class="release-panel">
+        <button class="release-close" id="releaseClose" type="button" aria-label="關閉活動資訊">×</button>
+        <p class="release-kicker">NOVEMBER RENDEZVOUS · 11 / 07</p>
+        <h2 id="releaseTitle">為你，留下這一夜。</h2>
+        <p class="release-date">11 月 7 日・22:00–24:00<br>第一節 22:25–22:55　／　第二節 23:25–23:55<br>每位獄犬每節限一位，共 14 個指名名額。</p>
+        <div class="release-countdown"><strong id="releaseCountdown">等待連線</strong><span>距離指名開放</span></div>
+        <p class="release-status" id="releaseStatus" role="status">11 月 2 日中午 12:00（台灣時間）開放指名。</p>
+        <button id="releaseRetry" class="release-retry" type="button" hidden>重新讀取名額</button>
+        <div class="release-roster" aria-label="本次開放指名的獄犬">
+          <span>著魔</span><span>龍冽</span><span>安怛</span><span>Jazper</span><span>蛇魂</span><span>埃伊諾</span><span>牛奶</span>
+        </div>
+      <button class="release-continue" id="releaseContinue" type="button" autofocus>前往預約表單</button>
+      </div>
+  </dialog>
 
   <div class="booking-popup-overlay" id="bookingPopupOverlay">
     <div class="booking-popup-card success" id="bookingPopupCard" role="dialog" aria-modal="true" aria-labelledby="bookingPopupTitle" aria-describedby="bookingPopupText">
