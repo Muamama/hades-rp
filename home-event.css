@@ -1,5 +1,5 @@
 .home-event-dialog { width:min(1020px,calc(100% - 28px)); max-height:calc(100dvh - 36px); padding:0; border:1px solid #8c6a35; border-radius:22px; color:#ece0ca; background:radial-gradient(ellipse at top right,#351016,transparent 65%),#100a0c; overflow-y:auto; overscroll-behavior:contain; box-shadow:0 30px 110px #000c; }
-.home-event-dialog::backdrop { background:#000c; backdrop-filter:blur(8px); }
+.home-event-dialog::backdrop { background:#000c;  }
 body:has(.home-event-dialog[open]), body:has(.home-event-dialog[open]) main { overflow:hidden; }
 .home-event-inner { padding:30px; }
 .home-event-close { position:absolute; right:14px; top:12px; width:42px; height:42px; border:0; background:transparent; color:#d5b67a; font-size:30px; cursor:pointer; }

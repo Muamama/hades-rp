@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function getDogFeedTarget(clientX, clientY) {
+    if (document.querySelector("dialog:modal")) return null;
     const targets = document.querySelectorAll(dogTargetSelector);
 
     for (const target of targets) {
@@ -274,6 +275,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let mouseY = 0;
   let glowX = 0;
   let glowY = 0;
+  let glowFrame = 0;
+  cursor.style.willChange = "translate";
+  glow.style.willChange = "translate";
 
   function triggerMouseFeed(feedTarget) {
     if (!canFeed(feedTarget.target)) return;
@@ -299,8 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    cursor.style.left = mouseX + "px";
-    cursor.style.top = mouseY + "px";
+    if (!glowFrame) glowFrame = requestAnimationFrame(animateGlow);
 
     document.body.classList.add("gil-cursor-active");
 
@@ -311,16 +314,19 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function animateGlow() {
+    glowFrame = 0;
     glowX += (mouseX - glowX) * 0.2;
     glowY += (mouseY - glowY) * 0.2;
-
-    glow.style.left = glowX + "px";
-    glow.style.top = glowY + "px";
-
-    requestAnimationFrame(animateGlow);
+    const moving = Math.abs(mouseX - glowX) > 0.1 || Math.abs(mouseY - glowY) > 0.1;
+    if (!moving) { glowX = mouseX; glowY = mouseY; }
+    cursor.style.translate = `${mouseX}px ${mouseY}px`;
+    glow.style.translate = `${glowX}px ${glowY}px`;
+    if (moving) glowFrame = requestAnimationFrame(animateGlow);
   }
 
-  animateGlow();
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { cancelAnimationFrame(glowFrame); glowFrame = 0; }
+  });
 
   const clickableSelector = `
     a,
