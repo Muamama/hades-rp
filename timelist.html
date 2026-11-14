@@ -216,6 +216,7 @@
           supabase
             .from("schedule_list")
             .select("*")
+            .or("release_id.is.null,release_id.neq.2026-11-02")
             .order("sort_order", { ascending: true })
             .order("id", { ascending: true }),
           supabase
